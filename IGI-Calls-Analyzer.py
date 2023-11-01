@@ -30,6 +30,10 @@ def analyze_file(file_path, visited_files=None, graph=None):
     file_name = os.path.basename(file_path).split('.')[0]
     unique_function_calls = sorted(set(function_calls) - {file_name})
 
+    # Verify function calls
+    directory_path = os.path.dirname(file_path)
+    unique_function_calls = [func for func in unique_function_calls if os.path.isfile(os.path.join(directory_path, func + '.c'))]
+
     # Extract variables using regex
     data_types = ['int', 'float', 'double', 'char', 'void', 'long']
     variables = []
@@ -52,7 +56,6 @@ def analyze_file(file_path, visited_files=None, graph=None):
         graph.edge(file_name, func)
 
     # Recursively analyze called functions
-    directory_path = os.path.dirname(file_path)
     for func in unique_function_calls:
         func_file = func + '.c'
         func_file_path = os.path.join(directory_path, func_file)
