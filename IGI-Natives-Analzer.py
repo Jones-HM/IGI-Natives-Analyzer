@@ -60,7 +60,7 @@ def analyze_file(file_path, visited_files=None, graph=None):
         logger.info(f"  {var}")
 
     # Add nodes and edges to the graph
-    graph.node(file_name)
+    graph.node(file_name,shape='box')
     for func in unique_function_calls:
         graph.edge(file_name, func)
 
@@ -84,9 +84,15 @@ def main():
             # Append prefix and postfix to the input file
             input_file = os.path.join('igi-ida-codes', input_file + '.c')
             logger.info(f"Input file is {input_file}")
+
+            # Check if the file exists
+            if not os.path.isfile(input_file):
+                logger.error(f"Invalid Native provided: {input_file} does not exist.")
+                st.error(f"Invalid Native provided: {input_file} does not exist.")
+                return
             
             # Start analysis with the initial file
-            graph = Digraph(comment='Function Calls')
+            graph = Digraph(comment='Function Calls', format='png', engine='dot')
             logger.info("Starting file analysis.")
             unique_function_calls, unique_variables = analyze_file(input_file, graph=graph)
 
@@ -104,9 +110,9 @@ def main():
                 st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
                 st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
 
-    except Exception as e:
-        logger.error(f"An error occurred: {e}")
-        st.error(f"An error occurred: {e}")
+    except Exception as exception:
+        logger.error(f"An error occurred: {exception}")
+        st.error(f"An error occurred: {exception}")
 
 if __name__ == "__main__":
     main()
