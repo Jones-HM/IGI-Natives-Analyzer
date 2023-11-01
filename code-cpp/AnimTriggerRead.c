@@ -1,4 +1,4 @@
-char *__cdecl AnimTriggerRead(char *Str)
+void AnimTriggerRead(uint* path)
 {
   char *result; // eax
   const char *v2; // eax

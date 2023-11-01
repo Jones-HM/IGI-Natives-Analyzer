@@ -1,4 +1,4 @@
-int *__cdecl InputEnable(int *a1)
+void InputEnable(char* buffer)
 {
   int i; // esi
   int v2; // eax
@@ -11,7 +11,7 @@ int *__cdecl InputEnable(int *a1)
     if ( v2 )
       sub_4635E0(v2);
   }
-  result = a1;
+  result = buffer;
   v4[0] = 1;
   v4[2] = 0;
   v4[3] = 1072693248;

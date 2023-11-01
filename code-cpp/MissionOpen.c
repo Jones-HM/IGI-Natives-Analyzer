@@ -1,4 +1,4 @@
-int __cdecl MissionOpen(int a1)
+void MissionOpen(char **ptr_file)
 {
   char *v1; // edi
   int result; // eax
@@ -6,9 +6,9 @@ int __cdecl MissionOpen(int a1)
   int v4; // esi
   char String[260]; // [esp+Ch] [ebp-104h] BYREF
 
-  if ( *(_BYTE *)(a1 + 8) )
-    return sub_4B1420(*(char **)a1, (int)MissionOpen, 0);
-  strcpy(String, *(const char **)a1);
+  if ( *(_BYTE *)(**ptr_file + 8) )
+    return sub_4B1420(*(char **)**ptr_file, (int)MissionOpen, 0);
+  strcpy(String, *(const char **)**ptr_file);
   _strlwr(String);
   v1 = aMissionQvm;
   if ( !sub_48F340() )
@@ -16,7 +16,7 @@ int __cdecl MissionOpen(int a1)
   result = sub_4B09C0(0, 0, 0, v1, String, 1);
   if ( result )
   {
-    v3 = (const char *)QvmLoad(*(char **)a1);
+    v3 = (const char *)QvmLoad(*(char **)**ptr_file);
     v4 = (int)v3;
     if ( !v3 )
     {

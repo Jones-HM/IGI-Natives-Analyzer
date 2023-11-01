@@ -1,20 +1,20 @@
-int __cdecl QvmAssemble(char *a1, char *a2)
+int __cdecl QvmAssemble(char *file_out, char *file_in)
 {
-  int v2; // ebp
-  int v3; // ebx
+  signed int v2; // ebp
+  _DWORD *v3; // ebx
   int v4; // esi
   char *v5; // ebx
   char *v6; // edi
-  int *v7; // esi
+  _DWORD *v7; // esi
   int v8; // eax
   int v9; // ecx
   char v10; // al
   char *v11; // esi
-  int v12; // edi
+  signed int v12; // edi
   const char *v13; // ebp
   int v14; // ebx
   int v15; // edi
-  int *v16; // ebp
+  _DWORD *v16; // ebp
   _DWORD *v17; // esi
   _DWORD *v18; // ebx
   int v19; // ebp
@@ -38,7 +38,7 @@ int __cdecl QvmAssemble(char *a1, char *a2)
   int v37; // ebx
   unsigned int v38; // kr0C_4
   int v39; // edx
-  int v40; // ebp
+  _DWORD *v40; // ebp
   int v41; // edi
   _DWORD *v42; // esi
   unsigned int v43; // kr10_4
@@ -49,21 +49,21 @@ int __cdecl QvmAssemble(char *a1, char *a2)
   _DWORD *v48; // esi
   unsigned int v49; // kr18_4
   _DWORD *v50; // esi
-  char v51; // si
-  int v52; // edi
+  int v51; // esi
+  _DWORD **v52; // edi
   _DWORD *v53; // esi
-  int v54; // edi
+  _DWORD **v54; // edi
   _DWORD *v55; // esi
-  int v56; // edi
+  _DWORD **v56; // edi
   _DWORD *v57; // esi
-  int *v58; // ebx
+  char *v58; // ebx
   _DWORD **v59; // edi
   _DWORD *k; // esi
-  int v62; // [esp+8h] [ebp-644h] BYREF
-  int *j; // [esp+Ch] [ebp-640h]
+  _DWORD *v62; // [esp+8h] [ebp-644h] BYREF
+  _DWORD *j; // [esp+Ch] [ebp-640h]
   char v64[4]; // [esp+10h] [ebp-63Ch] BYREF
   int v65; // [esp+14h] [ebp-638h]
-  char v66[12]; // [esp+18h] [ebp-634h] BYREF
+  _DWORD *v66[3]; // [esp+18h] [ebp-634h] BYREF
   int v67[2]; // [esp+24h] [ebp-628h] BYREF
   int v68[20]; // [esp+2Ch] [ebp-620h] BYREF
   char v69[4]; // [esp+7Ch] [ebp-5D0h]
@@ -83,8 +83,8 @@ int __cdecl QvmAssemble(char *a1, char *a2)
   int v83; // [esp+B8h] [ebp-594h]
   int v84; // [esp+BCh] [ebp-590h]
   int v85; // [esp+C0h] [ebp-58Ch]
-  char v86[20]; // [esp+C4h] [ebp-588h] BYREF
-  char v87[32]; // [esp+D8h] [ebp-574h] BYREF
+  _DWORD v86[5]; // [esp+C4h] [ebp-588h] BYREF
+  _DWORD v87[8]; // [esp+D8h] [ebp-574h] BYREF
   char Str1[260]; // [esp+F8h] [ebp-554h] BYREF
   char v89[8]; // [esp+1FCh] [ebp-450h] BYREF
   char ArgList[700]; // [esp+204h] [ebp-448h] BYREF
@@ -92,42 +92,42 @@ int __cdecl QvmAssemble(char *a1, char *a2)
   char v92[392]; // [esp+4C4h] [ebp-188h] BYREF
 
   v2 = 0;
-  if ( sub_4B08A0(0, 0, asc_547970, a1, 0) )
-    sub_4B0A80(Str1, 260, a0qvmbinTmp, a1);
+  if ( sub_4B08A0(0, 0, (int)asc_547970, file_out, 0) )
+    sub_4B0A80(Str1, 260, a0qvmbinTmp, (int)file_out);
   else
     strcpy(Str1, "LOCAL:qvmbin.tmp");
   dword_A43ED0 = 0;
-  v3 = QFileOpen(a1, (int)aW);
+  v3 = (_DWORD *)QFileOpen(file_out, aW);
   v62 = v3;
   if ( !v3 )
   {
-    sub_4BAF30((int)v68, aFailedToOpenFi, (char)a1);
+    sub_4BAF30((int)v68, "Failed to open file '%s' for writing.", file_out);
     return dword_A43ED0;
   }
-  if ( !sub_4B5B60(a2) )
+  if ( !sub_4B5B60(file_in) )
   {
-    sub_4BAF30((int)v68, aFailedToLoadAs, (char)a2);
+    sub_4BAF30((int)v68, "Failed to load assembler source file: '%s'", file_in);
     sub_4B1690(v62);
     return dword_A43ED0;
   }
-  v4 = ResourceLoad(a2, &v71);
+  v4 = ResourceLoad(file_in, &v71);
   *(_DWORD *)v69 = v4;
   LogAdd(aInitialisingPa);
   sub_4C0660(v66);
-  sub_4C0680(v66, aTNR, 1, 1);
-  sub_4C0680(v66, asc_547914, 2, 1);
-  sub_4C0680(v66, aAZaZAZaZ09, 10, 1);
-  sub_4C0680(v66, a0909, 5, 1);
-  sub_4C0680(v66, asc_5478E4, 6, 1);
-  sub_4C0680(v66, asc_5478E0, 7, 1);
-  sub_4C0680(v66, asc_5478DC, 8, 1);
-  sub_4C0680(v66, a0x09aFaF, 3, 1);
-  sub_4C0680(v66, a09aZaZ, 11, 1);
-  sub_4C0680(v66, a09aZaZ_0, 12, 1);
-  sub_4C0680(v66, aAZaZAZaZ09_0, 9, 0);
-  sub_4C0680(v66, a09, 4, 0);
+  sub_4C0680((int)v66, aTNR, 1, 1);
+  sub_4C0680((int)v66, asc_547914, 2, 1);
+  sub_4C0680((int)v66, aAZaZAZaZ09, 10, 1);
+  sub_4C0680((int)v66, a0909, 5, 1);
+  sub_4C0680((int)v66, asc_5478E4, 6, 1);
+  sub_4C0680((int)v66, asc_5478E0, 7, 1);
+  sub_4C0680((int)v66, asc_5478DC, 8, 1);
+  sub_4C0680((int)v66, a0x09aFaF, 3, 1);
+  sub_4C0680((int)v66, a09aZaZ, 11, 1);
+  sub_4C0680((int)v66, a09aZaZ_0, 12, 1);
+  sub_4C0680((int)v66, aAZaZAZaZ09_0, 9, 0);
+  sub_4C0680((int)v66, a09, 4, 0);
   sub_4BF1C0(v87, v4, v71);
-  sub_4C0720(v86, v66, v87);
+  sub_4C0720(v86, (int)v66, (int)v87);
   memset(v68, 0, sizeof(v68));
   v68[6] = (int)v86;
   v68[5] = (int)v89;
@@ -137,7 +137,7 @@ int __cdecl QvmAssemble(char *a1, char *a2)
   v68[16] = (int)&v68[14];
   v68[11] = (int)&v68[12];
   v65 = 0;
-  v68[4] = v3;
+  v68[4] = (int)v3;
   v68[0] = 0;
   v68[9] = 0;
   v68[15] = 0;
@@ -146,31 +146,31 @@ int __cdecl QvmAssemble(char *a1, char *a2)
   v68[17] = (int)&v68[18];
   v68[19] = (int)&v68[17];
   v68[18] = 0;
-  v68[7] = sub_4C0360(77003);
+  v68[7] = (int)sub_4C0360(77003);
   v5 = v92;
   do
   {
-    sub_4BD3F0(v2, 1, v67, 0);
+    sub_4BD3F0(v2, 1u, (int)v67, 0);
     v6 = v5;
     v5 += 8;
     strcpy(v6, (const char *)v67);
     ++v2;
   }
   while ( v2 < 49 );
-  v7 = (int *)QFileOpen(Str1, (int)aW);
+  v7 = (_DWORD *)QFileOpen(Str1, aW);
   j = v7;
   if ( v7 )
   {
     LogAdd(aAssembling);
     v68[3] = 2;
     v68[4] = (int)v7;
-    while ( sub_4BB240(v89, v86) )
+    while ( sub_4BB240((int)v89, (int)v86) )
     {
       if ( v68[1] )
         break;
       if ( v91 == 10 )
       {
-        v8 = sub_4BAE00(v68, ArgList);
+        v8 = sub_4BAE00((int)v68, ArgList);
         if ( v8 )
         {
           v9 = v65;
@@ -200,12 +200,12 @@ int __cdecl QvmAssemble(char *a1, char *a2)
           if ( v12 >= 49 )
           {
             v68[1] = 1;
-            sub_4BAF30((int)v68, aUnknownOpcodeS, (char)ArgList);
+            sub_4BAF30((int)v68, "Unknown opcode: %s\n", ArgList);
             goto LABEL_22;
           }
         }
         *(_DWORD *)v64 = 0;
-        sub_4BD3F0(v12, v68[3], v64, v68);
+        sub_4BD3F0(v12, v68[3], (int)v64, (int)v68);
         v65 += *(_DWORD *)v64;
         v68[0] = v65;
       }
@@ -227,8 +227,8 @@ LABEL_22:
         }
         LogAdd(aPatchingCode);
         v15 = v68[8];
-        v16 = *(int **)v68[8];
-        j = *(int **)v68[8];
+        v16 = *(_DWORD **)v68[8];
+        j = *(_DWORD **)v68[8];
         if ( j )
         {
           do
@@ -240,7 +240,7 @@ LABEL_22:
               do
               {
                 if ( !*(_DWORD *)(v15 + 20) )
-                  sub_4BAF30((int)v68, aUnknownLabelSA, v15 + 28);
+                  sub_4BAF30((int)v68, "Unknown label '%s' at PC:%08x\n", (const char *)(v15 + 28), v17[2]);
                 v19 = *(_DWORD *)v64;
                 v67[0] = *(_DWORD *)(v15 + 24) - v17[3];
                 for ( i = 0; i < 4; ++i )
@@ -249,7 +249,7 @@ LABEL_22:
                   v22 = i + v17[2];
                   *(_BYTE *)(v22 + v19) = v21;
                 }
-                sub_4AF960(v17);
+                sub_4AF960((_DWORD **)v17);
                 sub_4B0D10(v17);
                 v17 = v18;
                 v18 = (_DWORD *)*v18;
@@ -257,11 +257,11 @@ LABEL_22:
               while ( v18 );
               v16 = j;
             }
-            SymbolRemove(v68[7], (const char *)(v15 + 28));
-            sub_4AF960(v15);
+            SymbolRemove((_DWORD *)v68[7], (char *)(v15 + 28));
+            sub_4AF960((_DWORD **)v15);
             sub_4B0D10(v15);
             v15 = (int)v16;
-            v16 = (int *)*v16;
+            v16 = (_DWORD *)*v16;
             j = v16;
           }
           while ( v16 );
@@ -283,7 +283,7 @@ LABEL_22:
               *(_BYTE *)(v27 + v14) = v26;
             }
             while ( v25 < 4 );
-            sub_4AF960(v23);
+            sub_4AF960((_DWORD **)v23);
             sub_4B0D10(v23);
             v23 = (int)v24;
             v24 = (_DWORD *)*v24;
@@ -340,7 +340,7 @@ LABEL_22:
         v80 = 4 * v37;
         v79 = v39;
         v83 = v65;
-        sub_4B1700(v62, v72, 60);
+        sub_4B1700(v62, (int)v72, 60);
         v41 = v68[11];
         v62 = 0;
         v42 = *(_DWORD **)v68[11];
@@ -348,10 +348,10 @@ LABEL_22:
         {
           do
           {
-            sub_4B1700(v40, &v62, 4);
+            sub_4B1700(v40, (int)&v62, 4);
             v43 = strlen((const char *)(v41 + 8)) + 1;
             v41 = (int)v42;
-            v62 += v43;
+            v62 = (_DWORD *)((char *)v62 + v43);
             v42 = (_DWORD *)*v42;
           }
           while ( v42 );
@@ -363,7 +363,7 @@ LABEL_22:
         {
           do
           {
-            sub_4B1700(v40, v45 + 8, strlen(v45 + 8) + 1);
+            sub_4B1700(v40, (int)(v45 + 8), strlen(v45 + 8) + 1);
             v45 = v44;
             v44 = *(const char **)v44;
           }
@@ -377,10 +377,10 @@ LABEL_22:
         {
           do
           {
-            sub_4B1700(v40, &v62, 4);
+            sub_4B1700(v40, (int)&v62, 4);
             v49 = strlen((const char *)(v47 + 8)) + 1;
             v47 = (int)v48;
-            v62 += v49;
+            v62 = (_DWORD *)((char *)v62 + v49);
             v48 = (_DWORD *)*v48;
           }
           while ( v48 );
@@ -397,8 +397,8 @@ LABEL_22:
           }
           while ( v50 );
         }
-        v51 = v64[0];
-        sub_4B1700(v40, *(_DWORD *)v64, v65);
+        v51 = *(_DWORD *)v64;
+        sub_4B1700(v40, *(int *)v64, v65);
         sub_4B1A30(v51);
         goto LABEL_60;
       }
@@ -406,12 +406,12 @@ LABEL_22:
   }
   else
   {
-    sub_4BAF30((int)v68, aFailedToCreate, (char)Str1);
+    sub_4BAF30((int)v68, "Failed to create temporary file '%s'.", Str1);
   }
   v40 = v62;
 LABEL_60:
   LogAdd(aCleaningUp);
-  v52 = v68[11];
+  v52 = (_DWORD **)v68[11];
   v53 = *(_DWORD **)v68[11];
   if ( *(_DWORD *)v68[11] )
   {
@@ -419,12 +419,12 @@ LABEL_60:
     {
       sub_4AF960(v52);
       sub_4B0D10(v52);
-      v52 = (int)v53;
+      v52 = (_DWORD **)v53;
       v53 = (_DWORD *)*v53;
     }
     while ( v53 );
   }
-  v54 = v68[14];
+  v54 = (_DWORD **)v68[14];
   v55 = *(_DWORD **)v68[14];
   if ( *(_DWORD *)v68[14] )
   {
@@ -432,12 +432,12 @@ LABEL_60:
     {
       sub_4AF960(v54);
       sub_4B0D10(v54);
-      v54 = (int)v55;
+      v54 = (_DWORD **)v55;
       v55 = (_DWORD *)*v55;
     }
     while ( v55 );
   }
-  v56 = v68[17];
+  v56 = (_DWORD **)v68[17];
   v57 = *(_DWORD **)v68[17];
   if ( *(_DWORD *)v68[17] )
   {
@@ -445,30 +445,30 @@ LABEL_60:
     {
       sub_4AF960(v56);
       sub_4B0D10(v56);
-      v56 = (int)v57;
+      v56 = (_DWORD **)v57;
       v57 = (_DWORD *)*v57;
     }
     while ( v57 );
   }
-  v58 = (int *)v68[8];
-  for ( j = *(int **)v68[8]; j; j = (int *)*j )
+  v58 = (char *)v68[8];
+  for ( j = *(_DWORD **)v68[8]; j; j = (_DWORD *)*j )
   {
-    v59 = (_DWORD **)v58[2];
+    v59 = (_DWORD **)*((_DWORD *)v58 + 2);
     for ( k = *v59; k; k = (_DWORD *)*k )
     {
       sub_4AF960(v59);
       sub_4B0D10(v59);
       v59 = (_DWORD **)k;
     }
-    SymbolRemove(v68[7], (const char *)v58 + 28);
-    sub_4AF960(v58);
+    SymbolRemove((_DWORD *)v68[7], v58 + 28);
+    sub_4AF960((_DWORD **)v58);
     sub_4B0D10(v58);
-    v58 = j;
+    v58 = (char *)j;
   }
-  sub_4C03C0(v68[7]);
+  sub_4C03C0((_DWORD *)v68[7]);
   sub_4B1AC0(Str1);
-  sub_4BEFC0(v87);
-  sub_4C0750(v86);
+  sub_4BEFC0((int)v87);
+  sub_4C0750((int)v86);
   sub_4F1D80(v66);
   ResourceFlush(*(const void **)v69);
   sub_4B1690(v40);

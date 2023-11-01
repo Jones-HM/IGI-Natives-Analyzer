@@ -1,9 +1,9 @@
-int __cdecl SymbolRemove(int a1, const char *ArgList)
+void SymbolRemove(int *p1,int *symbol_name)
 {
-  const char *v2; // esi
+  const *symbol_name *v2; // esi
 
   v2 = ArgList;
-  if ( !(unsigned __int8)sub_4C04B0(a1, &ArgList, ArgList) )
+  if ( !(unsigned __int8)sub_4C04B0(*p1, &ArgList, ArgList) )
   {
     ErrorShow("Unable to remove symbol \"%s\" (not registered)", v2);
     while ( 1 )

@@ -1,8 +1,8 @@
-int __cdecl MusicSetSfxVolume(int a1)
+void MusicSetSfxVolume(float volume)
 {
   int result; // eax
 
-  result = a1;
-  dword_54390C = a1;
+  result = volume;
+  dword_54390C = volume;
   return result;
 }

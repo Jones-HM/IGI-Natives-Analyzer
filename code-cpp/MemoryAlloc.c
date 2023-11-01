@@ -1,4 +1,4 @@
-int __cdecl MemoryAlloc(int a1, int a2)
+uint MemAlloc(int num, int size)
 {
   size_t v2; // ebp
   _DWORD *v3; // eax
@@ -11,7 +11,7 @@ int __cdecl MemoryAlloc(int a1, int a2)
   int v10; // edi
   int result; // eax
 
-  v2 = a1 + a2 + 28;
+  v2 = num + size + 28;
   ++*(_DWORD *)dword_942300;
   v3 = malloc(v2);
   v4 = v3;
@@ -41,7 +41,7 @@ int __cdecl MemoryAlloc(int a1, int a2)
     while ( 1 )
       ;
   }
-  v10 = ~(a2 - 1) & ((unsigned int)v3 + a2 + 27);
+  v10 = ~(size - 1) & ((unsigned int)v3 + size + 27);
   *(_DWORD *)((v10 - 4) & 0xFFFFFFFC) = v3;
   v3[1] = 0;
   *v3 = 0;
@@ -51,6 +51,6 @@ int __cdecl MemoryAlloc(int a1, int a2)
   v4[2] = v10;
   result = v10;
   v4[3] = v2;
-  v4[4] = a1;
+  v4[4] = num;
   return result;
 }

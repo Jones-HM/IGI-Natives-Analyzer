@@ -1,4 +1,4 @@
-char __cdecl WeaponGunPickup(int a1, _DWORD *a2)
+void WeaponGunPickup(int param_ptr, int* type_ptr)
 {
   char result; // al
   int *v3; // esi
@@ -6,10 +6,10 @@ char __cdecl WeaponGunPickup(int a1, _DWORD *a2)
   _DWORD *v5; // eax
   _DWORD *v6; // esi
 
-  result = *(_BYTE *)(a1 + 3317);
+  result = *(_BYTE *)(param_ptr + 3317);
   if ( !result )
   {
-    v3 = *(int **)(a1 + 8);
+    v3 = *(int **)(param_ptr + 8);
     if ( *v3 && v3 )
     {
       while ( 1 )
@@ -20,7 +20,7 @@ char __cdecl WeaponGunPickup(int a1, _DWORD *a2)
           v5 = (_DWORD *)v3[74];
           if ( v5 )
           {
-            if ( *v5 == *a2 )
+            if ( *v5 == type_ptr )
               break;
           }
         }
@@ -30,12 +30,12 @@ char __cdecl WeaponGunPickup(int a1, _DWORD *a2)
       }
       v6 = (_DWORD *)v3[75];
       if ( v6 )
-        sub_47CE00(a1 + 832, *v6, a2[1]);
+        sub_47CE00(param_ptr + 832, *v6, a2[1]);
     }
     else
     {
 LABEL_9:
-      sub_477C50(a1, 0, *a2, a2[1], 1);
+      sub_477C50(param_ptr, 0, type_ptr, a2[1], 1);
     }
     return sub_4E7200(aWeaponpickup1, 0, 0);
   }

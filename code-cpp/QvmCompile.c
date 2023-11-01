@@ -1,4 +1,4 @@
-int __cdecl QvmCompile(const char *ArgList)
+int QvmCompile(const char *qvm_file)
 {
   int result; // eax
   int v2; // eax
@@ -10,12 +10,12 @@ int __cdecl QvmCompile(const char *ArgList)
 
   dword_A965A4 = 0;
   dword_A965A8 = 0;
-  if ( *((_DWORD *)ArgList + 35) )
+  if ( *((_DWORD *)qvm_file + 35) )
   {
-    result = sub_4BD080(*((_DWORD *)ArgList + 35));
+    result = sub_4BD080(*((_DWORD *)qvm_file + 35));
     if ( result )
     {
-      result = sub_4B7E10("Error in QVM program: %s\r\n%s", ArgList, (const char *)(*((_DWORD *)ArgList + 35) + 616));
+      result = sub_4B7E10("Error in QVM program: %s\r\n%s", qvm_file, (const char *)(*((_DWORD *)qvm_file + 35) + 616));
       dword_A965A4 = 0;
       return result;
     }
@@ -23,7 +23,7 @@ int __cdecl QvmCompile(const char *ArgList)
   else
   {
     ScriptBufInit(v5, (int)v4, (int)v7, 2048);
-    sub_4BF1C0(v4, *((_DWORD *)ArgList + 32), *((_DWORD *)ArgList + 33));
+    sub_4BF1C0(v4, *((_DWORD *)qvm_file + 32), *((_DWORD *)qvm_file + 33));
     while ( !dword_A965A0 || !dword_A965A4 )
     {
       *(_DWORD *)v3 = 0;
@@ -38,7 +38,7 @@ int __cdecl QvmCompile(const char *ArgList)
           continue;
       }
       if ( dword_A96598 )
-        sub_4B7E10("An error occured in script file: %s", ArgList);
+        sub_4B7E10("An error occured in script file: %s", qvm_file);
       dword_A965A8 = 0;
       break;
     }

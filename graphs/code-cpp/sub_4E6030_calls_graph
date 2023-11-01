@@ -1,6 +1,0 @@
-// Function Calls
-digraph {
-	sub_4E6030 [shape=box]
-	sub_4E6030 -> sub_495CC0
-	sub_495CC0 [shape=box]
-}

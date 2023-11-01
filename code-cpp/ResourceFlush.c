@@ -1,4 +1,4 @@
-int __cdecl ResourceFlush(const void *ArgList)
+void ResourceFlush(int* p1)
 {
   int v1; // ecx
   _DWORD *v2; // eax
@@ -13,7 +13,7 @@ LABEL_4:
     while ( 1 )
       ;
   }
-  while ( *(const void **)(v1 + 52) != ArgList )
+  while ( *(const p1 **)(v1 + 52) != ArgList )
   {
     v1 = (int)v2;
     v2 = (_DWORD *)*v2;

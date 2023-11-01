@@ -1,9 +1,9 @@
-int (__cdecl *WarningShow(char *Format, ...))(_DWORD)
+void WarningShow(char* warn_msg,, ...)
 {
   int (__cdecl *result)(_DWORD); // eax
   va_list ArgList; // [esp+8h] [ebp+8h] BYREF
 
-  va_start(ArgList, Format);
+  va_start(ArgList, warn_msg);
   result = dword_936274;
   if ( dword_936274 )
   {

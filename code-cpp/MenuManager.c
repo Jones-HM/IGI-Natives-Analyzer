@@ -1,4 +1,4 @@
-char *__cdecl MenuManager(int a1, char *ArgList, char a3, char a4, char a5)
+char *__cdecl MenuManager(int a1, char *menu_str, char a3, char a4, char a5)
 {
   int v5; // ebx
   const char *v6; // eax
@@ -37,20 +37,20 @@ char *__cdecl MenuManager(int a1, char *ArgList, char a3, char a4, char a5)
     sub_4E7540(v17, 0);
     sub_491A90((int)v17);
   }
-  v8 = (const char *)QvmLoad(ArgList);
+  v8 = (const char *)QvmLoad(menu_str);
   if ( !v8 )
   {
-    ErrorShow("Failed to load menumanager: '%s'", ArgList);
+    ErrorShow("Failed to load menumanager: '%s'", menu_str);
     while ( 1 )
       ;
   }
-  ScriptInit((int)ArgList, 1, 0, 0);
+  ScriptInit((int)menu_str, 1, 0, 0);
   ScriptSetsymbolCxt((int)aTaskNew, a1);
   QvmCompile(v8);
   CompilerCleanup((int)v8);
   v9 = sub_418AF0();
   v10 = (char *)sub_401BE0(a1, v9);
-  strcpy(v10 + 9925, ArgList);
+  strcpy(v10 + 9925, menu_str);
   v16 = 1;
   LOBYTE(v11) = sub_4F1A70();
   sub_401D80(a1, v11, (int)&v16);

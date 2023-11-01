@@ -1,9 +1,10 @@
+import io
 import os
 import re
 from graphviz import Digraph
 import streamlit as st
 import logging
-
+from PIL import Image
 logger = None
 
 # Set up logging
@@ -57,8 +58,8 @@ def analyze_file(file_path, visited_files=None, graph=None):
 
     # Verify function calls
     directory_path = os.path.dirname(file_path)
-    unique_function_calls = [func for func in unique_function_calls if os.path.isfile(os.path.join(directory_path, func + '.c'))]
-
+    unique_function_calls = [func for func in unique_function_calls if os.path.isfile(os.path.join(directory_path, func + '.c')) and func != file_name.split('.')[0]]
+    
     # Extract variables using regex
     data_types = ['int', 'float', 'double', 'char', 'void', 'long']
     variables = []
@@ -99,28 +100,37 @@ def main():
         st.title("IGI Natives Analyzer v 1.0")
         st.write("Author: HeavenHM")
 
-        # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code
-        option_menu = st.selectbox('',('Statistics', 'Graph', 'Source Code'))
+        # Create a two-column layout
+        col1, col2 = st.columns(2)
+
+        # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code in the first column
+        option_menu = col1.selectbox('Analysis Type:',('Statistics', 'Diagram', 'Source Code'))
 
         natives_resolved = read_natives_resolved()
-        natives_resolved_menu = st.selectbox('Select Native:', natives_resolved)
+        # Add dropdown to select native in the second column
+        natives_resolved_menu = col2.selectbox('Select Native:', natives_resolved)
 
-        # Get the input from the user
-        input_value = st.text_input('Set Name/Address :',natives_resolved_menu)
+        # Get the input from the user in the first column
+        input_value = col1.text_input('Enter Native Manually (Address/Name):',natives_resolved_menu)
 
-        # Check if the input is an address or starts with 'sub_'
-        if input_value.startswith('0x') or input_value.startswith('00') or input_value.startswith('sub_') or input_value.isdigit():
-            # Remove '0x' or '00' or 'sub_' prefix if it exists
-            address = input_value[2:] if input_value.startswith('0x') or input_value.startswith('00') else input_value[4:] if input_value.startswith('sub_') else input_value
-            # Remove leading zeros
-            address = address.lstrip('0')
-            # Make the address all hex uppercase
-            address = address.upper()
-            native_name = 'sub_' + address
+        # Check if the input is from the dropdown or manually entered
+        if input_value == natives_resolved_menu:
+            # Input is from dropdown, no need to process
+            native_name = input_value
         else:
-            # Convert the input to CamelCase
-            native_name = ''.join(word[0].upper() + word[1:].lower() for word in input_value.split())
-    
+            # Input is manually entered, process it
+            if input_value.startswith('0x') or input_value.startswith('00') or input_value.startswith('sub_') or input_value.isdigit():
+                # Remove '0x' or '00' or 'sub_' prefix if it exists
+                address = input_value[2:] if input_value.startswith('0x') or input_value.startswith('00') else input_value[4:] if input_value.startswith('sub_') else input_value
+                # Remove leading zeros
+                address = address.lstrip('0')
+                # Make the address all hex uppercase
+                address = address.upper()
+                native_name = 'sub_' + address
+            else:
+                # Convert the input to CamelCase
+                native_name = ''.join(word[0].upper() + word[1:].lower() for word in input_value.split())
+                
         # Append prefix and postfix to the input file based on the selected type
         if option_menu == 'Source Code':
             input_type = st.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
@@ -144,27 +154,30 @@ def main():
             st.error(f"Invalid Native provided: {native_name} does not exist.")
             return
 
+
         # Start analysis with the initial file
-        graph = Digraph(comment='Function Calls', format='png', engine='dot')
+        graph = Digraph(comment='Function calls', format='png', engine='dot')
         logger.info("Starting file analysis.")
         unique_function_calls, unique_variables, content = analyze_file(native_name, graph=graph)
 
-        # Save the graph to a file
-        graph_file_path = "graphs" + '//' + native_name.replace('.c','') + '_calls_graph'
-        graph.render(graph_file_path, view=False, format='png')
-        logger.info(f"Graph saved to file: {graph_file_path}")
+        # Render the graph to a BytesIO object
+        output = io.BytesIO(graph.pipe(format='png'))
+        logger.info("Graph rendered.")
 
         # Display the graph
-        if option_menu == 'Graph':
-            st.image(graph_file_path + '.png', use_column_width=True)
+        if option_menu == 'Diagram':
+            st.image(output, use_column_width=True)
             logger.info("Graph displayed.")
+
         elif option_menu == 'Statistics':
             st.write(f"File: {native_name}")
             st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
             st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
+            
         elif option_menu == 'Source Code':
             st.code(content, language='c')
             logger.info("Source code displayed.")
+            
         elif option_menu == 'Assembly Code':
             asm_file = os.path.join('code-assembly', native_name.replace('.c', '.asm'))
             if os.path.isfile(asm_file):

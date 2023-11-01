@@ -1,4 +1,4 @@
-int __cdecl TasktypeSet(int ArgList, int a2)
+void TasktypeSet(int** task_str,int task_id)
 {
-  return QTaskHashTableSet(ArgList, (int)sub_4B8830, a2, 4, 2, 1, 0);
+  return QTaskHashTableSet(task_str, (int)sub_4B8830, task_id, 4, 2, 1, 0);
 }

@@ -1,17 +1,17 @@
-char *__cdecl PhysicsObjTypeRead(char *Str)
+void PhysicsObjTypeRead(char* cfg_file)
 {
   char *result; // eax
   const char *v2; // eax
   int v3; // esi
 
-  result = strstr(Str, SubStr);
+  result = strstr(cfg_file, 'vssver');
   if ( !result )
   {
-    v2 = (const char *)QvmLoad(Str);
+    v2 = (const char *)QvmLoad(cfg_file);
     v3 = (int)v2;
     if ( !v2 )
     {
-      ErrorShow("PhysicsObjType_ParseConfigFile(): Couldn't load script: %s", Str);
+      ErrorShow("PhysicsObjType_ParseConfigFile(): Couldn't load script: %s", cfg_file);
       while ( 1 )
         ;
     }

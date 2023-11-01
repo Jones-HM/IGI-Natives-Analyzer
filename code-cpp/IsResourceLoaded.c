@@ -1,4 +1,4 @@
-int __cdecl IsResourceLoaded(char *Str1, int *a2)
+int IsResourceLoaded(char *res_file,int *res_file_ptr)
 {
   int v2; // esi
   char v3; // cl
@@ -56,6 +56,6 @@ LABEL_11:
     goto LABEL_11;
   }
   if ( a2 )
-    *a2 = v8;
+    *res_file_ptr = v8;
   return 1;
 }

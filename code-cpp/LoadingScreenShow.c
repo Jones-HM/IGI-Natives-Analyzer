@@ -1,4 +1,4 @@
-int __cdecl LoadingScreenShow(int a1)
+void LoadingScreenShow(int loading_type)
 {
   int v1; // esi
   int v2; // ebx
@@ -12,7 +12,7 @@ int __cdecl LoadingScreenShow(int a1)
   v1 = MemoryAlloc(28, 4);
   v2 = sub_491CF0();
   *(_DWORD *)(v1 + 4) = 0;
-  *(_DWORD *)v1 = a1;
+  *(_DWORD *)v1 = loading_type;
   *(_DWORD *)(v1 + 8) = (*(_DWORD *)(v2 + 4) - 640) / 2 + 40;
   *(_DWORD *)(v1 + 12) = (*(_DWORD *)(v2 + 8) - 480) / 2 + 440;
   sub_498380(v1 + 16, 560, 10);

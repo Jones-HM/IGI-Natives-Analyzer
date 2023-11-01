@@ -1,4 +1,4 @@
-int __cdecl GameDefineOptions(char ArgList, int a2, int a3, int a4)
+void GameDefineOptions(int **option_str,int option_func_addr,int opt1,int opt2)
 {
-  return QTaskHashTableSet(ArgList, a2, a3, a4, 1, 0, 0);
+  return QTaskHashTableSet(**option_str, option_func_addr, opt1, opt2, 1, 0, 0);
 }

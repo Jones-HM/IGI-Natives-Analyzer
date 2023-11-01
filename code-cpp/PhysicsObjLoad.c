@@ -1,4 +1,4 @@
-int __cdecl PhysicsObjLoad(char *ArgList)
+void PhysicsObjLoad(char *path)
 {
-  return sub_4B1420(ArgList, (int)sub_4EE050, 0);
+  return sub_4B1420(path, (int)sub_4EE050, 0);
 }

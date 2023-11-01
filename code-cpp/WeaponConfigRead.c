@@ -1,4 +1,4 @@
-int __cdecl WeaponConfigRead(int a1, char *a2)
+int WeaponConfigRead(int p1,char *cfg_file)
 {
   int v2; // eax
   int v3; // edi
@@ -8,7 +8,7 @@ int __cdecl WeaponConfigRead(int a1, char *a2)
   unsigned __int8 v7; // al
 
   strcpy(byte_5690F0, a2);
-  v2 = ConfigCompile(a1, a2, 0);
+  v2 = ConfigCompile(p1, a2, 0);
   v3 = v2;
   if ( v2 )
   {

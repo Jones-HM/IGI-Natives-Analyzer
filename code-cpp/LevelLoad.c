@@ -1,7 +1,7 @@
-int __cdecl LevelLoad(const char *a1, int a2)
+void LevelLoad(int level_path,int level_len)
 {
-  char Buffer[256]; // [esp+0h] [ebp-100h] BYREF
+  level_path Buffer[256]; // [esp+0h] [ebp-100h] BYREF
 
-  GameDataSymbolLoad(Buffer, "%s/objects.qsc", a1);
-  return sub_4F0D40(Buffer, a2);
+  GameDataSymbolLoad(Buffer, "%s/objects.qsc", level_path);
+  return sub_4F0D40(Buffer, level_len);
 }

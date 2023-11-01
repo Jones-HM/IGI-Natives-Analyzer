@@ -1,4 +1,4 @@
-DWORD __cdecl LevelStart(int a1)
+void LevelStart(int p1)
 {
   int v1; // eax
   int v2; // edi
@@ -39,7 +39,7 @@ DWORD __cdecl LevelStart(int a1)
   }
   GameDataSymbolLoad(::Buffer, "LOCAL:%s/", (const char *)(v1 + 324));
   sub_4B12F0((int)aMission, ::Buffer);
-  dword_57BABC = a1;
+  dword_57BABC = p1;
   sub_453270();
   sub_4D9950(dword_57BABC + 96);
   sub_416010();
@@ -92,8 +92,8 @@ DWORD __cdecl LevelStart(int a1)
   *(_DWORD *)(dword_57BABC + 76) = sub_4F0CB0(v7);
   sub_48A620(v3, 1);
   sub_4E6060(0);
-  sub_4E6550(a1, aLocalCommonSou_0);
-  sub_4E6550(a1, aMissionSounds_0);
+  sub_4E6550(p1, aLocalCommonSou_0);
+  sub_4E6550(p1, aMissionSounds_0);
   sub_416920();
   v23 = dword_57BABC + 96;
   v8 = sub_416D40();

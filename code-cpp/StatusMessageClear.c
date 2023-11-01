@@ -1,4 +1,4 @@
-int *__cdecl StatusMessageClear(int *a1)
+void StatusMessageClear (char* buffer)
 {
   int v1; // eax
   int *result; // eax
@@ -6,11 +6,11 @@ int *__cdecl StatusMessageClear(int *a1)
 
   v1 = sub_487180();
   sub_4868D0(*(_DWORD *)(v1 + 1252));
-  result = a1;
+  result = buffer;
   v3[0] = 1;
   v3[2] = 0;
   v3[3] = 1072693248;
   v3[4] = (int)&byte_567C74;
-  qmemcpy(a1, v3, 0x18u);
+  qmemcpy(buffer, v3, 0x18u);
   return result;
 }

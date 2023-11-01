@@ -1,4 +1,4 @@
-int __cdecl SymbolRegisterBool8(char ArgList, int a2)
+void SymbolRegisterBool8(int **sym_buf,int sym_addr)
 {
-  return QTaskHashTableSet(ArgList, (int)sub_4B7F00, a2, 1, 0, 1, 1);
+  return QTaskHashTableSet(**sym_buf, (int)sub_4B7F00, sym_addr, 1, 0, 1, 1);
 }

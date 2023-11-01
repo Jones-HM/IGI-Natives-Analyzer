@@ -1,4 +1,4 @@
-int __cdecl SoldierExecute(int soldier_ptr, int soldier_addr)
+void SoldierExecute(int ptr, int addr)
 {
   int v3; // ebp
   int v4; // ebx
@@ -17,10 +17,10 @@ int __cdecl SoldierExecute(int soldier_ptr, int soldier_addr)
   int v17[2]; // [esp+10h] [ebp-8h]
   int v18; // [esp+20h] [ebp+8h]
 
-  v3 = *(_DWORD *)(soldier_addr + 2048);
-  v4 = soldier_addr + 1220;
-  v16 = soldier_addr + 1220;
-  v5 = soldier_addr + 596;
+  v3 = *(_DWORD *)(addr + 2048);
+  v4 = addr + 1220;
+  v16 = addr + 1220;
+  v5 = addr + 596;
   v17[0] = 23;
   v17[1] = 22;
   v18 = -1;
@@ -30,21 +30,21 @@ int __cdecl SoldierExecute(int soldier_ptr, int soldier_addr)
     sub_4F2390(v6);
     sub_4F2070(v4, 0, 0);
   }
-  sub_4F2290(soldier_addr);
-  *(_BYTE *)(soldier_addr + 829) = 0;
-  *(_BYTE *)(soldier_addr + 1686) = 1;
+  sub_4F2290(addr);
+  *(_BYTE *)(addr + 829) = 0;
+  *(_BYTE *)(addr + 1686) = 1;
   v7 = *(_DWORD *)(v5 + 148);
   v8 = sub_489E10(v5, v7);
   if ( !v3 || (v9 = *(_DWORD *)(v3 + 15056), v9 == -1) )
   {
     v10 = sub_416D20();
     v11 = sub_4B47C0(v10, 2);
-    v12 = *(_DWORD *)(soldier_addr + 3356);
+    v12 = *(_DWORD *)(addr + 3356);
     if ( v12 >= 0 )
     {
       if ( v12 <= 1 )
       {
-        v14 = -((unsigned __int8)sub_45DAA0(soldier_addr, soldier_addr + 3360) != 0);
+        v14 = -((unsigned __int8)sub_45DAA0(addr, addr + 3360) != 0);
         LOBYTE(v14) = v14 & 0xD5;
         v13 = v14 + 71;
       }
@@ -67,13 +67,13 @@ int __cdecl SoldierExecute(int soldier_ptr, int soldier_addr)
     v18 = v9;
   }
 LABEL_15:
-  sub_4D61D0(soldier_addr + 104, 0, v18, 0, 0.0);
-  sub_45D5B0(soldier_addr + 3384, soldier_addr, *(_DWORD *)(soldier_addr + 3320), v18);
-  HumanViewCam(soldier_addr, 3);
-  sub_464700(*(_DWORD *)(soldier_addr + 1260));
-  sub_4635F0(soldier_addr);
-  sub_4638A0(soldier_addr, aAiDeath, 4);
-  result = sub_48A330(soldier_addr);
-  *(_DWORD *)(soldier_ptr + 20) = sub_45C700;
+  sub_4D61D0(addr + 104, 0, v18, 0, 0.0);
+  sub_45D5B0(addr + 3384, addr, *(_DWORD *)(addr + 3320), v18);
+  HumanViewCam(addr, 3);
+  sub_464700(*(_DWORD *)(addr + 1260));
+  sub_4635F0(addr);
+  sub_4638A0(addr, aAiDeath, 4);
+  result = sub_48A330(addr);
+  *(_DWORD *)(ptr + 20) = sub_45C700;
   return result;
 }

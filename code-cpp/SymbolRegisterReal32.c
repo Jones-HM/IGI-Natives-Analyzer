@@ -1,4 +1,4 @@
-int __cdecl SymbolRegisterReal32(int ArgList, int a2)
+void SymbolRegisterReal32(int **sym_buf,int sym_addr)
 {
-  return QTaskHashTableSet(ArgList, (int)sub_4B7FE0, a2, 8, 0, 2, 1);
+  return QTaskHashTableSet(**sym_buf, (int)sub_4B7FE0, sym_addr, 8, 0, 2, 1);
 }

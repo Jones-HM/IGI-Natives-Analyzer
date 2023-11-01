@@ -1,4 +1,4 @@
-int __cdecl ConfigRead(char *a1)
+int ConfigRead(char* cfg_file)
 {
   const char *v1; // eax
   int v2; // esi

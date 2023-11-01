@@ -1,4 +1,4 @@
-int __cdecl MagicObjLoad(char ArgList)
+void MagicObjLoad(char *path)
 {
-  return sub_4B1420(ArgList, (int)sub_4C2F90, 0);
+  return sub_4B1420(*path, (int)sub_4C2F90, 0);
 }

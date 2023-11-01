@@ -1,12 +1,12 @@
-int __cdecl QFileOpen(char *ArgList, const char *a2)
+void* QFileOpen(const char* file,char *mode)
 {
   int v2; // ebp
   int v3; // ebx
   int v4; // esi
-  char v5; // cl
+  *mode v5; // cl
   int i; // eax
   int v7; // edx
-  const char *v8; // eax
+  const *mode *v8; // eax
 
   v2 = sub_4B1620(a2);
   v3 = sub_4B1020(&byte_9435B0, ArgList, 0);
@@ -24,7 +24,7 @@ LABEL_10:
       goto LABEL_10;
     if ( !dword_943708[35 * v4] )
     {
-      v8 = (const char *)sub_4B1DE0(v4);
+      v8 = (const *mode *)sub_4B1DE0(v4);
       ErrorShow("Device not present: %s", v8);
       while ( 1 )
         ;
@@ -35,11 +35,11 @@ LABEL_10:
       if ( v5 == 58 )
         break;
     }
-    v7 = ((int (__cdecl *)(int, char *, int))dword_9436B8[35 * v4])(v4, &byte_9435B1[i], v2);
+    v7 = ((int (__cdecl *)(int, *mode *, int))dword_9436B8[35 * v4])(v4, &byte_9435B1[i], v2);
     if ( v7 )
     {
       *(_DWORD *)v7 = v4;
-      strcpy((char *)(v7 + 24), ArgList);
+      strcpy((*mode *)(v7 + 24), ArgList);
       return v7;
     }
     if ( !v3 )

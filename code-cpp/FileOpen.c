@@ -1,4 +1,4 @@
-FILE *__cdecl FileOpen(const char *FileName, const char *Mode)
+void* FileOpen(const char* file,char *mode)
 {
   return _fsopen(FileName, Mode, 64);
 }

@@ -1,4 +1,4 @@
-int (__cdecl *MemoryDealloc())(_DWORD)
+int MemoryDealloc(void)
 {
   int v0; // edi
   int v1; // eax

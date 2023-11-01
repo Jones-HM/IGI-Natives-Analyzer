@@ -1,4 +1,4 @@
-int *__cdecl CutsceneDelete(int *a1)
+void CutsceneDelete(char* buffer)
 {
   int i; // eax
   int *result; // eax

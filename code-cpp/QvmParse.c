@@ -1,4 +1,4 @@
-int __cdecl QvmParse(char *ArgList, int a2)
+int QvmParse(char *file_name, int mem_alloc_addr)
 {
   int v2; // edi
   char *v3; // esi
@@ -17,7 +17,7 @@ int __cdecl QvmParse(char *ArgList, int a2)
   char v17[40]; // [esp+4Ch] [ebp-828h] BYREF
   char v18[2048]; // [esp+74h] [ebp-800h] BYREF
 
-  sub_4B1AC0(ArgList);
+  sub_4B1AC0(file_name);
   strcpy((char *)&dword_A442D0, "                    ");
   v13 = v14;
   v14[1] = (int)&v13;
@@ -49,8 +49,8 @@ int __cdecl QvmParse(char *ArgList, int a2)
   while ( (int)v3 < (int)&dword_A442B4 );
   dword_A965A8 = 0;
   ScriptBufInit(v16, (int)v15, (int)v18, 2048);
-  sub_4BF1C0(v15, *(_DWORD *)(a2 + 128), *(_DWORD *)(a2 + 132));
-  v7 = QFileOpen(ArgList, (int)aW);
+  sub_4BF1C0(v15, *(_DWORD *)(mem_alloc_addr + 128), *(_DWORD *)(mem_alloc_addr + 132));
+  v7 = QFileOpen(file_name, (int)aW);
   if ( v7 )
   {
     sub_4BBEF0(aParsingScriptA, v11);
@@ -73,7 +73,7 @@ int __cdecl QvmParse(char *ArgList, int a2)
   }
   else
   {
-    sub_4BBE90(aFailedToOpenFi, (char)ArgList);
+    sub_4BBE90(aFailedToOpenFi, (char)file_name);
   }
   v8 = (int)v13;
   v9 = (_DWORD *)*v13;
