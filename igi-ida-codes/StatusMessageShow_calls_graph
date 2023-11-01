@@ -1,0 +1,37 @@
+// Function Calls
+digraph {
+	StatusMessageShow
+	StatusMessageShow -> MemoryAlloc
+	StatusMessageShow -> QhashInit
+	StatusMessageShow -> QhashReset
+	StatusMessageShow -> sub_4012A0
+	StatusMessageShow -> sub_485750
+	MemoryAlloc
+	MemoryAlloc -> ErrorShow
+	MemoryAlloc -> Mem_Alloc
+	MemoryAlloc -> sub_4AF8F0
+	MemoryAlloc -> sub_4B0BA0
+	ErrorShow
+	ErrorShow -> ArgList
+	ErrorShow -> BYREF
+	ErrorShow -> Format
+	ErrorShow -> GameDataSymbolLoad
+	GameDataSymbolLoad
+	GameDataSymbolLoad -> BYREF
+	GameDataSymbolLoad -> Buffer
+	GameDataSymbolLoad -> FILE
+	GameDataSymbolLoad -> File
+	GameDataSymbolLoad -> Format
+	sub_4AF8F0
+	sub_4012A0
+	sub_4012A0 -> sub_4012F0
+	sub_4012A0 -> sub_4AF8F0
+	sub_4012F0
+	sub_4012F0 -> LABEL_5
+	sub_4012F0 -> LABEL_6
+	sub_4012F0 -> MemoryAlloc
+	sub_4012F0 -> QhashInit
+	sub_4012F0 -> QhashReset
+	sub_485750
+	sub_485750 -> sub_4F1400
+}

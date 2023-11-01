@@ -4,6 +4,8 @@ digraph {
 	FramesSet -> sub_490370
 	FramesSet -> sub_4E6030
 	sub_490370
+	sub_490370 -> DWORD
+	sub_490370 -> GetTickCount
 	sub_4E6030
 	sub_4E6030 -> sub_495CC0
 	sub_495CC0

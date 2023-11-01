@@ -1,0 +1,559 @@
+// Function Calls
+digraph {
+	QvmLoad
+	QvmLoad -> ACh
+	QvmLoad -> An
+	QvmLoad -> BYREF
+	QvmLoad -> CompilerCleanup
+	QvmLoad -> Duration
+	QvmLoad -> Failed
+	QvmLoad -> Frequency
+	QvmLoad -> LABEL_12
+	QvmLoad -> LABEL_20
+	QvmLoad -> LABEL_9
+	QvmLoad -> MemoryAlloc
+	QvmLoad -> QVM
+	QvmLoad -> QvmAssemble
+	QvmLoad -> QvmParse
+	QvmLoad -> ResourceLoad
+	QvmLoad -> Str1
+	QvmLoad -> sub_48F1D0
+	QvmLoad -> sub_48F340
+	QvmLoad -> sub_4B0D10
+	QvmLoad -> sub_4B1AC0
+	QvmLoad -> sub_4B1E90
+	QvmLoad -> sub_4B5B60
+	QvmLoad -> sub_4B6440
+	QvmLoad -> sub_4B6490
+	QvmLoad -> sub_4B7E10
+	QvmLoad -> sub_4B8A10
+	QvmLoad -> sub_4BD220
+	CompilerCleanup
+	CompilerCleanup -> ArgList
+	CompilerCleanup -> ResourceUnload
+	CompilerCleanup -> sub_4B0D10
+	CompilerCleanup -> sub_4BD380
+	ResourceUnload
+	ResourceUnload -> ArgList
+	ResourceUnload -> ErrorShow
+	ResourceUnload -> IsResourceLoaded
+	ResourceUnload -> Resource
+	ResourceUnload -> Resource_Unload
+	ResourceUnload -> sub_4B5C90
+	ErrorShow
+	ErrorShow -> ArgList
+	ErrorShow -> BYREF
+	ErrorShow -> Format
+	ErrorShow -> GameDataSymbolLoad
+	GameDataSymbolLoad
+	GameDataSymbolLoad -> BYREF
+	GameDataSymbolLoad -> Buffer
+	GameDataSymbolLoad -> FILE
+	GameDataSymbolLoad -> File
+	GameDataSymbolLoad -> Format
+	sub_4BD380
+	sub_4BD380 -> ResourceFlush
+	sub_4BD380 -> sub_4B0D10
+	sub_4BD380 -> sub_4BACA0
+	ResourceFlush
+	ResourceFlush -> ArgList
+	ResourceFlush -> Couldn
+	ResourceFlush -> ErrorShow
+	ResourceFlush -> LABEL_4
+	ResourceFlush -> Resource_Flush
+	ResourceFlush -> sub_4B5C90
+	sub_4BACA0
+	sub_4BACA0 -> sub_4AF910
+	sub_4BACA0 -> sub_4AF960
+	sub_4AF960
+	MemoryAlloc
+	MemoryAlloc -> ErrorShow
+	MemoryAlloc -> Mem_Alloc
+	MemoryAlloc -> sub_4AF8F0
+	MemoryAlloc -> sub_4B0BA0
+	sub_4AF8F0
+	QvmAssemble
+	QvmAssemble -> A0h
+	QvmAssemble -> A4h
+	QvmAssemble -> A8h
+	QvmAssemble -> ACh
+	QvmAssemble -> ArgList
+	QvmAssemble -> B0h
+	QvmAssemble -> B4h
+	QvmAssemble -> B8h
+	QvmAssemble -> BCh
+	QvmAssemble -> BYREF
+	QvmAssemble -> C0h
+	QvmAssemble -> C4h
+	QvmAssemble -> Ch
+	QvmAssemble -> D8h
+	QvmAssemble -> ErrorShow
+	QvmAssemble -> F8h
+	QvmAssemble -> LABEL_22
+	QvmAssemble -> LABEL_60
+	QvmAssemble -> LOCAL
+	QvmAssemble -> LOOP
+	QvmAssemble -> LogAdd
+	QvmAssemble -> QFileOpen
+	QvmAssemble -> ResourceFlush
+	QvmAssemble -> ResourceLoad
+	QvmAssemble -> ResourcePackUnpack
+	QvmAssemble -> Str1
+	QvmAssemble -> SymbolRemove
+	QvmAssemble -> sub_4AF960
+	QvmAssemble -> sub_4B08A0
+	QvmAssemble -> sub_4B0A80
+	QvmAssemble -> sub_4B0D10
+	QvmAssemble -> sub_4B1690
+	QvmAssemble -> sub_4B1700
+	QvmAssemble -> sub_4B1A30
+	QvmAssemble -> sub_4B1AC0
+	QvmAssemble -> sub_4B5B60
+	QvmAssemble -> sub_4BAE00
+	QvmAssemble -> sub_4BAF30
+	QvmAssemble -> sub_4BB240
+	QvmAssemble -> sub_4BD3F0
+	QvmAssemble -> sub_4BEFC0
+	QvmAssemble -> sub_4BF1C0
+	QvmAssemble -> sub_4C0360
+	QvmAssemble -> sub_4C03C0
+	QvmAssemble -> sub_4C0660
+	QvmAssemble -> sub_4C0680
+	QvmAssemble -> sub_4C0720
+	QvmAssemble -> sub_4C0750
+	QvmAssemble -> sub_4F1D80
+	LogAdd
+	LogAdd -> ArgList
+	LogAdd -> BYREF
+	LogAdd -> Buffer
+	LogAdd -> Format
+	QFileOpen
+	QFileOpen -> ArgList
+	QFileOpen -> Device
+	QFileOpen -> ErrorShow
+	QFileOpen -> Illegal
+	QFileOpen -> LABEL_10
+	QFileOpen -> sub_4B1020
+	QFileOpen -> sub_4B11A0
+	QFileOpen -> sub_4B1620
+	QFileOpen -> sub_4B1DE0
+	sub_4B1020
+	sub_4B1020 -> Error
+	sub_4B1020 -> ErrorShow
+	sub_4B1020 -> Str1
+	sub_4B1020 -> Str2
+	sub_4B11A0
+	sub_4B11A0 -> Str2
+	sub_4B1620
+	sub_4B1DE0
+	ResourceLoad
+	ResourceLoad -> ArgList
+	ResourceLoad -> BYREF
+	ResourceLoad -> Ch
+	ResourceLoad -> ErrorShow
+	ResourceLoad -> Failed
+	ResourceLoad -> IsResourceLoaded
+	ResourceLoad -> ResourcePackUnpack
+	ResourceLoad -> sub_4B1FB0
+	ResourceLoad -> sub_4B5F80
+	ResourcePackUnpack
+	ResourcePackUnpack -> ArgList
+	ResourcePackUnpack -> MemoryAlloc
+	ResourcePackUnpack -> QFileOpen
+	ResourcePackUnpack -> ResourceUnpack
+	ResourcePackUnpack -> sub_4B0D10
+	ResourcePackUnpack -> sub_4B1690
+	ResourcePackUnpack -> sub_4B1780
+	ResourcePackUnpack -> sub_4B17A0
+	ResourcePackUnpack -> sub_4B17F0
+	ResourcePackUnpack -> sub_4B19C0
+	ResourcePackUnpack -> sub_4BADA0
+	ResourceUnpack
+	sub_4B1690
+	sub_4B1780
+	sub_4B17A0
+	sub_4B17F0
+	sub_4B19C0
+	sub_4B19C0 -> MemoryAlloc
+	sub_4B19C0 -> sub_4AF8F0
+	sub_4BADA0
+	sub_4BADA0 -> sub_4AF960
+	sub_4BADA0 -> sub_4B0D10
+	sub_4B1FB0
+	sub_4B5F80
+	sub_4B5F80 -> BYREF
+	sub_4B5F80 -> Ch
+	sub_4B5F80 -> LOBYTE
+	sub_4B5F80 -> Str1
+	sub_4B5F80 -> sub_4AF8F0
+	sub_4B5F80 -> sub_4B1820
+	sub_4B5F80 -> sub_4B59F0
+	sub_4B5F80 -> sub_4B60F0
+	sub_4B5F80 -> sub_4B7570
+	sub_4B5F80 -> sub_4B7580
+	LOBYTE
+	LOBYTE -> BYREF
+	LOBYTE -> HIDWORD
+	LOBYTE -> LABEL_14
+	LOBYTE -> LODWORD
+	LOBYTE -> sub_496E60
+	LOBYTE -> sub_4972B0
+	LOBYTE -> sub_4B3130
+	HIDWORD
+	HIDWORD -> Ch
+	HIDWORD -> LABEL_30
+	HIDWORD -> SHIDWORD
+	HIDWORD -> sub_499430
+	LODWORD
+	sub_4B3130
+	sub_4B1820
+	sub_4B1820 -> BYREF
+	sub_4B1820 -> Ch
+	sub_4B1820 -> Str1
+	sub_4B1820 -> Str2
+	sub_4B1820 -> sub_4B1020
+	sub_4B1820 -> sub_4B11A0
+	sub_4B59F0
+	sub_4B59F0 -> sub_4AF8F0
+	sub_4B59F0 -> sub_4B5AF0
+	sub_4B59F0 -> sub_4B5B30
+	sub_4B5AF0
+	sub_4B5B30
+	sub_4B60F0
+	sub_4B60F0 -> ArgList
+	sub_4B60F0 -> BYREF
+	sub_4B60F0 -> Ch
+	sub_4B60F0 -> Error
+	sub_4B60F0 -> ErrorShow
+	sub_4B60F0 -> LABEL_24
+	sub_4B60F0 -> LABEL_27
+	sub_4B60F0 -> sub_4AF8F0
+	sub_4B60F0 -> sub_4B59F0
+	sub_4B60F0 -> sub_4B7470
+	sub_4B60F0 -> sub_4B7490
+	sub_4B60F0 -> sub_4B74D0
+	sub_4B60F0 -> sub_4B7540
+	sub_4B60F0 -> sub_4B7570
+	sub_4B60F0 -> sub_4B7580
+	sub_4B7490
+	sub_4B74D0
+	sub_4B7540
+	sub_4B7570
+	sub_4B7580
+	SymbolRemove
+	SymbolRemove -> ArgList
+	SymbolRemove -> ErrorShow
+	SymbolRemove -> Unable
+	SymbolRemove -> sub_4AF960
+	SymbolRemove -> sub_4B0D10
+	SymbolRemove -> sub_4C04B0
+	sub_4C04B0
+	sub_4C04B0 -> LABEL_4
+	sub_4C04B0 -> sub_4C0530
+	sub_4C0530
+	sub_4B08A0
+	sub_4B08A0 -> sub_4AF9D0
+	sub_4B08A0 -> sub_4B0270
+	sub_4AF9D0
+	sub_4AF9D0 -> A00h
+	sub_4AF9D0 -> B00h
+	sub_4AF9D0 -> B04h
+	sub_4AF9D0 -> B08h
+	sub_4AF9D0 -> B0Ch
+	sub_4AF9D0 -> B10h
+	sub_4AF9D0 -> B14h
+	sub_4AF9D0 -> B18h
+	sub_4AF9D0 -> B1Ch
+	sub_4AF9D0 -> B20h
+	sub_4AF9D0 -> B24h
+	sub_4AF9D0 -> B28h
+	sub_4AF9D0 -> B2Ch
+	sub_4AF9D0 -> B30h
+	sub_4AF9D0 -> BYREF
+	sub_4AF9D0 -> BYTE1
+	sub_4AF9D0 -> LABEL_39
+	sub_4AF9D0 -> LABEL_40
+	sub_4AF9D0 -> LABEL_5
+	sub_4AF9D0 -> LABEL_60
+	sub_4AF9D0 -> LABEL_61
+	sub_4AF9D0 -> LABEL_62
+	sub_4AF9D0 -> LABEL_63
+	sub_4AF9D0 -> LABEL_66
+	sub_4AF9D0 -> LOBYTE
+	sub_4AF9D0 -> sub_4AFF90
+	sub_4AF9D0 -> sub_4AFFB0
+	sub_4AFF90
+	sub_4AFFB0
+	sub_4AFFB0 -> LABEL_11
+	sub_4AFFB0 -> LABEL_13
+	sub_4AFFB0 -> LABEL_14
+	sub_4AFFB0 -> LABEL_15
+	sub_4AFFB0 -> LABEL_33
+	sub_4AFFB0 -> LABEL_34
+	sub_4B0A80
+	sub_4B0A80 -> sub_4B0A10
+	sub_4B0A10
+	sub_4B1A30
+	sub_4B1A30 -> ArgList
+	sub_4B1A30 -> sub_4B0D10
+	sub_4B1A30 -> sub_4B1A90
+	sub_4B1A30 -> sub_4BADA0
+	sub_4B1A90
+	sub_4B1A90 -> ArgList
+	sub_4B1A90 -> ErrorShow
+	sub_4B1A90 -> LABEL_4
+	sub_4B1A90 -> No
+	sub_4B1AC0
+	sub_4B1AC0 -> Device
+	sub_4B1AC0 -> ErrorShow
+	sub_4B1AC0 -> Illegal
+	sub_4B1AC0 -> LABEL_11
+	sub_4B1AC0 -> Str1
+	sub_4B1AC0 -> sub_4B1020
+	sub_4B1AC0 -> sub_4B11A0
+	sub_4B1AC0 -> sub_4B1DE0
+	sub_4B5B60
+	sub_4B5B60 -> IsResourceLoaded
+	sub_4B5B60 -> Str1
+	sub_4B5B60 -> sub_4B1FC0
+	sub_4B1FC0
+	sub_4B1FC0 -> ArgList
+	sub_4B1FC0 -> QFileOpen
+	sub_4B1FC0 -> sub_4B1690
+	sub_4BAE00
+	sub_4BAE00 -> ArgList
+	sub_4BAE00 -> BYREF
+	sub_4BAE00 -> Ch
+	sub_4BAE00 -> MemoryAlloc
+	sub_4BAE00 -> SymbolCheck
+	sub_4BAE00 -> sub_4AF8F0
+	sub_4BAE00 -> sub_4BAF30
+	sub_4BAE00 -> sub_4C0620
+	SymbolCheck
+	SymbolCheck -> ArgList
+	SymbolCheck -> ErrorShow
+	SymbolCheck -> MemoryAlloc
+	SymbolCheck -> Symbol
+	SymbolCheck -> sub_4AF910
+	SymbolCheck -> sub_4C04B0
+	SymbolCheck -> sub_4C0530
+	sub_4BAF30
+	sub_4BAF30 -> ArgList
+	sub_4BAF30 -> BYREF
+	sub_4BAF30 -> Buffer
+	sub_4BAF30 -> Ch
+	sub_4BAF30 -> ErrorShow
+	sub_4BAF30 -> Format
+	sub_4C0620
+	sub_4C0620 -> sub_4C04B0
+	sub_4BB240
+	sub_4BB240 -> sub_4C0780
+	sub_4C0780
+	sub_4C0780 -> BYREF
+	sub_4C0780 -> Count
+	sub_4C0780 -> sub_4AF960
+	sub_4C0780 -> sub_4B0270
+	sub_4C0780 -> sub_4B0D10
+	sub_4C0780 -> sub_4BF1E0
+	sub_4BF1E0
+	sub_4BD3F0
+	sub_4BEFC0
+	sub_4BEFC0 -> sub_4B0D10
+	sub_4BF1C0
+	sub_4BF1C0 -> sub_4BEF60
+	sub_4BF1C0 -> sub_4BEFE0
+	sub_4BEFE0
+	sub_4BEFE0 -> LABEL_33
+	sub_4BEFE0 -> LABEL_39
+	sub_4BEFE0 -> Token
+	sub_4BEFE0 -> sub_4B7E10
+	sub_4B7E10
+	sub_4B7E10 -> ArgList
+	sub_4B7E10 -> BYREF
+	sub_4B7E10 -> Buffer
+	sub_4B7E10 -> ErrorShow
+	sub_4B7E10 -> Format
+	sub_4C0360
+	sub_4C0360 -> MemoryAlloc
+	sub_4C03C0
+	sub_4C03C0 -> sub_4B0D10
+	sub_4C03C0 -> sub_4C03F0
+	sub_4C03F0
+	sub_4C03F0 -> sub_4AF960
+	sub_4C03F0 -> sub_4B0D10
+	sub_4C0660
+	sub_4C0680
+	sub_4C0680 -> MemoryAlloc
+	sub_4C0680 -> sub_4AF8F0
+	sub_4C0680 -> sub_4AF9D0
+	sub_4C0680 -> sub_4B0D10
+	sub_4C0720
+	sub_4C0750
+	sub_4C0750 -> sub_4AF960
+	sub_4C0750 -> sub_4B0D10
+	sub_4F1D80
+	sub_4F1D80 -> sub_4AF960
+	sub_4F1D80 -> sub_4B0D10
+	QvmParse
+	QvmParse -> ArgList
+	QvmParse -> BYREF
+	QvmParse -> QFileOpen
+	QvmParse -> ScriptBufInit
+	QvmParse -> sub_4AF8F0
+	QvmParse -> sub_4AF960
+	QvmParse -> sub_4B1690
+	QvmParse -> sub_4B1AC0
+	QvmParse -> sub_4BBE90
+	QvmParse -> sub_4BBEF0
+	QvmParse -> sub_4BBF40
+	QvmParse -> sub_4BBF60
+	QvmParse -> sub_4BBF80
+	QvmParse -> sub_4BD3F0
+	QvmParse -> sub_4BEFC0
+	QvmParse -> sub_4BF1C0
+	QvmParse -> sub_4BF1F0
+	QvmParse -> sub_4BF8F0
+	QvmParse -> sub_4BFC70
+	ScriptBufInit
+	sub_4BBE90
+	sub_4BBE90 -> ArgList
+	sub_4BBE90 -> BYREF
+	sub_4BBE90 -> Buffer
+	sub_4BBE90 -> ErrorShow
+	sub_4BBE90 -> Format
+	sub_4BBEF0
+	sub_4BBEF0 -> ArgList
+	sub_4BBEF0 -> BYREF
+	sub_4BBEF0 -> Buffer
+	sub_4BBEF0 -> Format
+	sub_4BBF40
+	sub_4BBF40 -> sub_4B1700
+	sub_4BF1F0
+	sub_4BF1F0 -> BYREF
+	sub_4BF1F0 -> LABEL_22
+	sub_4BF1F0 -> LABEL_6
+	sub_4BF1F0 -> MemoryAlloc
+	sub_4BF1F0 -> Unexpected
+	sub_4BF1F0 -> sub_4AF8F0
+	sub_4BF1F0 -> sub_4B7E10
+	sub_4BF1F0 -> sub_4B9CD0
+	sub_4BF1F0 -> sub_4BF390
+	sub_4BF1F0 -> sub_4BF3A0
+	sub_4BF1F0 -> sub_4BF580
+	sub_4BF1F0 -> sub_4BF8F0
+	sub_4BF1F0 -> sub_4BFC70
+	sub_4B9CD0
+	sub_4B9CD0 -> BOOL
+	sub_4B9CD0 -> BYREF
+	sub_4B9CD0 -> Binary
+	sub_4B9CD0 -> Ch
+	sub_4B9CD0 -> Expected
+	sub_4B9CD0 -> LABEL_15
+	sub_4B9CD0 -> LABEL_28
+	sub_4B9CD0 -> LABEL_54
+	sub_4B9CD0 -> LABEL_60
+	sub_4B9CD0 -> LABEL_75
+	sub_4B9CD0 -> LABEL_81
+	sub_4B9CD0 -> LABEL_82
+	sub_4B9CD0 -> LABEL_85
+	sub_4B9CD0 -> LABEL_89
+	sub_4B9CD0 -> LABEL_91
+	sub_4B9CD0 -> Syntax
+	sub_4B9CD0 -> Unexpected
+	sub_4B9CD0 -> sub_4B7E10
+	sub_4B9CD0 -> sub_4B9BE0
+	sub_4B9CD0 -> sub_4BA340
+	sub_4B9CD0 -> sub_4BA380
+	sub_4B9CD0 -> sub_4BA3D0
+	sub_4B9CD0 -> sub_4BA4C0
+	sub_4B9CD0 -> sub_4BA880
+	sub_4B9CD0 -> sub_4BFC70
+	sub_4B9CD0 -> sub_4C0230
+	sub_4B9CD0 -> sub_4C0240
+	sub_4B9BE0
+	sub_4B9BE0 -> sub_4B0D10
+	sub_4B9BE0 -> sub_4BACA0
+	sub_4BA340
+	sub_4BA380
+	sub_4BA3D0
+	sub_4BA3D0 -> ArgList
+	sub_4BA3D0 -> Error
+	sub_4BA3D0 -> ErrorShow
+	sub_4BA3D0 -> Internal
+	sub_4BA3D0 -> Script
+	sub_4BA3D0 -> Unknown
+	sub_4BA4C0
+	sub_4BA4C0 -> LABEL_17
+	sub_4BA4C0 -> LABEL_19
+	sub_4BA4C0 -> LABEL_30
+	sub_4BA4C0 -> LABEL_32
+	sub_4BA4C0 -> LABEL_35
+	sub_4BA4C0 -> MemoryAlloc
+	sub_4BA4C0 -> Parse
+	sub_4BA4C0 -> Syntax
+	sub_4BA4C0 -> Too
+	sub_4BA4C0 -> sub_4B0D10
+	sub_4BA4C0 -> sub_4B7E10
+	sub_4BA4C0 -> sub_4B9BE0
+	sub_4BA4C0 -> sub_4B9CD0
+	sub_4BA4C0 -> sub_4BFC70
+	sub_4BA4C0 -> sub_4C0230
+	sub_4BA4C0 -> sub_4C0240
+	sub_4C0230
+	sub_4C0240
+	sub_4BF390
+	sub_4BF3A0
+	sub_4BF580
+	sub_4BF580 -> Syntax
+	sub_4BF580 -> sub_4B7E10
+	sub_4BF580 -> sub_4BF1F0
+	sub_4BF580 -> sub_4BF390
+	sub_4BF580 -> sub_4BF3A0
+	sub_4BF580 -> sub_4BF620
+	sub_4BF580 -> sub_4BF850
+	sub_4BF620
+	sub_4BF620 -> LABEL_20
+	sub_4BF620 -> LABEL_21
+	sub_4BF620 -> LABEL_22
+	sub_4BF620 -> LABEL_25
+	sub_4BF620 -> MemoryAlloc
+	sub_4BF620 -> sub_4AF8F0
+	sub_4BF620 -> sub_4B7E10
+	sub_4BF620 -> sub_4B9CA0
+	sub_4BF620 -> sub_4BF1F0
+	sub_4BF620 -> sub_4BF3A0
+	sub_4BF620 -> sub_4BF8F0
+	sub_4BF620 -> sub_4BFBE0
+	sub_4BF620 -> sub_4BFC70
+	sub_4B9CA0
+	sub_4B9CA0 -> sub_4B9CD0
+	sub_4B9CA0 -> sub_4BFC70
+	sub_4BFBE0
+	sub_4BFBE0 -> Ch
+	sub_4BFBE0 -> MemoryAlloc
+	sub_4BFBE0 -> sub_4AF8F0
+	sub_4BF850
+	sub_4BF850 -> BOOL
+	sub_4BF850 -> MemoryAlloc
+	sub_4BF850 -> sub_4B9CA0
+	sub_4BF850 -> sub_4BF1F0
+	sub_4BF850 -> sub_4BF3A0
+	sub_4BF850 -> sub_4BFC70
+	sub_48F1D0
+	sub_48F340
+	sub_4B1E90
+	sub_4B1E90 -> Destination
+	sub_4B6440
+	sub_4B6440 -> IsResourceLoaded
+	sub_4B6440 -> Str1
+	sub_4B6440 -> sub_4B1820
+	sub_4B6490
+	sub_4B6490 -> Duration
+	sub_4B6490 -> Frequency
+	sub_4B8A10
+	sub_4BD220
+	sub_4BD220 -> ArgList
+	sub_4BD220 -> MemoryAlloc
+	sub_4BD220 -> ResourceLoad
+	sub_4BD220 -> ResourceUnload
+}
