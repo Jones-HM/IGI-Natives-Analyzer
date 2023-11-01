@@ -80,6 +80,7 @@ def main():
         # Save the graph to a file
         graph_file_path = initial_file_path.replace('.c','') + '_calls_graph'
         graph.render(graph_file_path, view=True, format='png')
+        
     except Exception as e:
         logger.error(f"An error occurred: {e}")
 
