@@ -1,0 +1,10 @@
+igi-ida-codes/FramesSet.c calls:
+  sub_490370
+  sub_4E6030
+igi-ida-codes/sub_490370.c calls:
+  sub_490370
+igi-ida-codes/sub_4E6030.c calls:
+  sub_495CC0
+  sub_4E6030
+igi-ida-codes/sub_495CC0.c calls:
+  sub_495CC0

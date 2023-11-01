@@ -1,0 +1,1 @@
+AnimTriggerRead	.text	004EC070	00000049	00000008	00000004	R	.	.	.	.	.	.	T	.

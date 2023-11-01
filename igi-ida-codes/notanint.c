@@ -1,0 +1,4 @@
+void notanint()
+{
+  isintTOSret();
+}
