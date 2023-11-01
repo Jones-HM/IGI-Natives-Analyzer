@@ -1,0 +1,106 @@
+// Function Calls
+digraph {
+	LevelQuit
+	LevelQuit -> QtaskUpdate
+	LevelQuit -> QtaskUpdateList
+	LevelQuit -> ResourceFlush
+	LevelQuit -> sub_4015F0
+	LevelQuit -> sub_416660
+	LevelQuit -> sub_416690
+	LevelQuit -> sub_46B310
+	LevelQuit -> sub_4868C0
+	LevelQuit -> sub_4B0D40
+	LevelQuit -> sub_4B0DB0
+	LevelQuit -> sub_4B13A0
+	LevelQuit -> sub_4C5CE0
+	LevelQuit -> sub_4CEA70
+	LevelQuit -> sub_4CF9D0
+	LevelQuit -> sub_4D65D0
+	LevelQuit -> sub_4E7130
+	LevelQuit -> sub_4F0CD0
+	QtaskUpdate
+	QtaskUpdate -> QtaskUpdateList
+	QtaskUpdate -> sub_401780
+	QtaskUpdateList
+	sub_401780
+	sub_401780 -> sub_4015F0
+	sub_4015F0
+	sub_4015F0 -> QtaskUpdateList
+	sub_4015F0 -> sub_4C48C0
+	sub_4015F0 -> sub_4CEA20
+	sub_4C48C0
+	sub_4CEA20
+	ResourceFlush
+	ResourceFlush -> ErrorShow
+	ErrorShow
+	ErrorShow -> GameDataSymbolLoad
+	GameDataSymbolLoad
+	sub_416660
+	sub_416660 -> sub_4B22F0
+	sub_4B22F0
+	sub_4B22F0 -> sub_4B1000
+	sub_4B1000
+	sub_416690
+	sub_416690 -> sub_4B66A0
+	sub_4B66A0
+	sub_4B66A0 -> sub_4B22F0
+	sub_4B66A0 -> sub_4B76D0
+	sub_4B76D0
+	sub_46B310
+	sub_46B310 -> ResourceFlush
+	sub_46B310 -> sub_4B66A0
+	sub_46B310 -> sub_4B7030
+	sub_4B7030
+	sub_4B7030 -> sub_4B66A0
+	sub_4868C0
+	sub_4868C0 -> ResourceFlush
+	sub_4B0D40
+	sub_4B0DB0
+	sub_4B13A0
+	sub_4C5CE0
+	sub_4C5CE0 -> ResourceFlush
+	sub_4C5CE0 -> sub_4B0B70
+	sub_4C5CE0 -> sub_4B22F0
+	sub_4C5CE0 -> sub_4D1220
+	sub_4C5CE0 -> sub_4E54E0
+	sub_4C5CE0 -> sub_5177F0
+	sub_4B0B70
+	sub_4D1220
+	sub_4D1220 -> sub_4B0B70
+	sub_4E54E0
+	sub_5177F0
+	sub_5177F0 -> sub_4B22F0
+	sub_4CEA70
+	sub_4CF9D0
+	sub_4CF9D0 -> ResourceFlush
+	sub_4CF9D0 -> sub_4AF960
+	sub_4CF9D0 -> sub_4B22F0
+	sub_4CF9D0 -> sub_4CFB30
+	sub_4AF960
+	sub_4CFB30
+	sub_4CFB30 -> ResourceFlush
+	sub_4CFB30 -> sub_4AF960
+	sub_4CFB30 -> sub_4CEA90
+	sub_4CEA90
+	sub_4D65D0
+	sub_4D65D0 -> sub_4D65F0
+	sub_4D65D0 -> sub_4D6640
+	sub_4D65F0
+	sub_4D6640
+	sub_4D6640 -> sub_4B0B70
+	sub_4E7130
+	sub_4E7130 -> sub_496650
+	sub_4E7130 -> sub_496E40
+	sub_4E7130 -> sub_4E63B0
+	sub_496650
+	sub_496650 -> sub_495620
+	sub_496650 -> sub_4966B0
+	sub_496650 -> sub_4B1690
+	sub_495620
+	sub_4966B0
+	sub_4B1690
+	sub_496E40
+	sub_4E63B0
+	sub_4F0CD0
+	sub_4F0CD0 -> sub_4CF9D0
+}

@@ -1,0 +1,42 @@
+// Function Calls
+digraph {
+	ResourcePackUnpack
+	ResourcePackUnpack -> MemoryAlloc
+	ResourcePackUnpack -> QFileOpen
+	ResourcePackUnpack -> ResourceUnpack
+	ResourcePackUnpack -> sub_4B1690
+	ResourcePackUnpack -> sub_4B1780
+	ResourcePackUnpack -> sub_4B17A0
+	ResourcePackUnpack -> sub_4B17F0
+	ResourcePackUnpack -> sub_4B19C0
+	ResourcePackUnpack -> sub_4BADA0
+	MemoryAlloc
+	MemoryAlloc -> ErrorShow
+	MemoryAlloc -> sub_4AF8F0
+	ErrorShow
+	ErrorShow -> GameDataSymbolLoad
+	GameDataSymbolLoad
+	sub_4AF8F0
+	QFileOpen
+	QFileOpen -> ErrorShow
+	QFileOpen -> sub_4B1020
+	QFileOpen -> sub_4B11A0
+	QFileOpen -> sub_4B1620
+	QFileOpen -> sub_4B1DE0
+	sub_4B1020
+	sub_4B1020 -> ErrorShow
+	sub_4B11A0
+	sub_4B1620
+	sub_4B1DE0
+	ResourceUnpack
+	sub_4B1690
+	sub_4B1780
+	sub_4B17A0
+	sub_4B17F0
+	sub_4B19C0
+	sub_4B19C0 -> MemoryAlloc
+	sub_4B19C0 -> sub_4AF8F0
+	sub_4BADA0
+	sub_4BADA0 -> sub_4AF960
+	sub_4AF960
+}

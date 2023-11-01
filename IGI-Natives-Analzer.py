@@ -1,12 +1,21 @@
 import os
 import re
 from graphviz import Digraph
-import argparse
+import streamlit as st
 import logging
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Add title and author
+st.title("IGI Natives Analyzer v 1.0")
+st.write("Author: HeavenHM")
+
+# Add dropdown to select statistics or to view graph as image
+option = st.selectbox(
+    'What do you want to see?',
+    ('Statistics', 'Graph'))
 
 def analyze_file(file_path, visited_files=None, graph=None):
     if visited_files is None:
@@ -61,28 +70,43 @@ def analyze_file(file_path, visited_files=None, graph=None):
         func_file_path = os.path.join(directory_path, func_file)
         analyze_file(func_file_path, visited_files, graph)
 
-# Create the parser
-parser = argparse.ArgumentParser(description='Analyze IGI calls.')
-
-# Add an argument for the file path
-parser.add_argument('FilePath', metavar='filepath', type=str, help='the path to the file to analyze')
+     # Return the unique function calls and variables
+    return unique_function_calls, unique_variables
 
 def main():
     try:
-        # Parse the arguments
-        args = parser.parse_args()
+        # Get the input file from the user
+        input_file = st.text_input('Native name:')
+        logger.info(f"User input Native name analyze: {input_file}")
 
-        # Start analysis with the initial file
-        initial_file_path = args.FilePath
-        graph = Digraph(comment='Function Calls')
-        analyze_file(initial_file_path, graph=graph)
+        if st.button('Analyze'):
+            logger.info("Analyze button clicked.")
+            # Append prefix and postfix to the input file
+            input_file = os.path.join('igi-ida-codes', input_file + '.c')
+            logger.info(f"Input file is {input_file}")
+            
+            # Start analysis with the initial file
+            graph = Digraph(comment='Function Calls')
+            logger.info("Starting file analysis.")
+            unique_function_calls, unique_variables = analyze_file(input_file, graph=graph)
 
-        # Save the graph to a file
-        graph_file_path = initial_file_path.replace('.c','') + '_calls_graph'
-        graph.render(graph_file_path, view=True, format='png')
-        
+            # Save the graph to a file
+            graph_file_path = "graphs" + '//' + input_file.replace('.c','') + '_calls_graph'
+            graph.render(graph_file_path, view=False, format='png')
+            logger.info(f"Graph saved to file: {graph_file_path}")
+
+            # Display the graph
+            if option == 'Graph':
+                st.image(graph_file_path + '.png', use_column_width=True)
+                logger.info("Graph displayed.")
+            elif option == 'Statistics':
+                st.write(f"File: {input_file}")
+                st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
+                st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
+
     except Exception as e:
         logger.error(f"An error occurred: {e}")
+        st.error(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     main()

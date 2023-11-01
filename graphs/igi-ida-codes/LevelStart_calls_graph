@@ -1,0 +1,722 @@
+// Function Calls
+digraph {
+	LevelStart
+	LevelStart -> ErrorShow
+	LevelStart -> FileOpen
+	LevelStart -> FramesSet
+	LevelStart -> GameDataSymbolLoad
+	LevelStart -> LevelLoad
+	LevelStart -> LoadingScreenShow
+	LevelStart -> ResourceLoad
+	LevelStart -> SoundLoad
+	LevelStart -> sub_401AE0
+	LevelStart -> sub_402890
+	LevelStart -> sub_4028D0
+	LevelStart -> sub_4028F0
+	LevelStart -> sub_4061C0
+	LevelStart -> sub_4061E0
+	LevelStart -> sub_406390
+	LevelStart -> sub_408390
+	LevelStart -> sub_416010
+	LevelStart -> sub_416130
+	LevelStart -> sub_4161D0
+	LevelStart -> sub_416920
+	LevelStart -> sub_416D40
+	LevelStart -> sub_437500
+	LevelStart -> sub_453270
+	LevelStart -> sub_46B070
+	LevelStart -> sub_485170
+	LevelStart -> sub_485320
+	LevelStart -> sub_4868A0
+	LevelStart -> sub_48A5D0
+	LevelStart -> sub_48A620
+	LevelStart -> sub_497410
+	LevelStart -> sub_497450
+	LevelStart -> sub_4974A0
+	LevelStart -> sub_4B0D50
+	LevelStart -> sub_4B12F0
+	LevelStart -> sub_4B25B0
+	LevelStart -> sub_4B25F0
+	LevelStart -> sub_4B2610
+	LevelStart -> sub_4C5B20
+	LevelStart -> sub_4C5F00
+	LevelStart -> sub_4C6240
+	LevelStart -> sub_4CE830
+	LevelStart -> sub_4CEA60
+	LevelStart -> sub_4CEEA0
+	LevelStart -> sub_4CFBD0
+	LevelStart -> sub_4CFC00
+	LevelStart -> sub_4D2D30
+	LevelStart -> sub_4D9950
+	LevelStart -> sub_4E6060
+	LevelStart -> sub_4E6550
+	LevelStart -> sub_4E7D70
+	LevelStart -> sub_4EDCC0
+	LevelStart -> sub_4F0CB0
+	LevelStart -> sub_4F0CE0
+	LevelStart -> sub_4F65B0
+	LevelStart -> sub_4F65C0
+	LevelStart -> sub_4F65D0
+	LevelStart -> sub_4F80E0
+	ErrorShow
+	ErrorShow -> GameDataSymbolLoad
+	GameDataSymbolLoad
+	FileOpen
+	FramesSet
+	FramesSet -> sub_490370
+	FramesSet -> sub_4E6030
+	sub_490370
+	sub_4E6030
+	sub_4E6030 -> sub_495CC0
+	sub_495CC0
+	LevelLoad
+	LevelLoad -> GameDataSymbolLoad
+	LevelLoad -> sub_4F0D40
+	sub_4F0D40
+	sub_4F0D40 -> CompilerCleanup
+	sub_4F0D40 -> ErrorShow
+	sub_4F0D40 -> LOBYTE
+	sub_4F0D40 -> QtaskUpdateList
+	sub_4F0D40 -> QvmCompile
+	sub_4F0D40 -> QvmLoad
+	sub_4F0D40 -> ScriptInit
+	sub_4F0D40 -> ScriptSetsymbolCxt
+	sub_4F0D40 -> sub_401D80
+	sub_4F0D40 -> sub_4F1A70
+	CompilerCleanup
+	CompilerCleanup -> ResourceUnload
+	CompilerCleanup -> sub_4BD380
+	ResourceUnload
+	ResourceUnload -> ErrorShow
+	sub_4BD380
+	sub_4BD380 -> ResourceFlush
+	sub_4BD380 -> sub_4BACA0
+	ResourceFlush
+	ResourceFlush -> ErrorShow
+	sub_4BACA0
+	sub_4BACA0 -> sub_4AF960
+	sub_4AF960
+	LOBYTE
+	LOBYTE -> HIDWORD
+	LOBYTE -> LODWORD
+	LOBYTE -> sub_4B3130
+	HIDWORD
+	LODWORD
+	sub_4B3130
+	QtaskUpdateList
+	QvmCompile
+	QvmCompile -> ScriptBufInit
+	QvmCompile -> sub_4B7E10
+	QvmCompile -> sub_4BEFC0
+	QvmCompile -> sub_4BF1C0
+	QvmCompile -> sub_4BF1F0
+	ScriptBufInit
+	sub_4B7E10
+	sub_4B7E10 -> ErrorShow
+	sub_4BEFC0
+	sub_4BF1C0
+	sub_4BF1C0 -> sub_4BEFE0
+	sub_4BEFE0
+	sub_4BEFE0 -> sub_4B7E10
+	sub_4BF1F0
+	sub_4BF1F0 -> MemoryAlloc
+	sub_4BF1F0 -> sub_4AF8F0
+	sub_4BF1F0 -> sub_4B7E10
+	sub_4BF1F0 -> sub_4B9CD0
+	sub_4BF1F0 -> sub_4BF390
+	sub_4BF1F0 -> sub_4BF3A0
+	sub_4BF1F0 -> sub_4BF580
+	MemoryAlloc
+	MemoryAlloc -> ErrorShow
+	MemoryAlloc -> sub_4AF8F0
+	sub_4AF8F0
+	sub_4B9CD0
+	sub_4B9CD0 -> sub_4B7E10
+	sub_4B9CD0 -> sub_4B9BE0
+	sub_4B9CD0 -> sub_4BA340
+	sub_4B9CD0 -> sub_4BA380
+	sub_4B9CD0 -> sub_4BA3D0
+	sub_4B9CD0 -> sub_4BA4C0
+	sub_4B9CD0 -> sub_4C0230
+	sub_4B9CD0 -> sub_4C0240
+	sub_4B9BE0
+	sub_4B9BE0 -> sub_4BACA0
+	sub_4BA340
+	sub_4BA380
+	sub_4BA3D0
+	sub_4BA3D0 -> ErrorShow
+	sub_4BA4C0
+	sub_4BA4C0 -> MemoryAlloc
+	sub_4BA4C0 -> sub_4B7E10
+	sub_4BA4C0 -> sub_4B9BE0
+	sub_4BA4C0 -> sub_4B9CD0
+	sub_4BA4C0 -> sub_4C0230
+	sub_4BA4C0 -> sub_4C0240
+	sub_4C0230
+	sub_4C0240
+	sub_4BF390
+	sub_4BF3A0
+	sub_4BF580
+	sub_4BF580 -> sub_4B7E10
+	sub_4BF580 -> sub_4BF1F0
+	sub_4BF580 -> sub_4BF390
+	sub_4BF580 -> sub_4BF3A0
+	sub_4BF580 -> sub_4BF620
+	sub_4BF580 -> sub_4BF850
+	sub_4BF620
+	sub_4BF620 -> MemoryAlloc
+	sub_4BF620 -> sub_4AF8F0
+	sub_4BF620 -> sub_4B7E10
+	sub_4BF620 -> sub_4B9CA0
+	sub_4BF620 -> sub_4BF1F0
+	sub_4BF620 -> sub_4BF3A0
+	sub_4BF620 -> sub_4BFBE0
+	sub_4B9CA0
+	sub_4B9CA0 -> sub_4B9CD0
+	sub_4BFBE0
+	sub_4BFBE0 -> MemoryAlloc
+	sub_4BFBE0 -> sub_4AF8F0
+	sub_4BF850
+	sub_4BF850 -> MemoryAlloc
+	sub_4BF850 -> sub_4B9CA0
+	sub_4BF850 -> sub_4BF1F0
+	sub_4BF850 -> sub_4BF3A0
+	QvmLoad
+	QvmLoad -> CompilerCleanup
+	QvmLoad -> MemoryAlloc
+	QvmLoad -> QvmAssemble
+	QvmLoad -> QvmParse
+	QvmLoad -> ResourceLoad
+	QvmLoad -> sub_48F1D0
+	QvmLoad -> sub_48F340
+	QvmLoad -> sub_4B1AC0
+	QvmLoad -> sub_4B1E90
+	QvmLoad -> sub_4B5B60
+	QvmLoad -> sub_4B6440
+	QvmLoad -> sub_4B6490
+	QvmLoad -> sub_4B7E10
+	QvmLoad -> sub_4B8A10
+	QvmLoad -> sub_4BD220
+	QvmAssemble
+	QvmAssemble -> ErrorShow
+	QvmAssemble -> LogAdd
+	QvmAssemble -> QFileOpen
+	QvmAssemble -> ResourceFlush
+	QvmAssemble -> ResourceLoad
+	QvmAssemble -> ResourcePackUnpack
+	QvmAssemble -> SymbolRemove
+	QvmAssemble -> sub_4AF960
+	QvmAssemble -> sub_4B08A0
+	QvmAssemble -> sub_4B0A80
+	QvmAssemble -> sub_4B1690
+	QvmAssemble -> sub_4B1A30
+	QvmAssemble -> sub_4B1AC0
+	QvmAssemble -> sub_4B5B60
+	QvmAssemble -> sub_4BAE00
+	QvmAssemble -> sub_4BAF30
+	QvmAssemble -> sub_4BB240
+	QvmAssemble -> sub_4BD3F0
+	QvmAssemble -> sub_4BEFC0
+	QvmAssemble -> sub_4BF1C0
+	QvmAssemble -> sub_4C0360
+	QvmAssemble -> sub_4C03C0
+	QvmAssemble -> sub_4C0660
+	QvmAssemble -> sub_4C0680
+	QvmAssemble -> sub_4C0720
+	QvmAssemble -> sub_4C0750
+	QvmAssemble -> sub_4F1D80
+	LogAdd
+	QFileOpen
+	QFileOpen -> ErrorShow
+	QFileOpen -> sub_4B1020
+	QFileOpen -> sub_4B11A0
+	QFileOpen -> sub_4B1620
+	QFileOpen -> sub_4B1DE0
+	sub_4B1020
+	sub_4B1020 -> ErrorShow
+	sub_4B11A0
+	sub_4B1620
+	sub_4B1DE0
+	ResourceLoad
+	ResourceLoad -> ErrorShow
+	ResourceLoad -> ResourcePackUnpack
+	ResourceLoad -> sub_4B1FB0
+	ResourceLoad -> sub_4B5F80
+	ResourcePackUnpack
+	ResourcePackUnpack -> MemoryAlloc
+	ResourcePackUnpack -> QFileOpen
+	ResourcePackUnpack -> ResourceUnpack
+	ResourcePackUnpack -> sub_4B1690
+	ResourcePackUnpack -> sub_4B1780
+	ResourcePackUnpack -> sub_4B17A0
+	ResourcePackUnpack -> sub_4B17F0
+	ResourcePackUnpack -> sub_4B19C0
+	ResourcePackUnpack -> sub_4BADA0
+	ResourceUnpack
+	sub_4B1690
+	sub_4B1780
+	sub_4B17A0
+	sub_4B17F0
+	sub_4B19C0
+	sub_4B19C0 -> MemoryAlloc
+	sub_4B19C0 -> sub_4AF8F0
+	sub_4BADA0
+	sub_4BADA0 -> sub_4AF960
+	sub_4B1FB0
+	sub_4B5F80
+	sub_4B5F80 -> LOBYTE
+	sub_4B5F80 -> sub_4AF8F0
+	sub_4B5F80 -> sub_4B1820
+	sub_4B5F80 -> sub_4B59F0
+	sub_4B5F80 -> sub_4B60F0
+	sub_4B5F80 -> sub_4B7570
+	sub_4B5F80 -> sub_4B7580
+	sub_4B1820
+	sub_4B1820 -> sub_4B1020
+	sub_4B1820 -> sub_4B11A0
+	sub_4B59F0
+	sub_4B59F0 -> sub_4AF8F0
+	sub_4B59F0 -> sub_4B5AF0
+	sub_4B59F0 -> sub_4B5B30
+	sub_4B5AF0
+	sub_4B5B30
+	sub_4B60F0
+	sub_4B60F0 -> ErrorShow
+	sub_4B60F0 -> sub_4AF8F0
+	sub_4B60F0 -> sub_4B59F0
+	sub_4B60F0 -> sub_4B7490
+	sub_4B60F0 -> sub_4B74D0
+	sub_4B60F0 -> sub_4B7540
+	sub_4B60F0 -> sub_4B7570
+	sub_4B60F0 -> sub_4B7580
+	sub_4B7490
+	sub_4B74D0
+	sub_4B7540
+	sub_4B7570
+	sub_4B7580
+	SymbolRemove
+	SymbolRemove -> ErrorShow
+	SymbolRemove -> sub_4AF960
+	SymbolRemove -> sub_4C04B0
+	sub_4C04B0
+	sub_4C04B0 -> sub_4C0530
+	sub_4C0530
+	sub_4B08A0
+	sub_4B08A0 -> sub_4AF9D0
+	sub_4AF9D0
+	sub_4AF9D0 -> LOBYTE
+	sub_4AF9D0 -> sub_4AFF90
+	sub_4AF9D0 -> sub_4AFFB0
+	sub_4AFF90
+	sub_4AFFB0
+	sub_4B0A80
+	sub_4B0A80 -> sub_4B0A10
+	sub_4B0A10
+	sub_4B1A30
+	sub_4B1A30 -> sub_4B1A90
+	sub_4B1A30 -> sub_4BADA0
+	sub_4B1A90
+	sub_4B1A90 -> ErrorShow
+	sub_4B1AC0
+	sub_4B1AC0 -> ErrorShow
+	sub_4B1AC0 -> sub_4B1020
+	sub_4B1AC0 -> sub_4B11A0
+	sub_4B1AC0 -> sub_4B1DE0
+	sub_4B5B60
+	sub_4B5B60 -> sub_4B1FC0
+	sub_4B1FC0
+	sub_4B1FC0 -> QFileOpen
+	sub_4B1FC0 -> sub_4B1690
+	sub_4BAE00
+	sub_4BAE00 -> MemoryAlloc
+	sub_4BAE00 -> SymbolCheck
+	sub_4BAE00 -> sub_4AF8F0
+	sub_4BAE00 -> sub_4BAF30
+	sub_4BAE00 -> sub_4C0620
+	SymbolCheck
+	SymbolCheck -> ErrorShow
+	SymbolCheck -> MemoryAlloc
+	SymbolCheck -> sub_4C04B0
+	SymbolCheck -> sub_4C0530
+	sub_4BAF30
+	sub_4BAF30 -> ErrorShow
+	sub_4C0620
+	sub_4C0620 -> sub_4C04B0
+	sub_4BB240
+	sub_4BB240 -> sub_4C0780
+	sub_4C0780
+	sub_4C0780 -> sub_4AF960
+	sub_4C0780 -> sub_4BF1E0
+	sub_4BF1E0
+	sub_4BD3F0
+	sub_4C0360
+	sub_4C0360 -> MemoryAlloc
+	sub_4C03C0
+	sub_4C03C0 -> sub_4C03F0
+	sub_4C03F0
+	sub_4C03F0 -> sub_4AF960
+	sub_4C0660
+	sub_4C0680
+	sub_4C0680 -> MemoryAlloc
+	sub_4C0680 -> sub_4AF8F0
+	sub_4C0680 -> sub_4AF9D0
+	sub_4C0720
+	sub_4C0750
+	sub_4C0750 -> sub_4AF960
+	sub_4F1D80
+	sub_4F1D80 -> sub_4AF960
+	QvmParse
+	QvmParse -> QFileOpen
+	QvmParse -> ScriptBufInit
+	QvmParse -> sub_4AF8F0
+	QvmParse -> sub_4AF960
+	QvmParse -> sub_4B1690
+	QvmParse -> sub_4B1AC0
+	QvmParse -> sub_4BBE90
+	QvmParse -> sub_4BBEF0
+	QvmParse -> sub_4BBF40
+	QvmParse -> sub_4BD3F0
+	QvmParse -> sub_4BEFC0
+	QvmParse -> sub_4BF1C0
+	QvmParse -> sub_4BF1F0
+	sub_4BBE90
+	sub_4BBE90 -> ErrorShow
+	sub_4BBEF0
+	sub_4BBF40
+	sub_48F1D0
+	sub_48F340
+	sub_4B1E90
+	sub_4B6440
+	sub_4B6440 -> sub_4B1820
+	sub_4B6490
+	sub_4B8A10
+	sub_4BD220
+	sub_4BD220 -> MemoryAlloc
+	sub_4BD220 -> ResourceLoad
+	sub_4BD220 -> ResourceUnload
+	ScriptInit
+	ScriptSetsymbolCxt
+	ScriptSetsymbolCxt -> ErrorShow
+	ScriptSetsymbolCxt -> sub_4BAB80
+	sub_4BAB80
+	sub_4BAB80 -> sub_4C0620
+	sub_401D80
+	sub_4F1A70
+	LoadingScreenShow
+	LoadingScreenShow -> MemoryAlloc
+	LoadingScreenShow -> ResourceFlush
+	LoadingScreenShow -> ResourceLoad
+	LoadingScreenShow -> sub_48A620
+	LoadingScreenShow -> sub_48F2D0
+	LoadingScreenShow -> sub_491CF0
+	LoadingScreenShow -> sub_491DC0
+	LoadingScreenShow -> sub_498370
+	LoadingScreenShow -> sub_498380
+	LoadingScreenShow -> sub_4983D0
+	LoadingScreenShow -> sub_498410
+	LoadingScreenShow -> sub_4B0F90
+	LoadingScreenShow -> sub_4B0FD0
+	LoadingScreenShow -> sub_4B6DB0
+	LoadingScreenShow -> sub_4B6E30
+	sub_48A620
+	sub_48A620 -> sub_491DC0
+	sub_491DC0
+	sub_48F2D0
+	sub_491CF0
+	sub_498370
+	sub_498380
+	sub_498380 -> MemoryAlloc
+	sub_4983D0
+	sub_498410
+	sub_4B0F90
+	sub_4B0F90 -> sub_4B0F30
+	sub_4B0F30
+	sub_4B0FD0
+	sub_4B0FD0 -> sub_4B0F30
+	sub_4B6DB0
+	sub_4B6DB0 -> MemoryAlloc
+	sub_4B6DB0 -> sub_4B7730
+	sub_4B7730
+	sub_4B7730 -> LOWORD
+	sub_4B7730 -> sub_4B6CE0
+	sub_4B7730 -> sub_4B6D20
+	LOWORD
+	LOWORD -> HIDWORD
+	sub_4B6CE0
+	sub_4B6D20
+	sub_4B6E30
+	sub_4B6E30 -> sub_4B66A0
+	sub_4B66A0
+	sub_4B66A0 -> sub_4B22F0
+	sub_4B66A0 -> sub_4B76D0
+	sub_4B22F0
+	sub_4B22F0 -> sub_4B1000
+	sub_4B1000
+	sub_4B76D0
+	SoundLoad
+	SoundLoad -> sub_4B1420
+	sub_4B1420
+	sub_4B1420 -> ErrorShow
+	sub_4B1420 -> sub_4B1020
+	sub_4B1420 -> sub_4B11A0
+	sub_4B1420 -> sub_4B1DE0
+	sub_401AE0
+	sub_402890
+	sub_4028D0
+	sub_4028D0 -> sub_490370
+	sub_4028F0
+	sub_4028F0 -> sub_490370
+	sub_4061C0
+	sub_4061E0
+	sub_406390
+	sub_406390 -> IsPlayerProfileActive
+	sub_406390 -> sub_48F240
+	sub_406390 -> sub_48F260
+	sub_406390 -> sub_499FD0
+	sub_406390 -> sub_4B2710
+	IsPlayerProfileActive
+	sub_48F240
+	sub_48F260
+	sub_499FD0
+	sub_4B2710
+	sub_408390
+	sub_408390 -> sub_4CE3E0
+	sub_4CE3E0
+	sub_416010
+	sub_416010 -> IsPlayerProfileActive
+	sub_416010 -> LOBYTE
+	sub_416010 -> sub_491A90
+	sub_416010 -> sub_491E70
+	sub_491A90
+	sub_491A90 -> sub_48F0A0
+	sub_491A90 -> sub_491A50
+	sub_491A90 -> sub_491CF0
+	sub_491A90 -> sub_491E10
+	sub_491A90 -> sub_4B0F30
+	sub_48F0A0
+	sub_491A50
+	sub_491A50 -> sub_491E20
+	sub_491A50 -> sub_4B0F70
+	sub_491E20
+	sub_4B0F70
+	sub_491E10
+	sub_491E70
+	sub_416130
+	sub_4161D0
+	sub_416920
+	sub_416D40
+	sub_437500
+	sub_453270
+	sub_453270 -> sub_4AF8F0
+	sub_453270 -> sub_4AF960
+	sub_46B070
+	sub_46B070 -> ResourceLoad
+	sub_46B070 -> sub_4B7000
+	sub_4B7000
+	sub_4B7000 -> MemoryAlloc
+	sub_485170
+	sub_485320
+	sub_4868A0
+	sub_4868A0 -> ResourceLoad
+	sub_48A5D0
+	sub_48A5D0 -> sub_491A30
+	sub_48A5D0 -> sub_491E70
+	sub_48A5D0 -> sub_4983D0
+	sub_491A30
+	sub_491A30 -> sub_491E50
+	sub_491E50
+	sub_497410
+	sub_497450
+	sub_4974A0
+	sub_4974A0 -> sub_4974E0
+	sub_4974E0
+	sub_4B0D50
+	sub_4B12F0
+	sub_4B12F0 -> sub_4B11A0
+	sub_4B12F0 -> sub_4B13A0
+	sub_4B13A0
+	sub_4B25B0
+	sub_4B25F0
+	sub_4B2610
+	sub_4C5B20
+	sub_4C5B20 -> MemoryAlloc
+	sub_4C5B20 -> sub_4B0B00
+	sub_4C5B20 -> sub_4C5810
+	sub_4C5B20 -> sub_4C5C90
+	sub_4C5B20 -> sub_4CE620
+	sub_4B0B00
+	sub_4B0B00 -> MemoryAlloc
+	sub_4C5810
+	sub_4C5C90
+	sub_4CE620
+	sub_4CE620 -> LOBYTE
+	sub_4C5F00
+	sub_4C5F00 -> MemoryAlloc
+	sub_4C5F00 -> ResourceLoad
+	sub_4C5F00 -> ResourceUnload
+	sub_4C5F00 -> sub_48F250
+	sub_4C5F00 -> sub_4B23B0
+	sub_4C5F00 -> sub_4B2610
+	sub_4C5F00 -> sub_4B2670
+	sub_4C5F00 -> sub_4B5B60
+	sub_4C5F00 -> sub_4B7CF0
+	sub_4C5F00 -> sub_5175A0
+	sub_48F250
+	sub_4B23B0
+	sub_4B23B0 -> sub_4B0F80
+	sub_4B0F80
+	sub_4B2670
+	sub_4B7CF0
+	sub_4B7CF0 -> sub_4B0F80
+	sub_5175A0
+	sub_5175A0 -> ErrorShow
+	sub_5175A0 -> MemoryAlloc
+	sub_5175A0 -> ResourceLoad
+	sub_5175A0 -> ResourceUnload
+	sub_5175A0 -> sub_4B23B0
+	sub_5175A0 -> sub_4B26A0
+	sub_5175A0 -> sub_4B26B0
+	sub_5175A0 -> sub_4B7CF0
+	sub_4B26A0
+	sub_4B26B0
+	sub_4C6240
+	sub_4C6240 -> CompilerCleanup
+	sub_4C6240 -> GameDefineOptions
+	sub_4C6240 -> MemoryAlloc
+	sub_4C6240 -> QvmCompile
+	sub_4C6240 -> QvmLoad
+	sub_4C6240 -> ResourceLoad
+	sub_4C6240 -> sub_4B5B60
+	sub_4C6240 -> sub_4B8920
+	sub_4C6240 -> sub_4C6760
+	sub_4C6240 -> sub_4CE3D0
+	GameDefineOptions
+	sub_4B8920
+	sub_4B8920 -> sub_4BAB30
+	sub_4BAB30
+	sub_4BAB30 -> ErrorShow
+	sub_4BAB30 -> SymbolRemove
+	sub_4BAB30 -> sub_4BAB80
+	sub_4C6760
+	sub_4C6760 -> sub_4B8A20
+	sub_4B8A20
+	sub_4B8A20 -> ErrorShow
+	sub_4B8A20 -> MemoryAlloc
+	sub_4B8A20 -> sub_4B8A50
+	sub_4B8A20 -> sub_4B8A80
+	sub_4B8A20 -> sub_4EDD20
+	sub_4B8A50
+	sub_4B8A50 -> sub_4B8A20
+	sub_4B8A80
+	sub_4B8A80 -> sub_4B8CE0
+	sub_4B8A80 -> sub_4BD040
+	sub_4B8CE0
+	sub_4B8CE0 -> ErrorShow
+	sub_4B8CE0 -> sub_4B7E10
+	sub_4B8CE0 -> sub_4B9040
+	sub_4B8CE0 -> sub_4BABB0
+	sub_4B9040
+	sub_4B9040 -> sub_4B8CE0
+	sub_4B9040 -> sub_4B9120
+	sub_4B9120
+	sub_4B9120 -> ErrorShow
+	sub_4B9120 -> sub_4B7E10
+	sub_4B9120 -> sub_4B9040
+	sub_4B9120 -> sub_4BABB0
+	sub_4BABB0
+	sub_4BABB0 -> sub_4AF930
+	sub_4BABB0 -> sub_4BAB80
+	sub_4BABB0 -> sub_4BAC30
+	sub_4AF930
+	sub_4BAC30
+	sub_4BAC30 -> MemoryAlloc
+	sub_4BAC30 -> sub_4AF8F0
+	sub_4BD040
+	sub_4BD040 -> sub_4BCAE0
+	sub_4BCAE0
+	sub_4BCAE0 -> ErrorShow
+	sub_4BCAE0 -> LODWORD
+	sub_4BCAE0 -> sub_4BCC00
+	sub_4BCAE0 -> sub_4BCEC0
+	sub_4BCAE0 -> sub_4BCFD0
+	sub_4BCC00
+	sub_4BCC00 -> sub_4BCCC0
+	sub_4BCC00 -> sub_4BCD90
+	sub_4BCCC0
+	sub_4BCCC0 -> ErrorShow
+	sub_4BCD90
+	sub_4BCD90 -> sub_4BAB80
+	sub_4BCD90 -> sub_4BCC00
+	sub_4BCD90 -> sub_4BCCC0
+	sub_4BCEC0
+	sub_4BCEC0 -> LODWORD
+	sub_4BCEC0 -> sub_4BCCC0
+	sub_4BCEC0 -> sub_4BCD90
+	sub_4BCFD0
+	sub_4EDD20
+	sub_4EDD20 -> ErrorShow
+	sub_4EDD20 -> MemoryAlloc
+	sub_4EDD20 -> sub_4B8A20
+	sub_4EDD20 -> sub_4B8A50
+	sub_4EDD20 -> sub_4B8A80
+	sub_4CE3D0
+	sub_4CE830
+	sub_4CE830 -> LOBYTE
+	sub_4CE830 -> sub_4CE910
+	sub_4CE830 -> sub_4E5CA0
+	sub_4CE910
+	sub_4CE910 -> sub_4E53C0
+	sub_4CE910 -> sub_4E54E0
+	sub_4E53C0
+	sub_4E53C0 -> MemoryAlloc
+	sub_4E53C0 -> sub_4C7770
+	sub_4C7770
+	sub_4C7770 -> LOBYTE
+	sub_4C7770 -> LOWORD
+	sub_4C7770 -> sub_4CE5C0
+	sub_4C7770 -> sub_4CE620
+	sub_4C7770 -> sub_4E5580
+	sub_4C7770 -> sub_4E5BA0
+	sub_4CE5C0
+	sub_4CE5C0 -> sub_4C7750
+	sub_4CE5C0 -> sub_4CE530
+	sub_4C7750
+	sub_4CE530
+	sub_4E5580
+	sub_4E5BA0
+	sub_4E54E0
+	sub_4E5CA0
+	sub_4CEA60
+	sub_4CEEA0
+	sub_4CFBD0
+	sub_4CFC00
+	sub_4D2D30
+	sub_4D9950
+	sub_4E6060
+	sub_4E6550
+	sub_4E6550 -> GameDataSymbolLoad
+	sub_4E6550 -> sub_4012A0
+	sub_4E6550 -> sub_4E65D0
+	sub_4012A0
+	sub_4012A0 -> sub_4012F0
+	sub_4012A0 -> sub_4AF8F0
+	sub_4012F0
+	sub_4012F0 -> MemoryAlloc
+	sub_4E65D0
+	sub_4E65D0 -> sub_4012A0
+	sub_4E7D70
+	sub_4E7D70 -> sub_4EBBA0
+	sub_4EBBA0
+	sub_4EBBA0 -> sub_4012A0
+	sub_4EDCC0
+	sub_4EDCC0 -> LOBYTE
+	sub_4EDCC0 -> sub_401D80
+	sub_4EDCC0 -> sub_4F1A70
+	sub_4F0CB0
+	sub_4F0CB0 -> sub_4012A0
+	sub_4F0CE0
+	sub_4F65B0
+	sub_4F65C0
+	sub_4F65D0
+	sub_4F80E0
+}

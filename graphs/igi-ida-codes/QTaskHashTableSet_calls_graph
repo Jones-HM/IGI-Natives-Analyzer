@@ -1,0 +1,25 @@
+// Function Calls
+digraph {
+	QTaskHashTableSet
+	QTaskHashTableSet -> MemoryAlloc
+	QTaskHashTableSet -> QhashInit
+	QTaskHashTableSet -> QhashReset
+	QTaskHashTableSet -> SymbolCheck
+	MemoryAlloc
+	MemoryAlloc -> ErrorShow
+	MemoryAlloc -> sub_4AF8F0
+	ErrorShow
+	ErrorShow -> GameDataSymbolLoad
+	GameDataSymbolLoad
+	sub_4AF8F0
+	QhashInit
+	QhashReset
+	SymbolCheck
+	SymbolCheck -> ErrorShow
+	SymbolCheck -> MemoryAlloc
+	SymbolCheck -> sub_4C04B0
+	SymbolCheck -> sub_4C0530
+	sub_4C04B0
+	sub_4C04B0 -> sub_4C0530
+	sub_4C0530
+}

@@ -1,0 +1,14 @@
+// Function Calls
+digraph {
+	IsResourceLoaded
+	IsResourceLoaded -> sub_4B1020
+	IsResourceLoaded -> sub_4B5AF0
+	IsResourceLoaded -> sub_4B5B30
+	sub_4B1020
+	sub_4B1020 -> ErrorShow
+	ErrorShow
+	ErrorShow -> GameDataSymbolLoad
+	GameDataSymbolLoad
+	sub_4B5AF0
+	sub_4B5B30
+}

@@ -1,0 +1,19 @@
+// Function Calls
+digraph {
+	MusicUpdateVolume
+	MusicUpdateVolume -> MusicSetSfxVolume
+	MusicUpdateVolume -> MusicSetVolume
+	MusicUpdateVolume -> sub_4062C0
+	MusicUpdateVolume -> sub_4062D0
+	MusicSetSfxVolume
+	MusicSetVolume
+	MusicSetVolume -> LODWORD
+	MusicSetVolume -> sub_495C10
+	LODWORD
+	sub_495C10
+	sub_4062C0
+	sub_4062C0 -> IsPlayerProfileActive
+	IsPlayerProfileActive
+	sub_4062D0
+	sub_4062D0 -> IsPlayerProfileActive
+}
