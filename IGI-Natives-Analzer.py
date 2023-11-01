@@ -4,16 +4,34 @@ from graphviz import Digraph
 import streamlit as st
 import logging
 
+logger = None
+
 # Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+def setup_logger():
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
 
-# Add title and author
-st.title("IGI Natives Analyzer v 1.0")
-st.write("Author: HeavenHM")
+    # create a file handler
+    handler = logging.FileHandler('igi-natives-analyzer.log')
+    handler.setLevel(logging.INFO)
 
-# Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code
-option_menu = st.selectbox('',('Statistics', 'Graph', 'Source Code'))
+    # create a logging format
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+
+    # add the handlers to the logger
+    logger.addHandler(handler)
+
+    return logger
+
+# Method to read NativesResolved
+def read_natives_resolved():
+    try:
+        with open('NativesResolvedList.txt', 'r') as file:
+            return file.read().splitlines()
+    except Exception as e:
+        logger.error(f"Error reading NativesResolvedList.txt: {e}")
+        return []
 
 def analyze_file(file_path, visited_files=None, graph=None):
     if visited_files is None:
@@ -73,35 +91,66 @@ def analyze_file(file_path, visited_files=None, graph=None):
 
 def main():
     try:
-        # Get the input file and type from the user
-        input_file = st.text_input('Native name:','FramesSet')
+        global logger
+        # Call the function to setup logger
+        logger = setup_logger()
 
+        # Add title and author
+        st.title("IGI Natives Analyzer v 1.0")
+        st.write("Author: HeavenHM")
+
+        # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code
+        option_menu = st.selectbox('',('Statistics', 'Graph', 'Source Code'))
+
+        natives_resolved = read_natives_resolved()
+        natives_resolved_menu = st.selectbox('Select Native:', natives_resolved)
+
+        # Get the input from the user
+        input_value = st.text_input('Set Name/Address :',natives_resolved_menu)
+
+        # Check if the input is an address or starts with 'sub_'
+        if input_value.startswith('0x') or input_value.startswith('00') or input_value.startswith('sub_') or input_value.isdigit():
+            # Remove '0x' or '00' or 'sub_' prefix if it exists
+            address = input_value[2:] if input_value.startswith('0x') or input_value.startswith('00') else input_value[4:] if input_value.startswith('sub_') else input_value
+            # Remove leading zeros
+            address = address.lstrip('0')
+            # Make the address all hex uppercase
+            address = address.upper()
+            native_name = 'sub_' + address
+        else:
+            # Convert the input to CamelCase
+            native_name = ''.join(word[0].upper() + word[1:].lower() for word in input_value.split())
+    
+        # Append prefix and postfix to the input file based on the selected type
         if option_menu == 'Source Code':
             input_type = st.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
-            logger.info(f"User input Native name: {input_file}, code type: {input_type}")
-            
-            # Append prefix and postfix to the input file based on the selected type
+            logger.info(f"User input: {input_value}, code type: {input_type}")
+
             if input_type == 'C++ Code':
-                input_file = os.path.join('code-cpp', input_file + '.c')
+                native_name = os.path.join('code-cpp', native_name + '.c')
             elif input_type == 'Assembly Code':
-                input_file = os.path.join('code-assembly', input_file + '.asm')
-            logger.info(f"Input file is {input_file}")
+                native_name = os.path.join('code-assembly', native_name + '.asm')
+            logger.info(f"Input file is {native_name}")
         else:
-            input_file = os.path.join('code-cpp', input_file + '.c')
-                
+            if not native_name.endswith('.c'):
+                native_name = os.path.join('code-cpp', native_name + '.c')
+            else:
+                native_name = os.path.join('code-cpp', native_name)
+        # ...
+
         # Check if the file exists
-        if not os.path.isfile(input_file):
-            logger.error(f"Invalid Native provided: {input_file} does not exist.")
-            st.error(f"Invalid Native provided: {input_file} does not exist.")
+        if not os.path.isfile(native_name):
+            logger.error(f"Invalid Native provided: {native_name} does not exist.")
+            st.error(f"Invalid Native provided: {native_name} does not exist.")
             return
-            
+
         # Start analysis with the initial file
         graph = Digraph(comment='Function Calls', format='png', engine='dot')
         logger.info("Starting file analysis.")
-        unique_function_calls, unique_variables, content = analyze_file(input_file, graph=graph)
+        unique_function_calls, unique_variables, content = analyze_file(native_name, graph=graph)
 
         # Save the graph to a file
-        graph_file_path = "graphs" + '//' + input_file.replace('.c','') + '_calls_graph'
+        graph_file_path = "graphs" + '//' + native_name.replace('.c','') + '_calls_graph'
         graph.render(graph_file_path, view=False, format='png')
         logger.info(f"Graph saved to file: {graph_file_path}")
 
@@ -110,14 +159,14 @@ def main():
             st.image(graph_file_path + '.png', use_column_width=True)
             logger.info("Graph displayed.")
         elif option_menu == 'Statistics':
-            st.write(f"File: {input_file}")
+            st.write(f"File: {native_name}")
             st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
             st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
         elif option_menu == 'Source Code':
             st.code(content, language='c')
             logger.info("Source code displayed.")
         elif option_menu == 'Assembly Code':
-            asm_file = os.path.join('code-assembly', input_file.replace('.c', '.asm'))
+            asm_file = os.path.join('code-assembly', native_name.replace('.c', '.asm'))
             if os.path.isfile(asm_file):
                 with open(asm_file, 'r', encoding='utf-8', errors='ignore') as file:
                     asm_content = file.read()
