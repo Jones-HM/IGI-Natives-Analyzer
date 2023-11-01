@@ -1,0 +1,10 @@
+// Function Calls
+digraph {
+	FramesSet [shape=box]
+	FramesSet -> sub_490370
+	FramesSet -> sub_4E6030
+	sub_490370 [shape=box]
+	sub_4E6030 [shape=box]
+	sub_4E6030 -> sub_495CC0
+	sub_495CC0 [shape=box]
+}

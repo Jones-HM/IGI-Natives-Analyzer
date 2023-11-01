@@ -1,1 +1,0 @@
-ConfigCompile	.text	004F0CF0	0000004F	00000008	0000000C	R	.	.	.	.	.	.	T	.

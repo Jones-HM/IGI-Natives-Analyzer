@@ -1,4 +1,0 @@
-void nullsub_2()
-{
-  ;
-}

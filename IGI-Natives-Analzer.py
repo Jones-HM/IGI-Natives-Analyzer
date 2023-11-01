@@ -12,10 +12,10 @@ logger = logging.getLogger(__name__)
 st.title("IGI Natives Analyzer v 1.0")
 st.write("Author: HeavenHM")
 
-# Add dropdown to select statistics or to view graph as image
+# Add dropdown to select statistics, to view graph as image or to view source code
 option = st.selectbox(
     'What do you want to see?',
-    ('Statistics', 'Graph'))
+    ('Statistics', 'Graph', 'Source Code'))
 
 def analyze_file(file_path, visited_files=None, graph=None):
     if visited_files is None:
@@ -71,7 +71,7 @@ def analyze_file(file_path, visited_files=None, graph=None):
         analyze_file(func_file_path, visited_files, graph)
 
      # Return the unique function calls and variables
-    return unique_function_calls, unique_variables
+    return unique_function_calls, unique_variables, content
 
 def main():
     try:
@@ -79,36 +79,37 @@ def main():
         input_file = st.text_input('Native name:')
         logger.info(f"User input Native name analyze: {input_file}")
 
-        if st.button('Analyze'):
-            logger.info("Analyze button clicked.")
-            # Append prefix and postfix to the input file
-            input_file = os.path.join('igi-ida-codes', input_file + '.c')
-            logger.info(f"Input file is {input_file}")
+        # Append prefix and postfix to the input file
+        input_file = os.path.join('igi-ida-codes', input_file + '.c')
+        logger.info(f"Input file is {input_file}")
 
-            # Check if the file exists
-            if not os.path.isfile(input_file):
-                logger.error(f"Invalid Native provided: {input_file} does not exist.")
-                st.error(f"Invalid Native provided: {input_file} does not exist.")
-                return
+        # Check if the file exists
+        if not os.path.isfile(input_file):
+            logger.error(f"Invalid Native provided: {input_file} does not exist.")
+            st.error(f"Invalid Native provided: {input_file} does not exist.")
+            return
             
-            # Start analysis with the initial file
-            graph = Digraph(comment='Function Calls', format='png', engine='dot')
-            logger.info("Starting file analysis.")
-            unique_function_calls, unique_variables = analyze_file(input_file, graph=graph)
+        # Start analysis with the initial file
+        graph = Digraph(comment='Function Calls', format='png', engine='dot')
+        logger.info("Starting file analysis.")
+        unique_function_calls, unique_variables, content = analyze_file(input_file, graph=graph)
 
-            # Save the graph to a file
-            graph_file_path = "graphs" + '//' + input_file.replace('.c','') + '_calls_graph'
-            graph.render(graph_file_path, view=False, format='png')
-            logger.info(f"Graph saved to file: {graph_file_path}")
+        # Save the graph to a file
+        graph_file_path = "graphs" + '//' + input_file.replace('.c','') + '_calls_graph'
+        graph.render(graph_file_path, view=False, format='png')
+        logger.info(f"Graph saved to file: {graph_file_path}")
 
-            # Display the graph
-            if option == 'Graph':
-                st.image(graph_file_path + '.png', use_column_width=True)
-                logger.info("Graph displayed.")
-            elif option == 'Statistics':
-                st.write(f"File: {input_file}")
-                st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
-                st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
+        # Display the graph
+        if option == 'Graph':
+            st.image(graph_file_path + '.png', use_column_width=True)
+            logger.info("Graph displayed.")
+        elif option == 'Statistics':
+            st.write(f"File: {input_file}")
+            st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
+            st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
+        elif option == 'Source Code':
+            st.code(content, language='c')
+            logger.info("Source code displayed.")
 
     except Exception as exception:
         logger.error(f"An error occurred: {exception}")

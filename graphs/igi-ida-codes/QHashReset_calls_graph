@@ -1,0 +1,6 @@
+// Function Calls
+digraph {
+	QHashReset [shape=box]
+	QHashReset -> QhashReset
+	QhashReset [shape=box]
+}
