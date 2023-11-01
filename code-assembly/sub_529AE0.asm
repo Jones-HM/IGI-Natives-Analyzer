@@ -1,0 +1,80 @@
+mov     eax, [esp+arg_4]
+mov     cl, 1
+push    ebx
+mov     dl, 80h
+mov     [eax+0D4h], cl
+mov     bl, byte_C28C7F
+test    dl, bl
+push    esi
+jnz     short loc_529B06
+test    byte_C28CFF, dl
+jz      loc_529BC6
+mov     bl, byte_C28C8C
+lea     ecx, [eax+1B8h]
+test    dl, bl
+jnz     short loc_529B1E
+test    byte_C28C98, dl
+jz      short loc_529B24
+lea     ecx, [eax+1BCh]
+test    byte_C28C6D, dl
+jz      short loc_529B34
+mov     esi, [eax+0D8h]
+mov     [ecx], esi
+test    byte_C28C64, dl
+jz      short loc_529B44
+mov     esi, [eax+0DCh]
+mov     [ecx], esi
+test    byte_C28C65, dl
+jz      short loc_529B54
+mov     esi, [eax+0E0h]
+mov     [ecx], esi
+test    byte_C28C66, dl
+jz      short loc_529B64
+mov     esi, [eax+0E4h]
+mov     [ecx], esi
+test    byte_C28C67, dl
+jz      short loc_529B74
+mov     esi, [eax+0E8h]
+mov     [ecx], esi
+test    byte_C28C68, dl
+jz      short loc_529B84
+mov     esi, [eax+0ECh]
+mov     [ecx], esi
+test    byte_C28C69, dl
+jz      short loc_529B94
+mov     esi, [eax+0F0h]
+mov     [ecx], esi
+test    byte_C28C6A, dl
+jz      short loc_529BA4
+mov     esi, [eax+0F4h]
+mov     [ecx], esi
+test    byte_C28C6B, dl
+jz      short loc_529BB4
+mov     esi, [eax+0F8h]
+mov     [ecx], esi
+test    byte_C28C6C, dl
+jz      short loc_529BC4
+mov     esi, [eax+0FCh]
+mov     [ecx], esi
+mov     cl, 1
+test    byte_C28C6C, dl
+jz      short loc_529BD8
+mov     dword ptr [eax+1F0h], 0
+test    byte_C28C91, dl
+jz      short loc_529BEE
+test    byte_C28D91, dl
+jnz     short loc_529BEE
+xor     [eax+214h], cl
+test    byte_C28C92, dl
+jz      short loc_529C04
+test    byte_C28D92, dl
+jnz     short loc_529C04
+xor     [eax+215h], cl
+test    byte_C28C93, dl
+jz      short loc_529C1A
+test    byte_C28D93, dl
+jnz     short loc_529C1A
+xor     [eax+216h], cl
+pop     esi
+pop     ebx
+retn

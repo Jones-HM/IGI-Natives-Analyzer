@@ -1,0 +1,24 @@
+mov     eax, [esp+arg_4]
+mov     edx, 8000h
+xor     ecx, ecx
+mov     [eax+38h], dx
+mov     [eax+3Ah], dx
+mov     edx, [esp+arg_8]
+mov     [eax+30h], cl
+mov     [eax+4], edx
+mov     edx, [esp+arg_C]
+mov     [eax], edx
+mov     edx, [esp+arg_10]
+mov     [eax+8], ecx
+mov     [eax+0Ch], ecx
+mov     [eax+10h], ecx
+mov     [eax+14h], ecx
+mov     [eax+18h], ecx
+mov     [eax+1Ch], ecx
+mov     [eax+20h], ecx
+mov     [eax+24h], ecx
+mov     [eax+28h], ecx
+mov     [eax+2Ch], ecx
+mov     [eax+34h], edx
+mov     [eax+3Ch], ecx
+retn

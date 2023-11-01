@@ -1,0 +1,24 @@
+mov     eax, [esp+arg_0]
+mov     ecx, [esp+arg_4]
+mov     edx, [esp+arg_8]
+mov     [eax], ecx
+mov     ecx, [esp+arg_C]
+mov     [eax+1Ch], edx
+mov     edx, [esp+arg_10]
+mov     [eax+20h], ecx
+mov     ecx, [esp+arg_14]
+mov     [eax+24h], edx
+mov     edx, [esp+arg_18]
+mov     [eax+28h], ecx
+mov     ecx, [esp+arg_1C]
+mov     [eax+4], edx
+mov     edx, [esp+arg_20]
+mov     [eax+8], ecx
+mov     ecx, [esp+arg_24]
+mov     [eax+0Ch], edx
+mov     edx, [esp+arg_28]
+mov     [eax+10h], ecx
+mov     ecx, [esp+arg_2C]
+mov     [eax+14h], edx
+mov     [eax+18h], ecx
+retn

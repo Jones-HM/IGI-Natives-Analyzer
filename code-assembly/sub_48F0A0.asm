@@ -1,0 +1,2 @@
+mov     eax, hWnd
+retn

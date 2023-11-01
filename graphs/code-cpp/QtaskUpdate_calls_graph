@@ -1,0 +1,15 @@
+// Function Calls
+digraph {
+	QtaskUpdate [shape=box]
+	QtaskUpdate -> QtaskUpdateList
+	QtaskUpdate -> sub_401780
+	QtaskUpdateList [shape=box]
+	sub_401780 [shape=box]
+	sub_401780 -> sub_4015F0
+	sub_4015F0 [shape=box]
+	sub_4015F0 -> QtaskUpdateList
+	sub_4015F0 -> sub_4C48C0
+	sub_4015F0 -> sub_4CEA20
+	sub_4C48C0 [shape=box]
+	sub_4CEA20 [shape=box]
+}

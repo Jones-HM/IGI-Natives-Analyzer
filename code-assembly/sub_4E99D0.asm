@@ -1,0 +1,35 @@
+mov     eax, [esp+arg_0]
+mov     edx, 3F800000h
+xor     ecx, ecx
+mov     [eax+0B8h], edx
+mov     [eax+0BCh], edx
+mov     [eax+0C0h], edx
+mov     [eax+0C8h], edx
+mov     [eax+0CCh], edx
+or      edx, 0FFFFFFFFh
+mov     [eax+0A0h], ecx
+mov     [eax+0A8h], ecx
+mov     [eax+0B0h], ecx
+mov     [eax+88h], ecx
+mov     [eax+90h], ecx
+mov     [eax+98h], ecx
+mov     [eax+0A4h], ecx
+mov     [eax+0ACh], ecx
+mov     [eax+0B4h], ecx
+mov     [eax+8Ch], ecx
+mov     [eax+94h], ecx
+mov     [eax+9Ch], ecx
+mov     [eax+0C4h], ecx
+mov     dword ptr [eax+12Ch], 0BF800000h
+mov     [eax+0D0h], edx
+mov     [eax+0D4h], edx
+mov     [eax+0D8h], edx
+mov     [eax+0DCh], edx
+mov     [eax+0E0h], cl
+mov     [eax+0E1h], cl
+mov     [eax+0E2h], cl
+mov     [eax+0E3h], cl
+mov     [eax+103h], cl
+mov     [eax+130h], ecx
+mov     [eax+134h], ecx
+retn

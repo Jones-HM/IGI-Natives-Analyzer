@@ -1,0 +1,19 @@
+call    unknown_libname_27; Microsoft VisualC 2-14/net runtime
+call    sub_4E6070
+call    sub_4EBC60
+call    sub_4EB1D0
+call    sub_4E8390
+call    sub_4EA3D0
+call    sub_4E9520
+call    sub_4E7370
+call    sub_4E7D90
+call    sub_4E82C0
+call    sub_4E7C50
+call    sub_5310E0
+call    sub_4E7840
+call    sub_4E92C0
+call    sub_4E9480
+call    sub_530C80
+call    sub_531190
+call    sub_530A80
+jmp     loc_4A2A00

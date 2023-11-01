@@ -12,10 +12,8 @@ logger = logging.getLogger(__name__)
 st.title("IGI Natives Analyzer v 1.0")
 st.write("Author: HeavenHM")
 
-# Add dropdown to select statistics, to view graph as image or to view source code
-option = st.selectbox(
-    'What do you want to see?',
-    ('Statistics', 'Graph', 'Source Code'))
+# Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code
+option_menu = st.selectbox('',('Statistics', 'Graph', 'Source Code'))
 
 def analyze_file(file_path, visited_files=None, graph=None):
     if visited_files is None:
@@ -75,14 +73,22 @@ def analyze_file(file_path, visited_files=None, graph=None):
 
 def main():
     try:
-        # Get the input file from the user
-        input_file = st.text_input('Native name:')
-        logger.info(f"User input Native name analyze: {input_file}")
+        # Get the input file and type from the user
+        input_file = st.text_input('Native name:','FramesSet')
 
-        # Append prefix and postfix to the input file
-        input_file = os.path.join('igi-ida-codes', input_file + '.c')
-        logger.info(f"Input file is {input_file}")
-
+        if option_menu == 'Source Code':
+            input_type = st.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
+            logger.info(f"User input Native name: {input_file}, code type: {input_type}")
+            
+            # Append prefix and postfix to the input file based on the selected type
+            if input_type == 'C++ Code':
+                input_file = os.path.join('code-cpp', input_file + '.c')
+            elif input_type == 'Assembly Code':
+                input_file = os.path.join('code-assembly', input_file + '.asm')
+            logger.info(f"Input file is {input_file}")
+        else:
+            input_file = os.path.join('code-cpp', input_file + '.c')
+                
         # Check if the file exists
         if not os.path.isfile(input_file):
             logger.error(f"Invalid Native provided: {input_file} does not exist.")
@@ -100,16 +106,26 @@ def main():
         logger.info(f"Graph saved to file: {graph_file_path}")
 
         # Display the graph
-        if option == 'Graph':
+        if option_menu == 'Graph':
             st.image(graph_file_path + '.png', use_column_width=True)
             logger.info("Graph displayed.")
-        elif option == 'Statistics':
+        elif option_menu == 'Statistics':
             st.write(f"File: {input_file}")
             st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
             st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
-        elif option == 'Source Code':
+        elif option_menu == 'Source Code':
             st.code(content, language='c')
             logger.info("Source code displayed.")
+        elif option_menu == 'Assembly Code':
+            asm_file = os.path.join('code-assembly', input_file.replace('.c', '.asm'))
+            if os.path.isfile(asm_file):
+                with open(asm_file, 'r', encoding='utf-8', errors='ignore') as file:
+                    asm_content = file.read()
+                st.code(asm_content, language='asm')
+                logger.info("Assembly code displayed.")
+            else:
+                logger.error(f"Assembly file {asm_file} does not exist.")
+                st.error(f"Assembly file {asm_file} does not exist.")
 
     except Exception as exception:
         logger.error(f"An error occurred: {exception}")
