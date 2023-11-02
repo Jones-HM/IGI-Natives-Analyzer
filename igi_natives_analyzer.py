@@ -1,40 +1,10 @@
 import io
 import os
 import re
-import json
 from graphviz import Digraph
 import streamlit as st
 from libs.logger import setup_logger
-
-def format_c_code(code):
-    try:
-        formatted_code = ''
-        indent = 0
-        for char in code:
-            if char == '{':
-                formatted_code += ' {' + '  ' * indent
-                indent += 1
-            elif char == '}':
-                indent -= 1
-                formatted_code += '' + '  ' * indent + '}'
-            elif char == ';':
-                formatted_code += ';' + '  ' * indent
-            else:
-                formatted_code += char
-        with open('temp.c', 'w') as file:
-            file.write(formatted_code.strip())
-            
-    except Exception as exception:
-        raise Exception(f"Error formatting C code: {exception}")
-    
-    
-def read_json(file_path):
-    try:
-        with open(file_path, 'r') as file:
-            return json.load(file)
-    except Exception as exception:
-        st.session_state.logger.error(f"Error reading file {file_path}: {str(exception)}")
-        return None
+from libs.utils import format_code,read_json
 
 def get_native_code(native_codes, native_name):
     st.session_state.logger.info(f"Attempting to retrieve native code for: {native_name}")
@@ -226,7 +196,7 @@ def main():
         if st.sidebar.button('Explain Code') and option_menu == 'Source':
             from libs.natives_decompiler import simplify_source_code,simplify_assembly_code
             if code_type == 'Source':
-                format_c_code(st.session_state.source_code)  # Format the code
+                format_code(st.session_state.source_code)  # Format the code
                 simplified_code = simplify_source_code(native_name,"temp.c")
                 st.session_state.simplified_code = ''.join(simplified_code)  # Join the list of strings into a single string
                 try:
