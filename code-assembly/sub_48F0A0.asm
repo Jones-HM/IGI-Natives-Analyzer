@@ -1,2 +1,0 @@
-mov     eax, hWnd
-retn

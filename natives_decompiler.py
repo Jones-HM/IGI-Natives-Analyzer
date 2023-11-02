@@ -1,51 +1,50 @@
 import random
 import re
-from logger import setup_logger
+import streamlit as st
+logger = st.session_state.logger
 
-def simplify_source_code(file_name:str):
-    logger = setup_logger()
-    logger.info(f"Starting to simplify source code {file_name}")
-
-    method_mappings = {'qmemcpy': 'memcpy'}
-    variable_mappings = {}
-    native_notes = {}
-    notes_file = 'NativesNotes.txt'
-    
-    # Read the notes from the notes file
+def read_notes(notes_file:str):
+    logger = st.session_state.logger
     logger.info("Reading notes from the notes file")
+    native_notes = {}
     with open(notes_file, 'r') as file:
         for line in file:
             if ': ' in line:
                 native_name, note = line.strip().split(': ', 1)
                 native_notes[native_name] = note
     logger.info(f"Native notes size {len(native_notes)}")
-    
-    logger.info("Opening the file to be simplified")
-    with open(file_name, 'r') as file:
-        code = file.readlines()
+    return native_notes
 
-    # Extract variable names and their desired names from comments
+def extract_variable_names(code:list):
+    logger = st.session_state.logger
     logger.info("Extracting variable names and their desired names from comments")
+    variable_mappings = {}
     comments = re.findall(r'(\b\w+)\s*;\s*//\s*(\w+)', '\n'.join(code))
     for var, name in comments:
         variable_mappings[var] = name
+    return variable_mappings
 
-    # Extract method names
+def extract_method_names(code:list):
     logger.info("Extracting method names")
     methods = set(re.findall(r'\b(sub_[A-F0-9]+)\b', '\n'.join(code)))
+    return methods
 
-    # Generate meaningful names for methods based on some heuristic
+def generate_method_names(methods:set):
     logger.info("Generating meaningful names for methods")
+    method_mappings = {}
     for method in methods:
         readable_name = method.replace('sub_', 'function_')  # replace 'sub_' with 'function_'
         method_mappings[method] = readable_name
+    return method_mappings
 
-    # Extract global variable names
+def extract_global_variables(code:list):
     logger.info("Extracting global variable names")
     global_variables = set(re.findall(r'\b(dword|byte)_[A-F0-9]+\b', '\n'.join(code)))
+    return global_variables
 
-    # Generate readable names for global variables
+def generate_variable_names(global_variables:set):
     logger.info("Generating readable names for global variables")
+    variable_mappings = {}
     for global_var in global_variables:
         if 'dword' in global_var:
             readable_name = 'variable_' + global_var.replace('dword_', '')  # replace 'dword_' with 'variable_'
@@ -53,6 +52,22 @@ def simplify_source_code(file_name:str):
         elif 'byte' in global_var:
             readable_name = 'variable_' + global_var.replace('byte_', '')  # replace 'byte_' with 'variable_'
             variable_mappings[global_var] = readable_name
+    return variable_mappings
+
+def simplify_source_code(native_name,file_name:str):
+
+    logger.info(f"Starting to simplify source code {file_name}")
+
+    notes_file = 'NativesData/NativesNotes.txt'
+    native_notes = read_notes(notes_file)
+    
+    logger.info("Opening the file to be simplified")
+    with open(file_name, 'r') as file:
+        code = file.readlines()
+
+    variable_mappings = extract_variable_names(code)
+    method_mappings = generate_method_names(extract_method_names(code))
+    variable_mappings.update(generate_variable_names(extract_global_variables(code)))
 
     simplified_code = []
     simplified_notes = []
@@ -62,7 +77,6 @@ def simplify_source_code(file_name:str):
     
     # Look up the note for each native name
     # Extract native name from the file name using regex
-    native_name = re.search(r'code-cpp/(.*).c', file_name).group(1)
     logger.info(f"Processing native name: {native_name}")
     if native_name in native_notes:
         note = native_notes[native_name]

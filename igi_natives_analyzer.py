@@ -1,53 +1,91 @@
 import io
-import os
 import re
+import json
 from graphviz import Digraph
 import streamlit as st
 from logger import setup_logger
 
-logger = None
-from natives_decompiler import simplify_source_code
+def format_c_code(code):
+    try:
+        formatted_code = ''
+        indent = 0
+        for char in code:
+            if char == '{':
+                formatted_code += ' {' + '  ' * indent
+                indent += 1
+            elif char == '}':
+                indent -= 1
+                formatted_code += '' + '  ' * indent + '}'
+            elif char == ';':
+                formatted_code += ';' + '  ' * indent
+            else:
+                formatted_code += char
+        with open('temp.c', 'w') as file:
+            file.write(formatted_code.strip())
+            
+    except Exception as exception:
+        raise Exception(f"Error formatting C code: {exception}")
+    
+    
+def read_json(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return json.load(file)
+    except Exception as exception:
+        st.session_state.logger.error(f"Error reading file {file_path}: {str(exception)}")
+        return None
+
+def get_native_code(native_codes, native_name):
+    st.session_state.logger.info(f"Attempting to retrieve native code for: {native_name}")
+    try:
+        for native_code in native_codes:
+            if isinstance(native_code, dict) and native_code['NativeName'] == native_name:
+                st.session_state.logger.info(f"Native code for {native_name} retrieved successfully.")
+                return native_code
+    except Exception as exception:
+        st.session_state.logger.error(f"Error retrieving native code: {str(exception)}")
+    st.session_state.logger.info(f"Native code for {native_name} could not be retrieved.")
+    return None
 
 # Method to read NativesResolved
 def read_natives_resolved():
     try:
-        with open('NativesResolvedList.txt', 'r') as file:
-            return file.read().splitlines()
+        data = read_json('NativesData/NativesResolvedList.json')
+        return data['Natives']
     except Exception as e:
-        logger.error(f"Error reading NativesResolvedList.txt: {e}")
+        st.session_state.logger.error(f"Error reading NativesResolvedList.json: {e}")
         return []
 
-def analyze_file(file_path, visited_files=None, graph=None):
+def analyze_file(native_code, native_codes, visited_files=None, graph=None):
+    if not isinstance(native_code, dict):
+        st.session_state.logger.error(f"Invalid native code: {native_code}")
+        return
+    
     if visited_files is None:
         visited_files = set()
 
-    if file_path in visited_files or not os.path.isfile(file_path):
-        logger.info(f"File {file_path} already visited or does not exist.")
+    file_path = native_code['NativeName']
+    source_code = native_code['NativeCode']
+
+    if file_path in visited_files:
+        st.session_state.logger.info(f"File {file_path} already visited.")
         return
 
     visited_files.add(file_path)
 
-    try:
-        with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
-            content = file.read()
-    except Exception as e:
-        logger.error(f"Error reading file {file_path}: {e}")
-        return
-
     # Extract function calls using regex
-    function_calls = re.findall(r'\b(sub_[A-Za-z0-9_]+|[A-Z][A-Za-z0-9_]+)\b', content)
-    file_name = os.path.basename(file_path).split('.')[0]
+    function_calls = re.findall(r'\b(sub_[A-Za-z0-9_]+|[A-Z][A-Za-z0-9_]+)\b', source_code)
+    file_name = file_path.split('.')[0]
     unique_function_calls = sorted(set(function_calls) - {file_name})
 
     # Verify function calls
-    directory_path = os.path.dirname(file_path)
-    unique_function_calls = [func for func in unique_function_calls if os.path.isfile(os.path.join(directory_path, func + '.c')) and func != file_name.split('.')[0]]
+    unique_function_calls = [func for func in unique_function_calls if func in [native['NativeName'] for native in native_codes] and func != file_name.split('.')[0]]
     
     # Extract variables using regex
     data_types = ['int', 'float', 'double', 'char', 'void', 'long']
     variables = []
     for data_type in data_types:
-        variables += re.findall(fr'\b{data_type}\s+([A-Za-z0-9_]+)\b', content)
+        variables += re.findall(fr'\b{data_type}\s+([A-Za-z0-9_]+)\b', source_code)
     unique_variables = sorted(set(variables))
 
     # Add nodes and edges to the graph
@@ -57,18 +95,17 @@ def analyze_file(file_path, visited_files=None, graph=None):
 
     # Recursively analyze called functions
     for func in unique_function_calls:
-        func_file = func + '.c'
-        func_file_path = os.path.join(directory_path, func_file)
-        analyze_file(func_file_path, visited_files, graph)
+        func_native_code = get_native_code(native_codes, func)
+        analyze_file(func_native_code, native_codes, visited_files, graph)
 
      # Return the unique function calls and variables
-    return unique_function_calls, unique_variables, content
+    return unique_function_calls, unique_variables, source_code
 
 def main():
     try:
-        global logger
         # Call the function to setup logger
-        logger = setup_logger()
+        if 'logger' not in st.session_state:
+            st.session_state.logger = setup_logger()
 
         # Add title and author
         st.title("Project IGI Natives Analyzer")
@@ -80,6 +117,7 @@ def main():
         # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code in the sidebar
         option_menu = st.selectbox('Analysis Type:',('Statistics', 'Diagram', 'Source Code'))
 
+        native_codes = read_json('CodeData/code-cpp.json')
         natives_resolved = read_natives_resolved()
         # Add dropdown to select native in the sidebar
         natives_resolved_menu = st.selectbox('Select Native:', natives_resolved)
@@ -104,43 +142,40 @@ def main():
             else:
                 # Convert the input to CamelCase
                 native_name = ''.join(word[0].upper() + word[1:].lower() for word in input_value.split())
-                
+        
         # Append prefix and postfix to the input file based on the selected type
         if option_menu == 'Source Code':
             input_type = st.sidebar.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
-            logger.info(f"User input: {input_value}, code type: {input_type}")
-
-            if input_type == 'C++ Code':
-                native_name = os.path.join('code-cpp', native_name + '.c')
-            elif input_type == 'Assembly Code':
-                native_name = os.path.join('code-assembly', native_name + '.asm')
-            logger.info(f"Input file is {native_name}")
-        else:
-            if not native_name.endswith('.c'):
-                native_name = os.path.join('code-cpp', native_name + '.c')
-            else:
-                native_name = os.path.join('code-cpp', native_name)
-
+            st.session_state.logger.info(f"User input: {input_value}, code type: {input_type}")
+        
+        if input_type == 'C++ Code':
+            native_codes = read_json('CodeData/code-cpp.json')
+        elif input_type == 'Assembly Code':
+            native_codes = read_json('CodeData/code-assembly.json')
+        st.session_state.logger.info(f"Input file is {native_name}")
+            
         # Check if the file exists
-        if not os.path.isfile(native_name):
-            logger.error(f"Invalid Native provided: {native_name} does not exist.")
+        native_code = get_native_code(native_codes["NativeCodes"], native_name)
+        if native_code is None:
+            st.session_state.logger.error(f"Invalid Native provided: {native_name} does not exist.")
             st.error(f"Invalid Native provided: {native_name} does not exist.")
             return
-
+        else:
+            st.session_state.logger.info(f"Native code for {native_name} retrieved successfully.")
 
         # Start analysis with the initial file
         graph = Digraph(comment='Function calls', format='png', engine='dot')
-        logger.info("Starting file analysis.")
-        unique_function_calls, unique_variables, content = analyze_file(native_name, graph=graph)
+        st.session_state.logger.info("Starting file analysis.")
+        unique_function_calls, unique_variables, source_code = analyze_file(native_code, native_codes["NativeCodes"], graph=graph)
 
         # Render the graph to a BytesIO object
         output = io.BytesIO(graph.pipe(format='png'))
-        logger.info("Graph rendered.")
+        st.session_state.logger.info("Graph rendered.")
 
         # Display the graph
         if option_menu == 'Diagram':
             st.image(output, use_column_width=True)
-            logger.info("Graph displayed.")
+            st.session_state.logger.info("Graph displayed.")
 
         elif option_menu == 'Statistics':
             st.write(f"File: {native_name}")
@@ -148,29 +183,24 @@ def main():
             st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
             
         elif option_menu == 'Source Code':
-            st.code(content, language='c')
-            logger.info("Source code displayed.")
+            st.code(source_code, language='c')
+            st.session_state.logger.info("Source code displayed.")
             
-            if st.button('Explain Code'):
-                #native_name = os.path.join('code-cpp', native_name + '.c')
-                simplified_code = simplify_source_code(native_name)
-                simplified_code_str = ''.join(simplified_code)  # Join the list of strings into a single string
-                st.code(simplified_code_str.strip(), language='c')  # Display the simplified code
-
+        if st.button('Explain Code'):
+            from natives_decompiler import simplify_source_code
+            formatted_code = format_c_code(source_code)  # Format the code
+            #st.write(formatted_code)
+            simplified_code = simplify_source_code(native_name,"temp.c")
+            simplified_code_str = ''.join(simplified_code)  # Join the list of strings into a single string
+            st.code(simplified_code_str, language='c')  # Display the formatted code
+            import os
+            try:
+                os.remove("temp.c")
+            except Exception as exception:
+                st.session_state.logger.error(f"An error occurred while removing temp.c: {exception}")
             
-        elif option_menu == 'Assembly Code':
-            asm_file = os.path.join('code-assembly', native_name.replace('.c', '.asm'))
-            if os.path.isfile(asm_file):
-                with open(asm_file, 'r', encoding='utf-8', errors='ignore') as file:
-                    asm_content = file.read()
-                st.code(asm_content, language='asm')
-                logger.info("Assembly code displayed.")
-            else:
-                logger.error(f"Assembly file {asm_file} does not exist.")
-                st.error(f"Assembly file {asm_file} does not exist.")
-
     except Exception as exception:
-        logger.error(f"An error occurred: {exception}")
+        st.session_state.logger.error(f"An error occurred: {exception}")
         st.error(f"An error occurred: {exception}")
 
 if __name__ == "__main__":

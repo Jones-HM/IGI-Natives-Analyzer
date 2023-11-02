@@ -1,2 +1,0 @@
-xor     eax, eax
-retn
