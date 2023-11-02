@@ -1,4 +1,5 @@
 import io
+import os
 import re
 import json
 from graphviz import Digraph
@@ -101,11 +102,42 @@ def analyze_file(native_code, native_codes, visited_files=None, graph=None):
      # Return the unique function calls and variables
     return unique_function_calls, unique_variables, source_code
 
+def display_code():
+    st.session_state.logger.info("Starting to display code")
+    analysis_type = st.session_state.option_menu
+    st.session_state.logger.info(f"Analysis type: {analysis_type}")
+    if analysis_type == 'Source':
+        st.session_state.logger.info("Analysis type is Source")
+        if st.session_state.source_code:
+            st.session_state.logger.info("Source code is available")
+            code_to_display = st.session_state.source_code
+        else:
+            st.session_state.logger.info("Simplified code is not available. Displaying source code")
+            code_to_display = st.session_state.simplified_code
+        # Update the placeholder with the new code
+        st.session_state.logger.info("Updating the placeholder with the new code")
+        st.session_state.code_placeholder.code(code_to_display, language='c')
+    st.session_state.logger.info("Finished displaying code")
+
+def init_sessions():
+    # Initialize session variables
+    if 'logger' not in st.session_state:
+        st.session_state.logger = setup_logger()
+    if 'source_code' not in st.session_state:
+        st.session_state.source_code = ""
+    if 'simplified_code' not in st.session_state:
+        st.session_state.simplified_code = None
+    if 'displayed_code' not in st.session_state:
+        st.session_state.displayed_code = ""
+    if 'code_placeholder' not in st.session_state:
+        st.session_state.code_placeholder = ""
+    if 'option_menu' not in st.session_state:
+        st.session_state.option_menu = 'Statistics'  # Default value
+
 def main():
     try:
-        # Call the function to setup logger
-        if 'logger' not in st.session_state:
-            st.session_state.logger = setup_logger()
+        # Initialize sessions
+        init_sessions()
         
         # Add title and author
         st.title("Project IGI Natives Analyzer")
@@ -113,14 +145,15 @@ def main():
 
         # Create a sidebar for settings
         st.sidebar.title("Settings")
-
+    
         # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code in the sidebar
-        option_menu = st.selectbox('Analysis Type:',('Statistics', 'Diagram', 'Source Code'))
+        option_menu = st.selectbox('Analysis type:',('Statistics', 'Diagram', 'Source'),on_change=display_code)
+        st.session_state.option_menu = option_menu
 
         native_codes = read_json('codes/code-cpp.json')
         natives_resolved = read_natives_resolved()
         # Add dropdown to select native in the sidebar
-        natives_resolved_menu = st.selectbox('Select Native:', natives_resolved)
+        natives_resolved_menu = st.selectbox('Select Native:', natives_resolved,on_change=display_code)
 
         # Get the input from the user in the sidebar
         input_value = st.sidebar.text_input('Enter Native Manually (Address/Name):',natives_resolved_menu)
@@ -144,13 +177,13 @@ def main():
                 native_name = ''.join(word[0].upper() + word[1:].lower() for word in input_value.split())
         
         # Append prefix and postfix to the input file based on the selected type
-        input_type = st.sidebar.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
-        if option_menu == 'Source Code':
-            st.session_state.logger.info(f"User input: {input_value}, code type: {input_type}")
+        code_type = st.sidebar.selectbox('Code type:', ('Source', 'Assembly'),on_change=display_code)
+        if option_menu == 'Source':
+            st.session_state.logger.info(f"User input: {input_value}, code type: {code_type}")
         
-            if input_type == 'C++ Code':
+            if code_type == 'Source':
                 native_codes = read_json('codes/code-cpp.json')
-            elif input_type == 'Assembly Code':
+            elif code_type == 'Assembly':
                 native_codes = read_json('codes/code-assembly.json')
             st.session_state.logger.info(f"Input file is {native_name}")
             
@@ -167,6 +200,7 @@ def main():
         graph = Digraph(comment='Function calls', format='png', engine='dot')
         st.session_state.logger.info("Starting file analysis.")
         unique_function_calls, unique_variables, source_code = analyze_file(native_code, native_codes["NativeCodes"], graph=graph)
+        st.session_state.source_code = source_code
 
         # Render the graph to a BytesIO object
         output = io.BytesIO(graph.pipe(format='png'))
@@ -181,23 +215,28 @@ def main():
             st.write(f"File: {native_name}")
             st.write("Function calls:", ', '.join([f"`{func}`" for func in unique_function_calls]))
             st.write("Variables:", ', '.join([f"`{var}`" for var in unique_variables]))
-            
-        elif option_menu == 'Source Code':
-            st.code(source_code, language='c')
-            st.session_state.logger.info("Source code displayed.")
-            
-            if st.button('Explain Code'):
-                from libs.natives_decompiler import simplify_source_code
-                formatted_code = format_c_code(source_code)  # Format the code
-                #st.write(formatted_code)
+        
+                # Create a placeholder for the code block
+        code_placeholder = st.empty()
+        st.session_state.code_placeholder = code_placeholder
+        
+        # Display the code block.
+        display_code()
+       
+        if st.button('Explain Code') and option_menu == 'Source':
+            from libs.natives_decompiler import simplify_source_code,simplify_assembly_code
+            if code_type == 'Source':
+                format_c_code(st.session_state.source_code)  # Format the code
                 simplified_code = simplify_source_code(native_name,"temp.c")
-                simplified_code_str = ''.join(simplified_code)  # Join the list of strings into a single string
-                st.code(simplified_code_str, language='c')  # Display the formatted code
-                import os
+                st.session_state.simplified_code = ''.join(simplified_code)  # Join the list of strings into a single string
                 try:
                     os.remove("temp.c")
                 except Exception as exception:
                     st.session_state.logger.error(f"An error occurred while removing temp.c: {exception}")
+            elif code_type == 'Assembly':
+                st.session_state.simplified_code = simplify_assembly_code(st.session_state.source_code)
+            st.session_state.source_code = None    
+            display_code()
             
     except Exception as exception:
         st.session_state.logger.error(f"An error occurred: {exception}")
