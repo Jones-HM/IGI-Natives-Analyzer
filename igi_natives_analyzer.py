@@ -50,7 +50,7 @@ def get_native_code(native_codes, native_name):
 # Method to read NativesResolved
 def read_natives_resolved():
     try:
-        data = read_json('NativesData/NativesResolvedList.json')
+        data = read_json('natives/NativesResolvedList.json')
         return data['Natives']
     except Exception as e:
         st.session_state.logger.error(f"Error reading NativesResolvedList.json: {e}")
@@ -117,7 +117,7 @@ def main():
         # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code in the sidebar
         option_menu = st.selectbox('Analysis Type:',('Statistics', 'Diagram', 'Source Code'))
 
-        native_codes = read_json('CodeData/code-cpp.json')
+        native_codes = read_json('codes/code-cpp.json')
         natives_resolved = read_natives_resolved()
         # Add dropdown to select native in the sidebar
         natives_resolved_menu = st.selectbox('Select Native:', natives_resolved)
@@ -149,9 +149,9 @@ def main():
             st.session_state.logger.info(f"User input: {input_value}, code type: {input_type}")
         
             if input_type == 'C++ Code':
-                native_codes = read_json('CodeData/code-cpp.json')
+                native_codes = read_json('codes/code-cpp.json')
             elif input_type == 'Assembly Code':
-                native_codes = read_json('CodeData/code-assembly.json')
+                native_codes = read_json('codes/code-assembly.json')
             st.session_state.logger.info(f"Input file is {native_name}")
             
         # Check if the file exists

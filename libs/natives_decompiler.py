@@ -57,7 +57,7 @@ def simplify_source_code(native_name,file_name:str):
 
     logger.info(f"Starting to simplify source code {file_name}")
 
-    notes_file = 'NativesData/NativesNotes.txt'
+    notes_file = 'natives/NativesNotes.txt'
     native_notes = read_notes(notes_file)
     
     logger.info("Opening the file to be simplified")
@@ -69,10 +69,8 @@ def simplify_source_code(native_name,file_name:str):
     variable_mappings.update(generate_variable_names(extract_global_variables(code)))
 
     simplified_code = []
-    simplified_notes = []
     
     logger.info("Starting to simplify the code")
-    note_found = False
     
     # Look up the note for each native name
     # Extract native name from the file name using regex
@@ -131,3 +129,53 @@ def simplify_source_code(native_name,file_name:str):
 
     logger.info("Finished simplifying the code")
     return simplified_code
+
+
+def simplify_assembly_code(code:str):
+    """
+    This function simplifies and adds comments to x86 assembly code.
+    It reads the assembly code line by line and adds comments based on the type of instruction.
+    """
+    logger = st.session_state.logger
+    logger.info("Starting to simplify and comment x86 assembly code")
+
+    # Split the code into lines
+    lines = code.split('\n')
+
+    simplified_code = []
+
+    for line in lines:
+        # Remove leading and trailing whitespace
+        line = line.strip()
+
+        # Add comments based on the type of instruction
+        if line.startswith('mov'):
+            # The mov instruction copies the second operand to the first
+            operands = line[3:].strip().split(',')
+            comment = f"// Copy the value of {operands[1].strip()} to {operands[0].strip()}"
+        elif line.startswith('add'):
+            # The add instruction adds the second operand to the first
+            operands = line[3:].strip().split(',')
+            comment = f"// Add the value of {operands[1].strip()} to {operands[0].strip()}"
+        elif line.startswith('sub'):
+            # The sub instruction subtracts the second operand from the first
+            operands = line[3:].strip().split(',')
+            comment = f"// Subtract the value of {operands[1].strip()} from {operands[0].strip()}"
+        elif line.startswith('mul'):
+            # The mul instruction multiplies the operand by the accumulator
+            operand = line[3:].strip()
+            comment = f"// Multiply the accumulator by {operand}"
+        elif line.startswith('div'):
+            # The div instruction divides the accumulator by the operand
+            operand = line[3:].strip()
+            comment = f"// Divide the accumulator by {operand}"
+        else:
+            # For other instructions, just copy the line without adding a comment
+            comment = ""
+
+        # Add the line and the comment to the simplified code
+        simplified_code.append(f"{line} {comment}")
+
+    logger.info("Finished simplifying and commenting the x86 assembly code")
+
+    return '\n'.join(simplified_code)
