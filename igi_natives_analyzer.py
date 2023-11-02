@@ -3,7 +3,7 @@ import re
 import json
 from graphviz import Digraph
 import streamlit as st
-from logger import setup_logger
+from libs.logger import setup_logger
 
 def format_c_code(code):
     try:
@@ -106,7 +106,7 @@ def main():
         # Call the function to setup logger
         if 'logger' not in st.session_state:
             st.session_state.logger = setup_logger()
-
+        
         # Add title and author
         st.title("Project IGI Natives Analyzer")
         st.sidebar.write("Author: HeavenHM")
@@ -144,15 +144,15 @@ def main():
                 native_name = ''.join(word[0].upper() + word[1:].lower() for word in input_value.split())
         
         # Append prefix and postfix to the input file based on the selected type
+        input_type = st.sidebar.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
         if option_menu == 'Source Code':
-            input_type = st.sidebar.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
             st.session_state.logger.info(f"User input: {input_value}, code type: {input_type}")
         
-        if input_type == 'C++ Code':
-            native_codes = read_json('CodeData/code-cpp.json')
-        elif input_type == 'Assembly Code':
-            native_codes = read_json('CodeData/code-assembly.json')
-        st.session_state.logger.info(f"Input file is {native_name}")
+            if input_type == 'C++ Code':
+                native_codes = read_json('CodeData/code-cpp.json')
+            elif input_type == 'Assembly Code':
+                native_codes = read_json('CodeData/code-assembly.json')
+            st.session_state.logger.info(f"Input file is {native_name}")
             
         # Check if the file exists
         native_code = get_native_code(native_codes["NativeCodes"], native_name)
@@ -186,18 +186,18 @@ def main():
             st.code(source_code, language='c')
             st.session_state.logger.info("Source code displayed.")
             
-        if st.button('Explain Code'):
-            from natives_decompiler import simplify_source_code
-            formatted_code = format_c_code(source_code)  # Format the code
-            #st.write(formatted_code)
-            simplified_code = simplify_source_code(native_name,"temp.c")
-            simplified_code_str = ''.join(simplified_code)  # Join the list of strings into a single string
-            st.code(simplified_code_str, language='c')  # Display the formatted code
-            import os
-            try:
-                os.remove("temp.c")
-            except Exception as exception:
-                st.session_state.logger.error(f"An error occurred while removing temp.c: {exception}")
+            if st.button('Explain Code'):
+                from libs.natives_decompiler import simplify_source_code
+                formatted_code = format_c_code(source_code)  # Format the code
+                #st.write(formatted_code)
+                simplified_code = simplify_source_code(native_name,"temp.c")
+                simplified_code_str = ''.join(simplified_code)  # Join the list of strings into a single string
+                st.code(simplified_code_str, language='c')  # Display the formatted code
+                import os
+                try:
+                    os.remove("temp.c")
+                except Exception as exception:
+                    st.session_state.logger.error(f"An error occurred while removing temp.c: {exception}")
             
     except Exception as exception:
         st.session_state.logger.error(f"An error occurred: {exception}")

@@ -1,4 +1,3 @@
-import random
 import re
 import streamlit as st
 logger = st.session_state.logger
