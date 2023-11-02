@@ -3,27 +3,10 @@ import os
 import re
 from graphviz import Digraph
 import streamlit as st
-import logging
-from PIL import Image
+from logger import setup_logger
+
 logger = None
-
-# Set up logging
-def setup_logger():
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-
-    # create a file handler
-    handler = logging.FileHandler('igi-natives-analyzer.log')
-    handler.setLevel(logging.INFO)
-
-    # create a logging format
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-
-    # add the handlers to the logger
-    logger.addHandler(handler)
-
-    return logger
+from natives_decompiler import simplify_source_code
 
 # Method to read NativesResolved
 def read_natives_resolved():
@@ -67,15 +50,6 @@ def analyze_file(file_path, visited_files=None, graph=None):
         variables += re.findall(fr'\b{data_type}\s+([A-Za-z0-9_]+)\b', content)
     unique_variables = sorted(set(variables))
 
-    # Display results
-    logger.info(f"File: {file_path}")
-    logger.info("Function calls:")
-    for func in unique_function_calls:
-        logger.info(f"  {func}")
-    logger.info("Variables:")
-    for var in unique_variables:
-        logger.info(f"  {var}")
-
     # Add nodes and edges to the graph
     graph.node(file_name,shape='box')
     for func in unique_function_calls:
@@ -97,21 +71,21 @@ def main():
         logger = setup_logger()
 
         # Add title and author
-        st.title("IGI Natives Analyzer v 1.0")
-        st.write("Author: HeavenHM")
+        st.title("Project IGI Natives Analyzer")
+        st.sidebar.write("Author: HeavenHM")
 
-        # Create a two-column layout
-        col1, col2 = st.columns(2)
+        # Create a sidebar for settings
+        st.sidebar.title("Settings")
 
-        # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code in the first column
-        option_menu = col1.selectbox('Analysis Type:',('Statistics', 'Diagram', 'Source Code'))
+        # Add dropdown to select statistics, to view graph as image or to view source code or to view assembly code in the sidebar
+        option_menu = st.selectbox('Analysis Type:',('Statistics', 'Diagram', 'Source Code'))
 
         natives_resolved = read_natives_resolved()
-        # Add dropdown to select native in the second column
-        natives_resolved_menu = col2.selectbox('Select Native:', natives_resolved)
+        # Add dropdown to select native in the sidebar
+        natives_resolved_menu = st.selectbox('Select Native:', natives_resolved)
 
-        # Get the input from the user in the first column
-        input_value = col1.text_input('Enter Native Manually (Address/Name):',natives_resolved_menu)
+        # Get the input from the user in the sidebar
+        input_value = st.sidebar.text_input('Enter Native Manually (Address/Name):',natives_resolved_menu)
 
         # Check if the input is from the dropdown or manually entered
         if input_value == natives_resolved_menu:
@@ -133,7 +107,7 @@ def main():
                 
         # Append prefix and postfix to the input file based on the selected type
         if option_menu == 'Source Code':
-            input_type = st.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
+            input_type = st.sidebar.selectbox('Code type:', ('C++ Code', 'Assembly Code'))
             logger.info(f"User input: {input_value}, code type: {input_type}")
 
             if input_type == 'C++ Code':
@@ -146,7 +120,6 @@ def main():
                 native_name = os.path.join('code-cpp', native_name + '.c')
             else:
                 native_name = os.path.join('code-cpp', native_name)
-        # ...
 
         # Check if the file exists
         if not os.path.isfile(native_name):
@@ -177,6 +150,13 @@ def main():
         elif option_menu == 'Source Code':
             st.code(content, language='c')
             logger.info("Source code displayed.")
+            
+            if st.button('Explain Code'):
+                #native_name = os.path.join('code-cpp', native_name + '.c')
+                simplified_code = simplify_source_code(native_name)
+                simplified_code_str = ''.join(simplified_code)  # Join the list of strings into a single string
+                st.code(simplified_code_str.strip(), language='c')  # Display the simplified code
+
             
         elif option_menu == 'Assembly Code':
             asm_file = os.path.join('code-assembly', native_name.replace('.c', '.asm'))

@@ -24,8 +24,8 @@ MusicSetSfxVolume
 MusicSetVolume
 MusicUpdateVolume
 PhysicsObjTypeRead
-QhashInit
-QhashReset
+QHashInit
+QHashReset
 QscCompile
 QtaskUpdate
 QtaskUpdateList

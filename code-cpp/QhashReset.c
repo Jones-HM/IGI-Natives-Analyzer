@@ -1,4 +1,4 @@
-int QhashReset()
+int QHashReset()
 {
   int result; // eax
 
