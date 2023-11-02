@@ -1,5 +1,9 @@
 *.png
 *.log
 .DS_Store
+*.cache
+.git
+.svn
+*.pyc
 *.
 

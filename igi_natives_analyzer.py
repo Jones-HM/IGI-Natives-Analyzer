@@ -223,7 +223,7 @@ def main():
         # Display the code block.
         display_code()
        
-        if st.button('Explain Code') and option_menu == 'Source':
+        if st.sidebar.button('Explain Code') and option_menu == 'Source':
             from libs.natives_decompiler import simplify_source_code,simplify_assembly_code
             if code_type == 'Source':
                 format_c_code(st.session_state.source_code)  # Format the code

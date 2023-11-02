@@ -150,25 +150,105 @@ def simplify_assembly_code(code:str):
 
         # Add comments based on the type of instruction
         if line.startswith('mov'):
-            # The mov instruction copies the second operand to the first
             operands = line[3:].strip().split(',')
             comment = f"// Copy the value of {operands[1].strip()} to {operands[0].strip()}"
         elif line.startswith('add'):
-            # The add instruction adds the second operand to the first
             operands = line[3:].strip().split(',')
             comment = f"// Add the value of {operands[1].strip()} to {operands[0].strip()}"
         elif line.startswith('sub'):
-            # The sub instruction subtracts the second operand from the first
             operands = line[3:].strip().split(',')
             comment = f"// Subtract the value of {operands[1].strip()} from {operands[0].strip()}"
         elif line.startswith('mul'):
-            # The mul instruction multiplies the operand by the accumulator
             operand = line[3:].strip()
             comment = f"// Multiply the accumulator by {operand}"
         elif line.startswith('div'):
-            # The div instruction divides the accumulator by the operand
             operand = line[3:].strip()
             comment = f"// Divide the accumulator by {operand}"
+        elif line.startswith('jmp'):
+            operand = line[3:].strip()
+            comment = f"// Jump to {operand}"
+        elif line.startswith('cmp'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Compare {operands[0].strip()} and {operands[1].strip()}"
+        elif line.startswith('push'):
+            operand = line[4:].strip()
+            comment = f"// Push {operand} onto the stack"
+        elif line.startswith('pop'):
+            operand = line[3:].strip()
+            comment = f"// Pop the top of the stack into {operand}"
+        elif line.startswith('call'):
+            operand = line[4:].strip()
+            comment = f"// Call the function at {operand}"
+        elif line.startswith('ret'):
+            comment = f"// Return from the function"
+        elif line.startswith('nop'):
+            comment = f"// No operation"
+        elif line.startswith('lea'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Load effective address of {operands[1].strip()} into {operands[0].strip()}"
+        elif line.startswith('inc'):
+            operand = line[3:].strip()
+            comment = f"// Increment {operand}"
+        elif line.startswith('dec'):
+            operand = line[3:].strip()
+            comment = f"// Decrement {operand}"
+        elif line.startswith('and'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Perform bitwise AND on {operands[0].strip()} and {operands[1].strip()}"
+        elif line.startswith('or'):
+            operands = line[2:].strip().split(',')
+            comment = f"// Perform bitwise OR on {operands[0].strip()} and {operands[1].strip()}"
+        elif line.startswith('xor'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Perform bitwise XOR on {operands[0].strip()} and {operands[1].strip()}"
+        elif line.startswith('not'):
+            operand = line[3:].strip()
+            comment = f"// Perform bitwise NOT on {operand}"
+        elif line.startswith('shl'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Shift {operands[0].strip()} left by {operands[1].strip()} bits"
+        elif line.startswith('shr'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Shift {operands[0].strip()} right by {operands[1].strip()} bits"
+        elif line.startswith('rol'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Rotate {operands[0].strip()} left by {operands[1].strip()} bits"
+        elif line.startswith('ror'):
+            operands = line[3:].strip().split(',')
+            comment = f"// Rotate {operands[0].strip()} right by {operands[1].strip()} bits"
+        elif line.startswith('loop'):
+            operand = line[4:].strip()
+            comment = f"// Loop to {operand} while CX is not zero"
+        elif line.startswith('jz'):
+            operand = line[2:].strip()
+            comment = f"// Jump to {operand} if zero flag is set"
+        elif line.startswith('jnz'):
+            operand = line[3:].strip()
+            comment = f"// Jump to {operand} if zero flag is not set"
+        elif line.startswith('je'):
+            operand = line[2:].strip()
+            comment = f"// Jump to {operand} if equal flag is set"
+        elif line.startswith('jne'):
+            operand = line[3:].strip()
+            comment = f"// Jump to {operand} if equal flag is not set"
+        elif line.startswith('ja'):
+            operand = line[2:].strip()
+            comment = f"// Jump to {operand} if above flag is set"
+        elif line.startswith('jb'):
+            operand = line[2:].strip()
+            comment = f"// Jump to {operand} if below flag is set"
+        elif line.startswith('jg'):
+            operand = line[2:].strip()
+            comment = f"// Jump to {operand} if greater flag is set"
+        elif line.startswith('jl'):
+            operand = line[2:].strip()
+            comment = f"// Jump to {operand} if less flag is set"
+        elif line.startswith('jge'):
+            operand = line[3:].strip()
+            comment = f"// Jump to {operand} if greater or equal flag is set"
+        elif line.startswith('jle'):
+            operand = line[3:].strip()
+            comment = f"// Jump to {operand} if less or equal flag is set"
         else:
             # For other instructions, just copy the line without adding a comment
             comment = ""
