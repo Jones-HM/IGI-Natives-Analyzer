@@ -1,66 +1,52 @@
 import re
 import streamlit as st
-logger = st.session_state.logger
 
-def read_notes(notes_file:str):
-    logger = st.session_state.logger
-    logger.info("Reading notes from the notes file")
+def read_notes(notes_file: str):
     native_notes = {}
     with open(notes_file, 'r') as file:
         for line in file:
             if ': ' in line:
                 native_name, note = line.strip().split(': ', 1)
                 native_notes[native_name] = note
-    logger.info(f"Native notes size {len(native_notes)}")
     return native_notes
 
-def extract_variable_names(code:list):
-    logger = st.session_state.logger
-    logger.info("Extracting variable names and their desired names from comments")
+def extract_variable_names(code: list):
     variable_mappings = {}
     comments = re.findall(r'(\b\w+)\s*;\s*//\s*(\w+)', '\n'.join(code))
     for var, name in comments:
         variable_mappings[var] = name
     return variable_mappings
 
-def extract_method_names(code:list):
-    logger.info("Extracting method names")
+def extract_method_names(code: list):
     methods = set(re.findall(r'\b(sub_[A-F0-9]+)\b', '\n'.join(code)))
     return methods
 
-def generate_method_names(methods:set):
-    logger.info("Generating meaningful names for methods")
+def generate_method_names(methods: set):
     method_mappings = {}
     for method in methods:
-        readable_name = method.replace('sub_', 'function_')  # replace 'sub_' with 'function_'
+        readable_name = method.replace('sub_', 'function_')
         method_mappings[method] = readable_name
     return method_mappings
 
-def extract_global_variables(code:list):
-    logger.info("Extracting global variable names")
+def extract_global_variables(code: list):
     global_variables = set(re.findall(r'\b(dword|byte)_[A-F0-9]+\b', '\n'.join(code)))
     return global_variables
 
-def generate_variable_names(global_variables:set):
-    logger.info("Generating readable names for global variables")
+def generate_variable_names(global_variables: set):
     variable_mappings = {}
     for global_var in global_variables:
         if 'dword' in global_var:
-            readable_name = 'variable_' + global_var.replace('dword_', '')  # replace 'dword_' with 'variable_'
+            readable_name = 'variable_' + global_var.replace('dword_', '')
             variable_mappings[global_var] = readable_name
         elif 'byte' in global_var:
-            readable_name = 'variable_' + global_var.replace('byte_', '')  # replace 'byte_' with 'variable_'
+            readable_name = 'variable_' + global_var.replace('byte_', '')
             variable_mappings[global_var] = readable_name
     return variable_mappings
 
-def simplify_source_code(native_name,file_name:str):
-
-    logger.info(f"Starting to simplify source code {file_name}")
-
+def simplify_source_code(native_name, file_name: str):
     notes_file = 'natives/NativesNotes.txt'
     native_notes = read_notes(notes_file)
     
-    logger.info("Opening the file to be simplified")
     with open(file_name, 'r') as file:
         code = file.readlines()
 
@@ -70,49 +56,37 @@ def simplify_source_code(native_name,file_name:str):
 
     simplified_code = []
     
-    logger.info("Starting to simplify the code")
-    
-    # Look up the note for each native name
-    # Extract native name from the file name using regex
-    logger.info(f"Processing native name: {native_name}")
     if native_name in native_notes:
         note = native_notes[native_name]
-        logger.info(f"Found note for native name {native_name}: {note}")
-        # Append the note as a comment in the simplified code
         simplified_code.append(f"/*\n{note}\n*/")
 
     for line in code:
-
         for old_name, new_name in variable_mappings.items():
             line = re.sub(r'\b' + old_name + r'\b', new_name, line)
 
         for old_name, new_name in method_mappings.items():
             line = re.sub(r'\b' + old_name + r'\b', new_name, line)
 
-        # Replace hexadecimal values with their decimal equivalents
         hex_values = re.findall(r'0x[A-Fa-f0-9]+', line)
         for hex_value in hex_values:
             decimal_value = int(hex_value, 16)
             line = line.replace(hex_value, str(decimal_value))
 
-        # Replace complex pointer arithmetic with simple array indexing
         complex_pointer_arithmetic = re.findall(r'\*\(_(DWORD|BYTE)\s*\*\)\s*\((\w+)[ +]+(\d+)\)', line)
         for type, var, offset in complex_pointer_arithmetic:
             if var in variable_mappings:
                 array_name = variable_mappings[var]
             else:
                 if 'byte_' in var:
-                    array_name = 'globalArray_' + var.replace('byte_', '')  # replace 'byte_' with 'globalArray_'
+                    array_name = 'globalArray_' + var.replace('byte_', '')
                 elif 'dword_' in var:
-                    array_name = 'globalArray_' + var.replace('dword_', '')  # replace 'dword_' with 'globalArray_'
+                    array_name = 'globalArray_' + var.replace('dword_', '')
                 else:
                     array_name = var
                 variable_mappings[var] = array_name
             index = int(offset) // {'DWORD': 4, 'BYTE': 1}[type]
             line = re.sub(r'\*\(_(DWORD|BYTE)\s*\*\)\s*\((\w+)[ +]+(\d+)\)', f'{array_name}[{index}]', line)
             
-    
-        # Add comments based on more complex pattern matching
         if re.search(r'if\s*\((.*)\)', line):
             condition = re.search(r'if\s*\((.*)\)', line).group(1)
             line = f'// Check if {condition} is true\n' + line
@@ -127,17 +101,13 @@ def simplify_source_code(native_name,file_name:str):
 
         simplified_code.append(line)
 
-    logger.info("Finished simplifying the code")
     return simplified_code
-
 
 def simplify_assembly_code(code:str):
     """
     This function simplifies and adds comments to x86 assembly code.
     It reads the assembly code line by line and adds comments based on the type of instruction.
     """
-    logger = st.session_state.logger
-    logger.info("Starting to simplify and comment x86 assembly code")
 
     # Split the code into lines
     lines = code.split('\n')
@@ -255,7 +225,5 @@ def simplify_assembly_code(code:str):
 
         # Add the line and the comment to the simplified code
         simplified_code.append(f"{line} {comment}")
-
-    logger.info("Finished simplifying and commenting the x86 assembly code")
 
     return '\n'.join(simplified_code)
