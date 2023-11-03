@@ -363,5 +363,5 @@ if __name__ == "__main__":
     download_file(base_url + 'natives/NativesNotes.txt','natives','NativesNotes.txt')
     download_file(base_url + 'natives/NativesSignatures.txt','natives','NativesSignatures.txt')
     download_file(base_url + 'natives/NativesResolvedList.json','natives','NativesResolvedList.json')
-    download_file(base_url + 'libs/natives_decompiler.c','libs','natives_decompiler.c')
+    download_file(base_url + 'libs/natives_decompiler.py','libs','natives_decompiler.c')
     main()
