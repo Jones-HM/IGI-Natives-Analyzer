@@ -292,6 +292,7 @@ def install_graphviz():
 
     # Verify the installation
     os.system('dot -V')
+    try_install_graphviz()
     
 def create_folder(folder_name):
     """
@@ -326,7 +327,7 @@ def download_file(url, folder_name, file_name):
     except requests.RequestException as e:
         st.session_state.logger.error(f"Error downloading file '{file_name}': {e}")
 
-def installed_graphviz():
+def try_install_graphviz():
     methods = [
         ["sudo", "apt-get", "update", "&&", "sudo", "apt-get", "install", "-y", "graphviz"],
         ["sudo", "yum", "install", "-y", "graphviz"],
@@ -345,7 +346,6 @@ def installed_graphviz():
             print(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
-    installed_graphviz()
     install_graphviz()
     
     # Create folders
