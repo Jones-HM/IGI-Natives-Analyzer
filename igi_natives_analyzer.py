@@ -8,7 +8,6 @@ import requests
 import streamlit as st
 import urllib
 import json
-import streamlit as st
 
 def format_code(code):
     try:
@@ -44,8 +43,8 @@ def setup_logger():
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
 
-    # create a console handler instead of file handler
-    handler = logging.StreamHandler()
+    # create a file handler instead of console handler
+    handler = logging.FileHandler('igi-analyzer.log')
     handler.setLevel(logging.INFO)
 
     # create a logging format
@@ -155,17 +154,15 @@ def init_sessions():
     if 'option_menu' not in st.session_state:
         st.session_state.option_menu = 'Statistics'  # Default value
 
-# Call init_sessions at the start of your script
+# Call init_sessions
 init_sessions()
 
-# Now you can safely access st.session_state.logger
+# Init logger
 logger = st.session_state.logger
 
 def main():
     try:
-        # Initialize sessions
-        init_sessions()
-        
+                
         # Add title and author
         st.title("Project IGI Natives Analyzer")
         st.sidebar.write("Author: HeavenHM")
@@ -310,7 +307,7 @@ def create_folder(folder_name):
         else:
             st.session_state.logger.info(f"Folder '{folder_name}' already exists.")
     except Exception as e:
-        logging.error(f"Error creating folder '{folder_name}': {e}")
+        st.session_state.logger.error(f"Error creating folder '{folder_name}': {e}")
 
 def download_file(url, folder_name, file_name):
     """
