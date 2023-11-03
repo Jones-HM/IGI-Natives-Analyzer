@@ -1,0 +1,27 @@
+0000000000000000000000000000000000000000 842e775e0035dd54cddfb93d6ab749b526dd843e Haseeb <haseeb_heaven@yahoo.com> 1698963703 +0400	clone: from https://github.com/Jones-HM/IGI-Natives-Analyzer
+842e775e0035dd54cddfb93d6ab749b526dd843e 9da45340b8daec60f19f0965caeeb780b374e422 Haseeb <haseeb_heaven@yahoo.com> 1698963921 +0400	commit: Fixed Str Code error
+9da45340b8daec60f19f0965caeeb780b374e422 eea29e78df2a16a183e6454906ee52023bc117a9 Haseeb <haseeb_heaven@yahoo.com> 1698964122 +0400	commit: install_graphviz method added
+eea29e78df2a16a183e6454906ee52023bc117a9 0a275bd2416e9f903d25d4ba3269149337ffa487 Haseeb <haseeb_heaven@yahoo.com> 1698964235 +0400	commit: Different Method for GraphViz installtion
+0a275bd2416e9f903d25d4ba3269149337ffa487 65b8fc8f46ba1c4d81c08ba69c06dcd8dbc09790 Haseeb <haseeb_heaven@yahoo.com> 1698964349 +0400	commit: Pip install GraphViz
+65b8fc8f46ba1c4d81c08ba69c06dcd8dbc09790 ebe678eff230e39ed4171223e4c3183c1fda5897 Haseeb <haseeb_heaven@yahoo.com> 1698964469 +0400	commit: setup_logger
+ebe678eff230e39ed4171223e4c3183c1fda5897 f96f496f6e8f95887682d46b2bc37eb8686c16ae Haseeb <haseeb_heaven@yahoo.com> 1698964589 +0400	commit: Dir test
+f96f496f6e8f95887682d46b2bc37eb8686c16ae 28cae15d3d5f92ec2d8abc2f01665f336e009619 Haseeb <haseeb_heaven@yahoo.com> 1698964632 +0400	commit: Libs
+28cae15d3d5f92ec2d8abc2f01665f336e009619 f8b70202e309ae330c8d89e49115df9e15d30f3c Haseeb <haseeb_heaven@yahoo.com> 1698964804 +0400	commit: Added __init__.py
+f8b70202e309ae330c8d89e49115df9e15d30f3c 2fdc32ca248097e8eeb98f276cb007ecdbb4f751 Haseeb <haseeb_heaven@yahoo.com> 1698964942 +0400	commit: Moved Libs folder
+2fdc32ca248097e8eeb98f276cb007ecdbb4f751 b8814ffc0ed06c562856b046fee86aeb5495965b Haseeb <haseeb_heaven@yahoo.com> 1698965287 +0400	commit: install_graphviz
+b8814ffc0ed06c562856b046fee86aeb5495965b 68f4629a60e58f7e5131f1952a750f40a127cdcd Haseeb <haseeb_heaven@yahoo.com> 1698965389 +0400	commit: Moved Logger
+68f4629a60e58f7e5131f1952a750f40a127cdcd f74ea7f3da65cb7cc9a67ed0b2ccf218121646cb Haseeb <haseeb_heaven@yahoo.com> 1698965426 +0400	commit: Fixed read_json
+f74ea7f3da65cb7cc9a67ed0b2ccf218121646cb a42434e616e8a075814ccc6a0f676b7068d618dd Haseeb <haseeb_heaven@yahoo.com> 1698965491 +0400	commit: Removed logger utils
+a42434e616e8a075814ccc6a0f676b7068d618dd cd729cf1c3b85d7088f6a6d3c498cf1c7ec0efb5 Haseeb <haseeb_heaven@yahoo.com> 1698965587 +0400	commit: Moved all files from folder
+cd729cf1c3b85d7088f6a6d3c498cf1c7ec0efb5 fec192ea07ef463992549c7061bb5b02fe09352d Haseeb <haseeb_heaven@yahoo.com> 1698965767 +0400	commit: install_graphviz
+fec192ea07ef463992549c7061bb5b02fe09352d 82b9a5e928f19f2acfbf81d62db3213b93b7d58e Haseeb <haseeb_heaven@yahoo.com> 1698966104 +0400	commit: system
+82b9a5e928f19f2acfbf81d62db3213b93b7d58e ddf85e5469e2216b6aff8714f689de134ec4cfbb Haseeb <haseeb_heaven@yahoo.com> 1698966211 +0400	commit: sed command
+ddf85e5469e2216b6aff8714f689de134ec4cfbb de3c95dfd4e9777b07f679c6ce578e2fe5373331 Haseeb <haseeb_heaven@yahoo.com> 1698966338 +0400	commit: install_graphviz
+de3c95dfd4e9777b07f679c6ce578e2fe5373331 6a1267921f0bacbe126d72a5bbde2558b063159e Haseeb <haseeb_heaven@yahoo.com> 1698966662 +0400	commit: Moved to folders
+6a1267921f0bacbe126d72a5bbde2558b063159e 3b7e79cf5eb3d4c3e0c12f390f47e2a850c16b5e Haseeb <haseeb_heaven@yahoo.com> 1698966736 +0400	commit: system
+3b7e79cf5eb3d4c3e0c12f390f47e2a850c16b5e f86f3e8ea9b7b45602df644650cb6952c21d73b1 Haseeb <haseeb_heaven@yahoo.com> 1698966793 +0400	commit: current dir print
+f86f3e8ea9b7b45602df644650cb6952c21d73b1 068e21d92ec20d924c721c9ba970ef6389df3ffe Haseeb <haseeb_heaven@yahoo.com> 1698966984 +0400	reset: moving to 068e21d92ec20d924c721c9ba970ef6389df3ffe
+068e21d92ec20d924c721c9ba970ef6389df3ffe f86f3e8ea9b7b45602df644650cb6952c21d73b1 Haseeb <haseeb_heaven@yahoo.com> 1698967059 +0400	pull origin main: Fast-forward
+f86f3e8ea9b7b45602df644650cb6952c21d73b1 068e21d92ec20d924c721c9ba970ef6389df3ffe Haseeb <haseeb_heaven@yahoo.com> 1698967082 +0400	reset: moving to 068e21d92ec20d924c721c9ba970ef6389df3ffe
+068e21d92ec20d924c721c9ba970ef6389df3ffe 96fb1adfd317369df801d0d2aa79cce5bccc5f2e Haseeb <haseeb_heaven@yahoo.com> 1698967217 +0400	commit: Added Readme and License
+96fb1adfd317369df801d0d2aa79cce5bccc5f2e b303ad99417312e7a9adf9904b3d90faa8d8f1f9 Haseeb <haseeb_heaven@yahoo.com> 1698967254 +0400	commit: Updated Readme

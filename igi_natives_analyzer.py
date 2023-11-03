@@ -1,10 +1,61 @@
 import io
+import logging
 import os
 import re
+import subprocess
 from graphviz import Digraph
+import requests
 import streamlit as st
-from libs.logger import setup_logger
-from libs.utils import format_code,read_json
+import urllib
+import json
+import streamlit as st
+
+def format_code(code):
+    try:
+        formatted_code = ''
+        indent = 0
+        for char in code:
+            if char == '{':
+                formatted_code += ' {' + '  ' * indent
+                indent += 1
+            elif char == '}':
+                indent -= 1
+                formatted_code += '' + '  ' * indent + '}'
+            elif char == ';':
+                formatted_code += ';' + '  ' * indent
+            else:
+                formatted_code += char
+        with open('temp.c', 'w') as file:
+            file.write(formatted_code.strip())
+            
+    except Exception as exception:
+        raise Exception(f"Error formatting C code: {exception}")
+    
+    
+def read_json(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return json.load(file)
+    except Exception as exception:
+        st.session_state.logger.error(f"Error reading file {file_path}: {str(exception)}")
+        return None
+
+def setup_logger():
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
+    # create a console handler instead of file handler
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+
+    # create a logging format
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+
+    # add the handlers to the logger
+    logger.addHandler(handler)
+
+    return logger
 
 def get_native_code(native_codes, native_name):
     st.session_state.logger.info(f"Attempting to retrieve native code for: {native_name}")
@@ -70,7 +121,7 @@ def analyze_file(native_code, native_codes, visited_files=None, graph=None):
         analyze_file(func_native_code, native_codes, visited_files, graph)
 
      # Return the unique function calls and variables
-    return unique_function_calls, unique_variables, source_code
+    return unique_function_calls, unique_variables, source_code, graph.source
 
 def display_code():
     st.session_state.logger.info("Starting to display code")
@@ -100,9 +151,15 @@ def init_sessions():
     if 'displayed_code' not in st.session_state:
         st.session_state.displayed_code = ""
     if 'code_placeholder' not in st.session_state:
-        st.session_state.code_placeholder = ""
+        st.session_state.code_placeholder = st.empty()  # Initialize code_placeholder as a Streamlit object
     if 'option_menu' not in st.session_state:
         st.session_state.option_menu = 'Statistics'  # Default value
+
+# Call init_sessions at the start of your script
+init_sessions()
+
+# Now you can safely access st.session_state.logger
+logger = st.session_state.logger
 
 def main():
     try:
@@ -168,17 +225,18 @@ def main():
 
         # Start analysis with the initial file
         graph = Digraph(comment='Function calls', format='png', engine='dot')
+        #graph = None
         st.session_state.logger.info("Starting file analysis.")
-        unique_function_calls, unique_variables, source_code = analyze_file(native_code, native_codes["NativeCodes"], graph=graph)
+        unique_function_calls, unique_variables, source_code,dot_string = analyze_file(native_code, native_codes["NativeCodes"], graph=graph)
         st.session_state.source_code = source_code
 
         # Render the graph to a BytesIO object
-        output = io.BytesIO(graph.pipe(format='png'))
+        #output = io.BytesIO(graph.pipe(format='png'))
         st.session_state.logger.info("Graph rendered.")
 
-        # Display the graph
+        # Display the graph using st.graphviz_chart
         if option_menu == 'Diagram':
-            st.image(output, use_column_width=True)
+            st.graphviz_chart(dot_string)
             st.session_state.logger.info("Graph displayed.")
 
         elif option_menu == 'Statistics':
@@ -212,5 +270,101 @@ def main():
         st.session_state.logger.error(f"An error occurred: {exception}")
         st.error(f"An error occurred: {exception}")
 
+def install_graphviz():
+    # Create a directory for local installations
+    os.system('mkdir ~/local')
+
+    # Download Graphviz
+    urllib.request.urlretrieve('https://gitlab.com/graphviz/graphviz/-/archive/2.47.1/graphviz-2.47.1.tar.gz', 'graphviz-2.47.1.tar.gz')
+
+    # Extract Graphviz
+    os.system('tar -xvf graphviz-2.47.1.tar.gz')
+
+    # Change to the Graphviz directory
+    os.chdir('graphviz-2.47.1')
+
+    # Configure the installation to install in the local directory
+    os.system('./configure --prefix=$HOME/local')
+
+    # Build and install
+    os.system('make')
+    os.system('make install')
+
+    # Add the local bin directory to the PATH
+    os.environ['PATH'] = f"{os.environ['PATH']}:{os.path.expanduser('~/local/bin')}"
+
+    # Verify the installation
+    os.system('dot -V')
+    
+def create_folder(folder_name):
+    """
+    Create a folder if it doesn't exist.
+    """
+    try:
+        if os.path.exists(folder_name):
+            os.remove(folder_name)
+            
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+            st.session_state.logger.info(f"Folder '{folder_name}' created.")
+        else:
+            st.session_state.logger.info(f"Folder '{folder_name}' already exists.")
+    except Exception as e:
+        logging.error(f"Error creating folder '{folder_name}': {e}")
+
+def download_file(url, folder_name, file_name):
+    """
+    Download a file and save it to a folder.
+    If folder_name is empty, the file will be saved to the current directory.
+    """
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise exception if invalid response
+        # If folder_name is empty, use the current directory
+        if not folder_name:
+            folder_name = os.getcwd()
+        with open(os.path.join(folder_name, file_name), 'wb') as file:
+            file.write(response.content)
+        st.session_state.logger.info(f"File '{file_name}' downloaded successfully.")
+    except requests.RequestException as e:
+        st.session_state.logger.error(f"Error downloading file '{file_name}': {e}")
+
+def installed_graphviz():
+    methods = [
+        ["sudo", "apt-get", "update", "&&", "sudo", "apt-get", "install", "-y", "graphviz"],
+        ["sudo", "yum", "install", "-y", "graphviz"],
+        ["pip", "install", "graphviz"]
+    ]
+
+    for method in methods:
+        try:
+            subprocess.run(method, check=True)
+            print("Graphviz installed successfully using:", ' '.join(method))
+            break  # Exit the loop if installation is successful
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to install Graphviz using: {' '.join(method)}")
+            print(f"Error: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+
 if __name__ == "__main__":
+    installed_graphviz()
+    install_graphviz()
+    
+    # Create folders
+    create_folder('codes')
+    create_folder('natives')
+    create_folder('libs')
+    
+
+    # Define base URL
+    base_url = 'https://raw.githubusercontent.com/Jones-HM/IGI-Natives-Analyzer/streamlit-app/'
+
+    # Download files
+    download_file(base_url + 'codes/code-assembly.json', 'codes', 'code-assembly.json')
+    download_file(base_url + 'codes/code-cpp.json', 'codes', 'code-cpp.json')
+    download_file(base_url + 'natives/NativesNotes.txt','natives','NativesNotes.txt')
+    download_file(base_url + 'natives/NativesSignatures.txt','natives','NativesSignatures.txt')
+    download_file(base_url + 'natives/NativesResolvedList.json','natives','NativesResolvedList.json')
+    download_file(base_url + 'libs/natives_decompiler.c','libs','natives_decompiler.c')
     main()
