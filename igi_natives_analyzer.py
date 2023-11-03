@@ -1,5 +1,4 @@
 import io
-import logging
 import os
 import re
 import subprocess
@@ -36,37 +35,15 @@ def read_json(file_path):
         with open(file_path, 'r') as file:
             return json.load(file)
     except Exception as exception:
-        st.session_state.logger.error(f"Error reading file {file_path}: {str(exception)}")
         return None
 
-def setup_logger():
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-
-    # create a file handler instead of console handler
-    handler = logging.FileHandler('igi-analyzer.log')
-    handler.setLevel(logging.INFO)
-
-    # create a logging format
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-
-    # add the handlers to the logger
-    logger.addHandler(handler)
-
-    return logger
-
 def get_native_code(native_codes, native_name):
-    st.session_state.logger.info(f"Attempting to retrieve native code for: {native_name}")
     try:
         for native_code in native_codes:
             if isinstance(native_code, dict) and native_code['NativeName'] == native_name:
-                st.session_state.logger.info(f"Native code for {native_name} retrieved successfully.")
                 return native_code
     except Exception as exception:
-        st.session_state.logger.error(f"Error retrieving native code: {str(exception)}")
-    st.session_state.logger.info(f"Native code for {native_name} could not be retrieved.")
-    return None
+        return None
 
 # Method to read NativesResolved
 def read_natives_resolved():
@@ -74,12 +51,10 @@ def read_natives_resolved():
         data = read_json('natives/NativesResolvedList.json')
         return data['Natives']
     except Exception as e:
-        st.session_state.logger.error(f"Error reading NativesResolvedList.json: {e}")
         return []
 
 def analyze_file(native_code, native_codes, visited_files=None, graph=None):
     if not isinstance(native_code, dict):
-        st.session_state.logger.error(f"Invalid native code: {native_code}")
         return
     
     if visited_files is None:
@@ -89,7 +64,6 @@ def analyze_file(native_code, native_codes, visited_files=None, graph=None):
     source_code = native_code['NativeCode']
 
     if file_path in visited_files:
-        st.session_state.logger.info(f"File {file_path} already visited.")
         return
 
     visited_files.add(file_path)
@@ -123,26 +97,17 @@ def analyze_file(native_code, native_codes, visited_files=None, graph=None):
     return unique_function_calls, unique_variables, source_code, graph.source
 
 def display_code():
-    st.session_state.logger.info("Starting to display code")
     analysis_type = st.session_state.option_menu
-    st.session_state.logger.info(f"Analysis type: {analysis_type}")
     if analysis_type == 'Source':
-        st.session_state.logger.info("Analysis type is Source")
         if st.session_state.source_code:
-            st.session_state.logger.info("Source code is available")
             code_to_display = st.session_state.source_code
         else:
-            st.session_state.logger.info("Simplified code is not available. Displaying source code")
             code_to_display = st.session_state.simplified_code
         # Update the placeholder with the new code
-        st.session_state.logger.info("Updating the placeholder with the new code")
         st.session_state.code_placeholder.code(code_to_display, language='c')
-    st.session_state.logger.info("Finished displaying code")
 
 def init_sessions():
     # Initialize session variables
-    if 'logger' not in st.session_state:
-        st.session_state.logger = setup_logger()
     if 'source_code' not in st.session_state:
         st.session_state.source_code = ""
     if 'simplified_code' not in st.session_state:
@@ -156,9 +121,6 @@ def init_sessions():
 
 # Call init_sessions
 init_sessions()
-
-# Init logger
-logger = st.session_state.logger
 
 def main():
     try:
@@ -203,38 +165,30 @@ def main():
         # Append prefix and postfix to the input file based on the selected type
         code_type = st.sidebar.selectbox('Code type:', ('Source', 'Assembly'),on_change=display_code)
         if option_menu == 'Source':
-            st.session_state.logger.info(f"User input: {input_value}, code type: {code_type}")
         
             if code_type == 'Source':
                 native_codes = read_json('codes/code-cpp.json')
             elif code_type == 'Assembly':
                 native_codes = read_json('codes/code-assembly.json')
-            st.session_state.logger.info(f"Input file is {native_name}")
             
         # Check if the file exists
         native_code = get_native_code(native_codes["NativeCodes"], native_name)
         if native_code is None:
-            st.session_state.logger.error(f"Invalid Native provided: {native_name} does not exist.")
             st.error(f"Invalid Native provided: {native_name} does not exist.")
             return
-        else:
-            st.session_state.logger.info(f"Native code for {native_name} retrieved successfully.")
 
         # Start analysis with the initial file
         graph = Digraph(comment='Function calls', format='png', engine='dot')
         #graph = None
-        st.session_state.logger.info("Starting file analysis.")
         unique_function_calls, unique_variables, source_code,dot_string = analyze_file(native_code, native_codes["NativeCodes"], graph=graph)
         st.session_state.source_code = source_code
 
         # Render the graph to a BytesIO object
         #output = io.BytesIO(graph.pipe(format='png'))
-        st.session_state.logger.info("Graph rendered.")
 
         # Display the graph using st.graphviz_chart
         if option_menu == 'Diagram':
             st.graphviz_chart(dot_string)
-            st.session_state.logger.info("Graph displayed.")
 
         elif option_menu == 'Statistics':
             st.write(f"File: {native_name}")
@@ -257,14 +211,13 @@ def main():
                 try:
                     os.remove("temp.c")
                 except Exception as exception:
-                    st.session_state.logger.error(f"An error occurred while removing temp.c: {exception}")
+                    pass
             elif code_type == 'Assembly':
                 st.session_state.simplified_code = simplify_assembly_code(st.session_state.source_code)
             st.session_state.source_code = None    
             display_code()
             
     except Exception as exception:
-        st.session_state.logger.error(f"An error occurred: {exception}")
         st.error(f"An error occurred: {exception}")
 
 def install_graphviz():
@@ -304,11 +257,10 @@ def create_folder(folder_name):
             
         if not os.path.exists(folder_name):
             os.makedirs(folder_name)
-            st.session_state.logger.info(f"Folder '{folder_name}' created.")
         else:
-            st.session_state.logger.info(f"Folder '{folder_name}' already exists.")
+            pass
     except Exception as e:
-        st.session_state.logger.error(f"Error creating folder '{folder_name}': {e}")
+        pass
 
 def download_file(url, folder_name, file_name):
     """
@@ -323,9 +275,8 @@ def download_file(url, folder_name, file_name):
             folder_name = os.getcwd()
         with open(os.path.join(folder_name, file_name), 'wb') as file:
             file.write(response.content)
-        st.session_state.logger.info(f"File '{file_name}' downloaded successfully.")
     except requests.RequestException as e:
-        st.session_state.logger.error(f"Error downloading file '{file_name}': {e}")
+        pass
 
 def try_install_graphviz():
     methods = [
@@ -365,3 +316,4 @@ if __name__ == "__main__":
     download_file(base_url + 'natives/NativesResolvedList.json','natives','NativesResolvedList.json')
     download_file(base_url + 'libs/natives_decompiler.py','libs','natives_decompiler.py')
     main()
+
